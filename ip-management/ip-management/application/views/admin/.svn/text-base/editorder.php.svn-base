@@ -1,0 +1,144 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo base_url(); ?>/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>/ckeditor/adapters/jquery.js"></script>
+<!--<script type="text/javascript" src="<?php echo base_url(); ?>/ckfinder/ckfinder.js"></script>-->
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="<?php echo site_url('admin/admin/manage_order'); ?>">Manage order</a><span class="divider">&nbsp;</span></li>
+                    <li><a href="#">Edit order</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div id="page" class="dashboard">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><i class="icon-reorder"></i>Edit order</h4>
+                        </div>
+                        <div class="widget-body">
+                            <!-- BEGIN FORM-->
+                            <form action="<?php echo site_url(); ?>/admin/admin/updateorder" class="form-horizontal" name="add_article" id="add_article" method="post" enctype="multipart/form-data"> 
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss=w"alert">×</button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <?php if (isset($msg) && $msg != '') { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (isset($err) && $err != '') { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                <?php } ?>
+                                <input type="hidden" name="id" value="<?php echo $result['id']; ?>">
+                                
+                               
+                                  <?php echo $this->session->userdata('articleid') ?>     
+                               
+                                
+                            <!-- tab --> 
+              
+                               <!-- End Tab --> 
+                                
+                          
+                                <div style=""><h5><b>Name:&nbsp;&nbsp;<?php echo $result['firstname'];?></b></h5></div>
+                                     
+                                    <div class="row-fluid">
+
+                                    
+                                    <div class="span6 ">
+                                        <div class="control-group">
+                                            <label class="control-label">Invoice No</label>
+                                            <div class="controls">
+                    <label class="control-label"><?php echo $result['invoice_no']; ?></label>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    </div>  
+
+
+                                    
+
+                                     <div class="row-fluid">            
+                                    <div class="span6 ">
+                                         <div class="control-group">
+                                            <label class="control-label">Order Status<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                 
+                                              <select  style="float:left;margin-left:-4px;" name="status" id="status" required>
+                                                 <option value="">Select Status</option>
+                                                    <?php
+                                                     $CI = & get_instance();
+                                                     $CI->load->model('Admin_model');
+                                                     $length = $CI->Admin_model->getorderstatus();
+                                                     
+                                                     foreach ($length as $val) {?>
+                                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>" <?php if($result['order_status_id']==$val['id']) echo "selected"; ?> ><?php echo $val['status']; ?></option>
+
+                                                      <?php   }
+
+                                                     ?>                            
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    </div> 
+                                  
+                                         <div style="margin-left:190px;"><button type="submit" class="btn btn-primary"> Submit </button></div>
+  
+                        
+                        </form>
+                        <!-- END FORM-->
+                    </div>
+                </div>
+            </div>
+            <!-- END SAMPLE FORM PORTLET-->
+        </div>
+    </div>			
+    </div>
+    </div>
+    </div>
+    <script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+    <script>
+        jQuery(document).ready(function() {
+            FormValidation.init();
+        });
+    </script>
+
+    
+                          

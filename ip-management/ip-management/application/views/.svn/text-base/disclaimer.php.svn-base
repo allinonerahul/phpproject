@@ -1,0 +1,12 @@
+<div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png" style="height:"> </div>
+
+<div class="container content_wrapper">
+  <h1>DISCLAIMER </h1>
+  <div class="row" align="justify">
+    <div class="col-sm-12">
+      <p>All information provided on this website is subject to change without prior notice. While efforts have been made to make this web site helpful and accurate, due to the open nature of this web site, and the potential for errors in the storage and transmission of digital information, CU Stores LLP does not warrant the accuracy of information obtained from this web site. </p>
+      <p><strong>ALL MATERIALS POSTED ON THIS SITE ARE "AS IS" AND WITHOUT WARRANTIES EXPRESS OR IMPLIED. CU Stores LLP DOES NOT WARRANT THAT FUNCTIONS CONTAINED ON THIS SITE WILL BE UNINTERUPPTED OR ERROR-FREE, THAT DEFECTS WILL BE CORRECTED, OR THAT THIS SITE OR THE SERVER ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS. CU STORES LLP DOES NOT WARRANT OR REPRESENT THE USE OF THE MATERIALS ON THIS SITE IN TERMS OF THEIR CORRECTNESS, ACCURACY, RELIABILITY, OR OTHERWISE. </strong> </p>
+      <p>Access to this website is limited to viewing the linked web pages solely for legitimate business purposes to access the information provided by CU Stores LLP at this website. Any access or attempt to access other areas of the CU Stores LLP computer system or other information contained on the system for any purposes is strictly prohibited. You may not use any information contained on this web site other than in connection with a legitimate business purpose. Prices listed are wholesale, do not include freight, handling fees, taxes, and/or duties, and are subject to correction or change without notice. Market sensitive commodity products will be priced according to current market conditions. Customer should contact the CU Stores LLP for current pricing. CU Stores LLP reserves the right to accept or reject any order.</p>
+    </div>
+  </div>
+</div>

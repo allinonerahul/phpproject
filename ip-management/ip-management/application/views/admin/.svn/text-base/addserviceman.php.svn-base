@@ -1,0 +1,189 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/adapters/jquery.js"></script>
+<!--<script type="text/javascript" src="<?php echo base_url();?>/ckfinder/ckfinder.js"></script>-->
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="<?php echo site_url('admin/admin/manage_serviceman'); ?>">Manage Serviceman</a><span class="divider">&nbsp;</span></li>
+                    <li><a href="#">Add Serviceman</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div id="page" class="dashboard">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><i class="icon-reorder"></i>Add Serviceman</h4>
+                        </div>
+                        <div class="widget-body">
+                            <!-- BEGIN FORM-->
+                            <form action="<?php echo site_url(); ?>/admin/admin/insertserviceman" class="form-horizontal" name="add_article" id="add_article" method="post" enctype="multipart/form-data">
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <?php if (isset($msg) && $msg != '') { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (isset($err) && $err != '') { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                <?php } ?>
+                        
+                               
+                                     <div class="row-fluid">
+                                            <div class="span6 ">
+                                            <div class="control-group">
+                                             <label class="control-label">First Name<font color="red"> *</font></label>                                      
+                                            <div class="controls">
+              <input type="text" placeholder="First Name" class="input-xlarge" name="fname" id="price" required/>
+            <!-- <input type="text" placeholder="Short Description" class="input-xlarge" name="shortdes" id="shortdes" required/> -->
+                                            </div>                                       
+                                        </div>   
+                                     </div>
+                                    </div>
+                                <div class="row-fluid">
+                                    <div class="span6 ">
+                                        <div class="control-group">
+                                            <label class="control-label">Last Name<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                 <!-- <textarea class="ckeditor" id="editor1" name="title"></textarea> -->
+<input type="text" placeholder="Last Name" class="input-xlarge" name="lname" id="lname" required/>                                               <!-- <input type="text" placeholder="Description" class="input-xlarge" name="description" id="description" required/> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row-fluid">
+                                    <div class="span6 ">
+                                        <div class="control-group">
+                                            <label class="control-label">Phone<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                
+                                                  <input type="text" placeholder="phone" class="input-xlarge" name="phone" id="phone" required/>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                     <div class="row-fluid">
+                                    <div class="span6 ">
+                                        <div class="control-group">
+                                            <label class="control-label">Email<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                 <!-- <textarea class="ckeditor" id="editor1" name="title"></textarea> -->
+                                                  <input type="email" placeholder="email" class="input-xlarge" name="email" id="email" required/>
+                                               <!-- <input type="text" placeholder="Description" class="input-xlarge" name="description" id="description" required/> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="row-fluid">
+                                    <div class="span6 ">
+                                        <div class="control-group">
+                                            <label class="control-label">Password<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                 <!-- <textarea class="ckeditor" id="editor1" name="title"></textarea> -->
+                                                  <input type="password" placeholder="password" class="input-xlarge" name="password" id="password" required/>
+                                               <!-- <input type="text" placeholder="Description" class="input-xlarge" name="description" id="description" required/> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="type" value="sales"/>
+
+                                
+                                    <div class="row-fluid">            
+                                    <div class="span6 ">
+                                         <div class="control-group">
+                                            <label class="control-label">Location<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                
+                                                <select  style="float:left;margin-left:-4px;" name="location" id="location" >
+                                             <option value="">Select Location</option>
+                                             <?php foreach ($location as $val) { ?>
+                                                 <option value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
+                                             <?php } ?>                                    
+                                             </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                      <div class="row-fluid">            
+                                    <div class="span6 ">
+                                         <div class="control-group">
+                                            <label class="control-label">Grade<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                
+                                                  <select  style="float:left;margin-left:-4px;" name="grade" id="grade" required>
+                                                <option value="">Select Grade</option>
+                                                <?php foreach ($grade as $val) { ?>
+                                                 <option value="<?php echo $val['id']; ?>"><?php echo $val['grade']; ?></option>
+                                             <?php } ?>                               
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary"> SUBMIT </button>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE FORM PORTLET-->
+            </div>
+        </div>			
+    </div>
+</div>
+</div>
+
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+<script>
+    jQuery(document).ready(function() {
+        FormValidation.init();
+
+
+</script>
+
+ 

@@ -1,0 +1,196 @@
+<?php $arrAccess = isset($this->session->userdata['access_rights']) ? $this->session->userdata['access_rights'] : array(); ?>
+
+<div id="container" class="row-fluid">
+    <div id="sidebar" class="nav-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <ul class="sidebar-menu">
+            <li class="element">
+                <a href="<?php echo site_url("admin/admin"); ?>" class="">
+                    <span class="icon-box"> <i class="icon-dashboard"></i></span> Dashboard
+                </a>
+            </li>
+            <?php if(in_array('all',$arrAccess) || in_array('4',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_product') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/product.png" style="max-width: 123% !important;" /></span>Manage Product
+                </a>
+            </li> 
+            <?php } ?>
+
+             <?php if(in_array('all',$arrAccess) ){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/updateprice') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/product.png" style="max-width: 123% !important;" /></span>Update Product Price
+                </a>
+            </li> 
+            <?php } ?>
+
+            <?php if(in_array('all',$arrAccess) || in_array('6',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_order') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/order.png" style="max-width: 123% !important;" /></span>Manage Orders
+                </a>
+            </li>
+            <?php } ?>
+
+            <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_sales_report')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_sales_report'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/business.png" style="max-width: 123% !important;" /></span>Manage Sales Report
+                </a>
+            </li>
+            <?php } ?>
+
+            <?php if(in_array('all',$arrAccess) || in_array('2',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/stock_master') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/stock.png" style="max-width: 123% !important;" /></span>Stock Master
+                </a>
+            </li>            
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('7',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/tax_master') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/tax.png" style="max-width: 123% !important;" /></span>Tax Master
+                </a>
+            </li>
+            <?php } ?>
+
+             <?php if(in_array('all',$arrAccess) ){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_manufacturer')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_tax'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/tax.png" style="max-width: 123% !important;" /></span>Manage Tax Rate
+                </a>
+            </li>
+            <?php } ?>
+
+            <?php if(in_array('all',$arrAccess) || in_array('8',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/grade_master') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/grade.png" style="max-width: 123% !important;" /></span>Grade Master
+                </a>
+            </li>
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('9',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_user') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/customer.png" style="max-width: 123% !important;" /></span>Manage Consumer
+                </a>
+            </li> 
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('10',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_serviceman') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/serviceman.png" style="max-width: 123% !important;" /></span>Manage Serviceman
+                </a>
+            </li> 
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('11',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_dealer') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/dealer.png" style="max-width: 123% !important;" /></span>Manage Dealer
+                </a>
+            </li>
+            <?php } ?>
+
+            <?php if(in_array('all',$arrAccess) || in_array('5',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_promocode') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/promocode.png" style="max-width: 123% !important;" /></span>Manage Promocode
+                </a>
+            </li>
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('3',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_services') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/serviceman.png" style="max-width: 123% !important;" /></span>Manage Services
+                </a>
+            </li>
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('12',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_category') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/category.png" style="max-width: 123% !important;" /></span>Manage Size
+                </a>
+            </li>
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('13',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_length') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/category.png" style="max-width: 123% !important;" /></span>Manage Length
+                </a>
+            </li>
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('17',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_delivery') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/delivery.png" style="max-width: 123% !important;" /></span>Manage Delivery Charges
+                </a>
+            </li>
+            <?php } ?>
+
+             <?php if(in_array('all',$arrAccess) ){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_manufacturer')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_delivery_msg'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/delivery.png" style="max-width: 123% !important;" /></span>Manage Delivery Date
+                </a>
+            </li>
+            <?php } ?>
+
+
+            <?php if(in_array('all',$arrAccess) || in_array('1',$arrAccess)){ ?>
+            <li class="has-sub">
+                <a href="<?php echo site_url('admin/admin/manage_location') ?>" class="">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/location.png" style="max-width: 123% !important;" /></span>Manage Location
+                </a>
+            </li> 
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('14',$arrAccess)){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_manufacturer')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_adminusers'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/people.png" style="max-width: 123% !important;" /></span>Manage Admin Users
+                </a>
+            </li>
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('15',$arrAccess)){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_manufacturer')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_manufacturer'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/brand.png" style="max-width: 123% !important;" /></span>Manage Brands
+                </a>
+            </li>
+            <?php } ?>
+            <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_manufacturer')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/viewenquiry'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/business.png" style="max-width: 123% !important;" /></span>Dealer/Serviceman Enquiry
+                </a>
+            </li>
+            <?php } ?>
+
+            <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_career')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_career'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/business.png" style="max-width: 123% !important;" /></span>Manage Career
+                </a>
+            </li>
+            <?php } ?>
+
+            <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_contact_us')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_contact_us'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/business.png" style="max-width: 123% !important;" /></span>Manage Contact Us
+                </a>
+            </li>
+            <?php } ?>
+
+             <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+            <li class="element <?php if ($this->uri->segment(2) == 'manage_return_and_cancellation')    echo 'active'; ?>">
+                <a href="<?php echo site_url('admin/admin/manage_return_and_cancellation'); ?>" class="" style="color:#ffffff">
+                    <span class="icon-box"> <img src="<?php echo base_url() ?>/uploads/images/business.png" style="max-width: 123% !important;" /></span>Return & Cancellation
+                </a>
+            </li>
+            <?php } ?>
+            
+            
+
+    </div>

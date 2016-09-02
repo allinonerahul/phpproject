@@ -1,0 +1,53 @@
+/**************************** personal print ******************************/
+
+
+
+.table_personal{
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.table_personal th
+{
+  font-weight: bold;
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  //border-top: 1px solid #dddddd;
+  font-size: 14px;
+  font-family: Georgia;
+  color: goldenrod;
+}
+.table_personal td {
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  vertical-align: top;
+  //border-top: 1px solid #dddddd;
+  font-family: Lucida Calligraphy;
+    font-size: 14px;
+}
+
+
+
+.table_personal thead th {
+  vertical-align: bottom;
+}
+
+.table_personal caption + thead tr:first-child th,
+.table_personal caption + thead tr:first-child td,
+.table_personal colgroup + thead tr:first-child th,
+.table_personal colgroup + thead tr:first-child td,
+.table_personal thead:first-child tr:first-child th,
+.table_personal thead:first-child tr:first-child td {
+  border-top: 0;
+}
+
+.table_personal tbody + tbody {
+  border-top: 2px solid #dddddd;
+}
+
+.table_personal .table_personal {
+  background-color: #ffffff;
+}

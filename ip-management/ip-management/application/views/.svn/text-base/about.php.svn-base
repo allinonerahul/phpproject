@@ -1,0 +1,60 @@
+
+    <div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png"> </div>
+
+
+
+
+<div class="container content_wrapper">
+<h1>ABOUT US</h1>
+<div class="row" align="justify">
+<div class="col-xs-12 col-sm-6">
+<p>CU Stores LLP, is an industrial supply distributor in India that helps our customers save time and money by providing them the right products to keep their businesses running. With a customer first philosophy we have quickly become a leader in the industrial supply community. We pride ourselves with knowing what our customers want and getting them these products when they need them. On time, every time.</p>
+<p>ICS is committed to making relationships with our customers by listening to their needs and finding solutions. Knowing our customers is the key to providing them with the peace of mind they want in an industrial supplier.</p>
+</div>
+<div class="col-xs-12 col-sm-6">
+<p>Our vast inventory and multiple shipping locations allows our customers peace of mind, knowing they can get what they need to keep their facilities up and running. </p>
+<p>We believe that business is for us is putting ourselves into customer Indigo Metalloys (P) Ltd was founded in 2001 and have established a reputed name as a manufacturers &amp; exporters of Copper &amp; Copper Alloys Products in a very short time. An ISO 9001-2008 certified Co &amp; a state of art manufacturing plant, Indigo Metalloys enjoys a strong presence in dispatching high quality hot extruded & cold drawn Copper & Copper Alloys Products as per client specification.</p>
+</div>
+
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Products</h3>
+<p>Indigo's Product include wide array of Copper &amp; Copper Alloys Products in Tubes, Pipes, Fittings, Finned Tubes, Rods, Strips, Flats etc. Copper Alloys include Brass (63/37, 70/30, Admiralty &amp; Aluminum Brass) Copper Nickel (90/10 &amp; 70/30), Bronze &amp; other Copper Alloys.</p>
+</div>
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Quality Standards</h3>
+<p>In order to ensure high quality batch of products as per client's  specification we follow stringent and sophisticated Quality Control Test. Detailed testing procedures as per the dictated by ASTM, BS, DIN, JISH, EN &amp; IS standards are carried out at our plant.</p>
+</div>
+
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Mission</h3>
+<p>To aggressively grow the company by providing satisfactory performance to our customers in the following areas</p>
+<ul>
+<li>Competitive Prices</li>
+<li>Product Quality</li>
+<li>On-Time Delivery</li>
+<li>Outstanding Customer Service</li>
+<li>Value</li>
+<li>Meeting or exceeding committed timelines</li>
+</ul>
+
+</div>
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Vision</h3>
+<p>To be</p>
+<ul>
+<li>Our Customers preferred supplier</li>
+<li>A strong and sound company</li>
+<li>An Innovative Company</li>
+<li>A reputed name as one of India's leading manufacturers &amp; exporters of Copper &amp; Copper Alloys Products</li>
+</ul>
+
+</div>
+
+
+
+</div>
+
+
+
+
+</div>

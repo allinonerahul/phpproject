@@ -1,0 +1,336 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="#">Manage Stock</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+
+        <!-- BEGIN ADVANCED TABLE widget-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN EXAMPLE TABLE widget-->
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4><i class="icon-reorder"></i></h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="portlet-body">
+                            <div class="clearfix">
+                                <div class="btn-group">
+                                    <a href="<?php echo site_url('admin/admin/add_stock'); ?>">
+                                        <button id="" class="btn btn-warning">
+                                            Add Stock<i class="icon-plus"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                               
+                            </div>
+                            
+                            <div class="space15"></div>
+                            <span id="delete_error"></span>
+                            <div class="space15"></div>
+                            <?php if (isset($msg) && $msg != '') { ?>
+                                <div class="alert alert-success">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $msg; ?>
+                                </div>
+                            <?php } ?>
+
+                            <?php if (isset($err) && $err != '') { ?>
+                                <div class="alert alert-error">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $err; ?>
+                                </div>
+                            <?php } ?>
+        <form action="<?php echo site_url();?>/admin/admin/stock_master" method="get" id="misscall" class="printdata" style="margin-top: -69px;
+  float: right;" >
+
+
+                                <div class="input-append filter" style="">
+                                     <select  style="float:left;margin-left:-4px;" name="filter_category" id="category" >
+                                             <option value="">Select Category</option>
+                                             <?php foreach ($category as $val) { ?>
+                                                 <option value="<?php echo $val['id']; ?>" <?php if($val['id']==$filter_category) echo "selected"; ?> ><?php echo $val['name']; ?></option>
+                                             <?php } ?>                                    
+                                             </select>
+                                  
+                                </div>
+                                
+                                <div class="input-append filter" style="">
+                                    <select  style="float:left;margin-left:-4px;" name="filter_location" id="location" >
+                                             <option value="">Select Location</option>
+                                             <?php foreach ($location as $val) { ?>
+                                                 <option value="<?php echo $val['id']; ?>"  <?php if($val['id']==$filter_location) echo "selected"; ?>  ><?php echo $val['name']; ?></option>
+                                             <?php } ?>                                    
+                                             </select>
+                                  
+                                </div>
+
+                                  <div class="input-append filter" style="">
+                                   
+                                    <input name="filter_search" type="text" style="" placeholder="Search" class="span12"  value="<?php
+                                           if (isset($filter_search)) {
+                                               echo $filter_search;
+                                           }
+?>"/>
+                                </div>
+
+                                 <div class="input-append date">
+                                    <label> &nbsp;</label>
+                                    <button class="btn btn-success" style="margin-left: 10px;margin-top: -17px;" type="submit"  >Search</button>
+                                </div>
+                            </form>
+                            
+                            
+                            
+                                <table class="table table-striped table-bordered" id="">
+                                    <thead>
+                                        <tr>
+                                        <th>Sr No.</th>
+                                           <!--  <th><input type="checkbox" name="articleid[]" class="group-checkable" data-set="#sample_2 .checkboxes" onchange="checkAll(this)" /></th> -->
+                                              <th>Category</th>
+                                              <th>Type</th>
+                                              <th>Size</th>
+                                              <th>Length</th>
+                                              <th>Location</th>
+                                              <th>Stock Value</th> 
+                                              <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        
+                                         
+                                        $sn_count = $result_start;
+                                        if ($result) {
+                                        
+                                            
+                                            foreach ($result as $val) {
+
+												
+                                            
+                                                ?>
+                                                <tr class="">
+                                                <td style="width:40px;"><?php echo $sn_count++ ?></td> 
+                                                
+                                                <td><?php echo $val['name']; ?></td>
+                                                <td><?php echo $val['typename']; ?></td>
+                                                <td><?php echo $val['size']; ?></td>
+                                                <td><?php echo $val['lengthname']; ?></td>
+                                                <td><?php echo $val['cityname']; ?></td>
+                                                <td><div id="prqty_<?php echo $val['productid'] ?>"><?php echo $val['productqty']; ?></div></td>
+                                                <td>
+                                               <!--  <a class="" style="text-decoration:none" 
+                                                    href="<?php echo site_url('admin/admin/edit_stock/'. $val['id']); ?>">
+                                                    <img src="<?php echo base_url(); ?>img/edit_event.png" alt="Edit" title="Edit"/>
+                                                </a>&nbsp;&nbsp; -->
+
+                                                 <a class="" style="text-decoration:none" 
+                                                       onclick="edit_stock(<?php echo $val['productid'] ?>);" href="javascript:void(0)">
+                                                    <img src="<?php echo base_url(); ?>img/edit_event.png" alt="Edit" title="Edit"/>
+                                                </a>&nbsp;&nbsp;
+                                                
+                                                  
+                                                    
+                                                    <div id="fu<?php echo $val['productid'] ?>" style="display:none; position: absolute; display:  z-index: 999; border: 1px solid grey; margin-left: 3px; margin-right:38px;padding:5px; background:#f2f2f2;">
+                                                       <form id="stock_form<?php echo $val['productid'] ?>">
+                                                        <input type="hidden" name="productid"  value="<?php echo $val['productid'] ?>">
+                                                        <input type="hidden" name="locationid"  value="<?php echo $val['cityid'] ?>">
+                                                        <input type="text" name="stock"  id="stock_<?php echo $val['productid'] ?>" style="width:80px;"  placeholder="Stock value" required>
+                                                       <!--  <input type="radio" name="stockaction" value="cr" checked>&nbsp;Add&nbsp;
+                                                        <input type="radio" name="stockaction" value="dr">&nbsp;Subtract&nbsp; -->
+                                                        <select name="stockaction" id="stockaction_<?php echo $val['productid'] ?>" style="width:80px;">
+                                                            <option value="cr">Add</option>
+                                                            <option value="dr">Subtract</option>
+                                                        </select>
+                                                        <a style="margin-left:5px;margin-bottom:7px;" class="btn btn-success" onclick="updatestock(<?php echo $val['productid']; ?>)">Submit</a>
+                                                        </form>
+                                                    </div>
+                                                    
+                                                   
+
+                                               
+                                                <div aria-hidden="true" aria-labelledby="myModalLabel1" role="dialog" tabindex="-1" 
+                                                class="modal hide fade" id="myModal<?php echo $val['id']; ?>">
+                                                    <div class="modal-header">
+                                                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                                        <h3 id="myModalLabel1">Delete Data</h3>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete?</p>
+                                                    </div>  
+                                                    <div class="modal-footer">
+                                                        <button aria-hidden="true" data-dismiss="modal" class="btn">Close</button>
+                                                         <input type="hidden" name="fchart_id" value="<?php echo $val['id']; ?>" />
+                                                        <a href="<?php echo site_url('admin/admin/delete_stock?fchart_id=' . $val['id']); ?>">
+                                                        <button type="button" class="btn btn-primary">OK</button></a>
+                                                    </div>
+                                                  </div>
+                                                  </td> 
+                                                </tr>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                                
+                           
+                        </div>
+                    </div>
+                </div>
+                 <?php if (!empty($result)) { ?>    
+                            <div class="row-fluid" >
+                          
+                                <div class="span6" style="margin-left: -30px;">
+                                    <?php echo $pagination; ?>
+                                </div>
+                            </div>
+<?php } ?>
+                <!-- END EXAMPLE TABLE widget-->
+            </div>
+        </div>
+
+        <!-- END ADVANCED TABLE widget-->
+
+        <!-- END PAGE CONTENT-->
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+
+
+<script type="text/javascript">
+
+function edit_stock(id)
+{
+  
+//alert(id);
+  
+  $("#fu"+id).toggle();
+}
+
+function updatestock(id)
+{
+    //alert(id);
+    var datastring = $("#stock_form"+id).serialize();
+    //alert(datastring);
+	if(stock = $("#stock_"+id).val()=='')
+	{
+		alert('Please enter value');
+		return false;
+	}
+	else if(isNaN(stock = $("#stock_"+id).val()))
+	{
+		alert('Please enter number value');
+		return false;
+	}
+    
+  $.ajax({
+        type: "POST",
+        url: "<?php echo site_url(''); ?>/admin/admin/upadatestock",
+         data: datastring,
+        //dataType: "json",
+        success: function (data) {
+
+			 var objJson = JSON.parse(data);
+
+			  if (objJson.txtsuccess == true) {
+				  var qtynew ='';
+                    var qty = $("#prqty_"+id).html();
+                     qty = qty - 0;
+                    var stock = $("#stock_"+id).val();
+                    var stock = stock - 0;
+                    var stockaction  = $("#stockaction_"+id).val();
+					if(stockaction=='cr')
+					{
+						qtynew = qty + stock;
+					}
+					else if(stockaction=='dr')
+					{
+						qtynew = qty - stock;
+					}
+					$("#prqty_"+id).html(qtynew);
+					$("#stock_"+id).val('');
+                } 
+
+            return false;
+            
+        },
+        error: function () {
+            alert('error handing here');
+        }
+    });
+
+	return false;
+}
+
+    $('#group-checkable').click(function() {
+
+        var checkboxes = $(this).closest('form').find(':checkbox');
+        if ($(this).is(':checked')) {
+            checkboxes.attr('checked', 'checked');
+        } else {
+            checkboxes.removeAttr('checked');
+        }
+    });
+    $("#delete_category").click(function() {
+
+        if ($("input:checkbox:checked.checkboxes").length > 0) {
+//            alert('hi');
+
+            $("#group_delete").attr("action", "<?php echo site_url(); ?>/admin/admin/deletearticle");
+            $("#group_delete").submit();
+        }
+    });
+    $("#delete_check").click(function() {
+
+        if ($("input:checkbox:checked.checkboxes").length > 0) {
+
+            $("#delete_check").attr("href", "#delete_selected_foodchart");
+
+        } else {
+            bootbox.alert("Please select any Record.");
+        }
+    });
+    
+    function checkAll() {
+       // alert('hi');
+          var checkboxes = document.getElementsByTagName('input'), val = null;    
+     for (var i = 0; i < checkboxes.length; i++)
+     {
+          if (checkboxes[i].type == 'checkbox')
+         {
+             if (val === null) val = checkboxes[i].checked;
+             checkboxes[i].checked = val;
+         }
+     }
+        }
+    
+    
+    
+    /******************** food category list *****************************/
+    
+    $("#food_category").on("change",function(){
+//        var selected_id = $(this).val();
+        $("#food_category_search").attr('action',"<?php echo site_url('admin/foodChart')?>");
+        $("#food_category_search").submit();
+    });
+
+
+
+</script>

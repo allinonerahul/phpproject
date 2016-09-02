@@ -1,0 +1,342 @@
+<?php $arrAccess = isset($this->session->userdata['access_rights']) ? $this->session->userdata['access_rights'] : array(); ?>
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="#">Dashboard</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <?php if(in_array('all',$arrAccess) || in_array('4',$arrAccess)){ ?>
+        <a href="<?php echo site_url("admin/admin/manage_product"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/product.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Product</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+          <?php } ?>
+        <?php if(in_array('all',$arrAccess) || in_array('6',$arrAccess)){ ?>
+             <a href="<?php echo site_url("admin/admin/manage_order"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/order.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Order</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+       <?php } ?>
+
+        <?php if(in_array('all',$arrAccess) || in_array('2',$arrAccess)){ ?>
+             <a href="<?php echo site_url("admin/admin/stock_master"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/stock.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Stock Master</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <?php } ?>
+
+        <?php if(in_array('all',$arrAccess) || in_array('1',$arrAccess)){ ?>
+           <a href="<?php echo site_url("admin/admin/tax_master"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/tax.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Tax Master</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+           <?php } ?>
+        <?php if(in_array('all',$arrAccess) || in_array('8',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/grade_master"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/grade.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Grade Master</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+         <?php } ?>
+        <?php if(in_array('all',$arrAccess) || in_array('9',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/manage_user"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/customer.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Consumer</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <?php } ?>
+       
+         <?php if(in_array('all',$arrAccess) || in_array('10',$arrAccess)){ ?>
+             <a href="<?php echo site_url("admin/admin/manage_serviceman"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/serviceman.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Serviceman</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <?php } ?>
+        <?php if(in_array('all',$arrAccess) || in_array('11',$arrAccess)){ ?>
+             <a href="<?php echo site_url("admin/admin/manage_dealer"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/dealer.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Dealer</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <?php } ?>
+
+         <?php if(in_array('all',$arrAccess) || in_array('5',$arrAccess)){ ?>
+
+        <a href="<?php echo site_url('admin/admin/manage_promocode') ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/promocode.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Promocode </strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+             
+        <?php } ?>
+
+        <?php if(in_array('all',$arrAccess) || in_array('17',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/manage_delivery"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/delivery.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Delivery Charges</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <?php } ?>
+         <?php if(in_array('all',$arrAccess) || in_array('17',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/manage_services"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/serviceman.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Services</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <?php } ?>
+
+         <?php if(in_array('all',$arrAccess) || in_array('13',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/manage_length"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/category.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Length</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+        <?php } ?>
+
+        <?php if(in_array('all',$arrAccess) || in_array('14',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/manage_adminusers"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/people.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Admin Users</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+ <?php } ?>
+ <?php if(in_array('all',$arrAccess) || in_array('1',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/manage_location"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/location.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Location</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+ <?php } ?>
+
+        <?php if(in_array('all',$arrAccess)){ ?>
+            <a href="<?php echo site_url("admin/admin/manage_category"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img src="<?php echo base_url() ?>/uploads/images/category.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Size </strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+<?php } ?>
+
+        <?php if(in_array('all',$arrAccess) || in_array('15',$arrAccess)){ ?>
+       <!--  <div class="row-fluid circle-state-overview"> -->
+            <a href="<?php echo site_url("admin/admin/manage_manufacturer"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                           <i class=""><img src="<?php echo base_url() ?>/uploads/images/brand.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Brands</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+       <?php } ?>
+
+        <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+       <!--  <div class="row-fluid circle-state-overview"> -->
+            <a href="<?php echo site_url("admin/admin/viewenquiry"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                           <i class=""><img src="<?php echo base_url() ?>/uploads/images/business.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Dealer/Serviceman Enquiry</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+       <?php } ?>
+
+       <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+       <!--  <div class="row-fluid circle-state-overview"> -->
+            <a href="<?php echo site_url("admin/admin/manage_career"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                           <i class=""><img src="<?php echo base_url() ?>/uploads/images/business.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Career</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+       <?php } ?>
+
+        <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+       <!--  <div class="row-fluid circle-state-overview"> -->
+            <a href="<?php echo site_url("admin/admin/manage_contact_us"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                           <i class=""><img src="<?php echo base_url() ?>/uploads/images/business.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Contact Us</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+       <?php } ?>
+
+       <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+       <!--  <div class="row-fluid circle-state-overview"> -->
+            <a href="<?php echo site_url("admin/admin/manage_return_and_cancellation"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                           <i class=""><img src="<?php echo base_url() ?>/uploads/images/business.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Return & Cancellation</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+       <?php } ?>
+    
+    <?php if(in_array('all',$arrAccess) || in_array('16',$arrAccess)){ ?>
+       <!--  <div class="row-fluid circle-state-overview"> -->
+            <a href="<?php echo site_url("admin/admin/manage_sales_report"); ?>" >
+                <div class="span3 responsive" data-tablet="span3" data-desktop="span2">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                           <i class=""><img src="<?php echo base_url() ?>/uploads/images/business.png" style="width:86px; max-width: 57% ! important; margin-top: 3px;"  /></i>
+                        </div>
+                        <p>
+                            <strong>Manage Sales Report</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+       <?php } ?>
+
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+

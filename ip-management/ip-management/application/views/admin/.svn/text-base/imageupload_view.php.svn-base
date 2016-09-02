@@ -1,0 +1,555 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+   <!-- Add mousewheel plugin (this is optional) -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>imagepopup/lib/jquery.mousewheel-3.0.6.pack.js"></script>
+
+    <!-- Add fancyBox main JS and CSS files -->
+    <script type="text/javascript" src="<?php echo base_url(); ?>imagepopup/source/jquery.fancybox.js?v=2.1.5"></script>
+    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>imagepopup/source/jquery.fancybox.css?v=2.1.5" media="screen" />
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            /*
+             *  Simple image gallery. Uses default settings
+             */
+
+            $('.fancybox').fancybox();
+
+            /*
+             *  Different effects
+             */
+
+            // Change title type, overlay closing speed
+            $(".fancybox-effects-a").fancybox({
+
+                helpers: {
+                    title : {
+                        type : 'outside'
+                    },
+                    overlay : {
+                        speedOut : 0
+                    }
+                }
+            });
+
+        
+        });
+    </script>
+              <script type="text/javascript">
+            $(document).ready(function() {
+                var storedFiles = [];      
+                $('#myfiles').on('change', function() {
+                    $('#messages').html('');
+                    var myfiles = document.getElementById('myfiles');
+                    var files = myfiles.files;
+                    var i=0;
+                    for (i = 0; i<files.length; i++) {
+                        var readImg = new FileReader();
+                        var file=files[i];
+                        if(file.type.match('image.*')){
+                            storedFiles.push(file);
+                            readImg.onload = (function(file) {
+                                return function(e) {
+                                    $('#uploadedfiles').append('<tr class="imageinfo"><td><img width="80" height="70" src="'+e.target.result+'"/></td><td>'+file.name+'</td><td><input type="hidden" name="photo[]" value='+file.name+'></td><td>'+Math.round((file.size/1024))+'KB</td><td><a href="" class="lnkcancelimage" file="'+file.name+'" title="Cancel"><span class="label label-important">Cancel</span></a></td></tr>');
+                                };
+                            })(file);
+                            readImg.readAsDataURL(file);
+                        }else{
+                            alert('the file '+file.name+' is not an image<br/>');
+                        }
+                    }
+                });
+
+                $('#uploadedfiles').on('click','a.lnkcancelimage',function(){
+                    $(this).parent().parent().html('');
+                    var file=$(this).attr('file');
+                    for(var i=0;i<storedFiles.length;i++) {
+                        if(storedFiles[i].name == file) {
+                            storedFiles.splice(i,1);
+                            break;
+                        }
+                    }
+                    return false;
+                });
+
+                $('#lnkupload').click(function(){
+                   
+                    var data = new FormData();
+                     //alert(data);
+                     //console.log(data);
+                    var i=0;
+                    for(i=0; i<storedFiles.length; i++) {
+                        data.append('files[]', storedFiles[i]); 
+                       
+                    }
+                    
+                    if(i>0){
+                        $.ajax({
+                            url: '<?php echo site_url(); ?>/imageupload/doupload',
+                            type: 'POST',
+                            contentType: false,
+                            data: data,
+                            processData: false,
+                            cache: false
+                        }).done(function(msg) {
+                            storedFiles = [];
+                            if(msg){
+                                console.log(msg);
+                            }else{
+                                $('#messages').html('Images uploaded successfully');
+                            }
+                        }).fail(function() {
+                            alert('error');
+                        });
+                    }
+                    return false;
+                });
+
+            });
+        </script>
+    <style type="text/css">
+        .fancybox-custom .fancybox-skin {
+            box-shadow: 0 0 50px #222;
+        }
+
+    </style>
+
+<style>
+    header h1{
+    font-size:12pt;
+    color: #fff;
+    background-color: #1BA1E2;
+    padding: 20px;
+
+}
+
+.thumbnail2{
+max-width: 100%;
+height: 100px;
+margin: 10px;
+border: 1px solid #000;
+}
+.close-div img{
+    margin-top: -80px;
+margin-left: -20px;
+}
+.imagetable{
+    width: 200px;
+    float: left;
+}
+.clear
+{
+    clear: both;
+}
+
+
+
+    ul.enlarge{
+    list-style-type:none; /*remove the bullet point*/
+    margin-left:0;
+    }
+    ul.enlarge li{
+    display:inline-block; /*places the images in a line*/
+    position: relative;
+    z-index: 0; /*resets the stack order of the list items - later we'll increase this*/
+    margin:10px 40px 0 20px;
+    }
+    ul.enlarge img{
+    background-color:#eae9d4;
+    padding: 6px;
+    -webkit-box-shadow: 0 0 6px rgba(132, 132, 132, .75);
+    -moz-box-shadow: 0 0 6px rgba(132, 132, 132, .75);
+    box-shadow: 0 0 6px rgba(132, 132, 132, .75);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    }
+    ul.enlarge span{
+    position:absolute;
+    left: -9999px;
+    background-color:#eae9d4;
+    padding: 10px;
+    font-family: 'Droid Sans', sans-serif;
+    font-size:.9em;
+    text-align: center;
+    color: #495a62;
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0, .75));
+    -moz-box-shadow: 0 0 20px rgba(0,0,0, .75);
+    box-shadow: 0 0 20px rgba(0,0,0, .75);
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius:8px;
+    }
+    ul.enlarge li:hover{
+    z-index: 50;
+    cursor:pointer;
+    }
+    ul.enlarge span img{
+    padding:2px;
+    background:#ccc;
+    }
+    ul.enlarge li:hover span{
+    top: -300px; /*the distance from the bottom of the thumbnail to the top of the popup image*/
+    left: -20px; /*distance from the left of the thumbnail to the left of the popup image*/
+    }
+    ul.enlarge li:hover:nth-child(2) span{
+    left: -100px;
+    }
+    ul.enlarge li:hover:nth-child(3) span{
+    left: -200px;
+    }
+    /**IE Hacks - see http://css3pie.com/ for more info on how to use CS3Pie and to download the latest version**/
+    ul.enlarge img, ul.enlarge span{
+    behavior: url(pie/PIE.htc);
+    }
+
+
+</style>
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="<?php echo site_url('admin/article'); ?>">Manage Article</a><span class="divider">&nbsp;</span></li>
+                    <li><a href="#">Add Article</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div id="page" class="dashboard">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><i class="icon-reorder"></i>Add Article</h4>
+                        </div>
+                        <div class="widget-body">
+                            <!-- BEGIN FORM-->
+
+                     
+                      
+                               
+                        <?php $id= $_GET['articleid'];
+                            // echo $id;
+                              ?>    
+
+
+                           <!--  <form action="<?php echo site_url(); ?>/imageupload/doupload" class="form-horizontal" name="add_article" id="add_article" method="post" enctype="multipart/form-data"> -->
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <?php if (isset($msg) && $msg != '') { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (isset($err) && $err != '') { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                <?php } ?>
+                       
+                                  <?php if ($this->session->flashdata('error')) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $this->session->flashdata('error'); ?>
+                                    </div>
+                                <?php } ?>
+                           
+                                <?php if ($this->session->flashdata('success')) { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $this->session->flashdata('success'); ?>
+                                    </div>
+                                <?php } ?>
+                           
+                              
+                                <input type="hidden" value="<?php echo $id ?> "name="articleid" id="articleid">  
+                                
+                                            
+
+                                                            <div class="navbar steps">
+    <div class="navbar-inner">
+        <ul class="row-fluid nav nav-pills">
+            
+           <ul class="row-fluid nav nav-pills">
+         
+                 <!-- echo $value['articleid']; -->
+            
+
+                        <li class="span3">
+                                    <a class="step" data-toggle="" href="<?php echo site_url('admin/editarticle?articleid=' . $id); ?>">
+                                            <span class="number">1</span>
+                        <span class="desc"><i class="icon-ok"></i> Information</span>
+                    </a>
+            </li>
+
+                                               <li class="span3 asa">
+                                    <a class="step asa " data-toggle="" href="<?php echo site_url('admin/editvideo?articleid=' . $id); ?>">
+                                        <span class="number">2</span>
+                    <span class="desc"><i class="icon-ok"></i> Video</span>
+                </a>
+            </li>
+
+ <li class="span3 active">
+                                    <a class="step active" data-toggle="" href="<?php echo site_url('admin/editimage?articleid=' . $id); ?>">
+                                        <span class="number">3</span>
+                    <span class="desc"><i class="icon-ok"></i>Images</span>
+                </a>
+            </li>
+                  
+        </ul>
+          
+    </div>
+</div>   
+                       
+                        <div class="row-fluid">
+                            <div class="span6 ">
+
+                             
+                                        <div class="controls">
+                                            
+                                            <!--  <?php echo form_open_multipart('imageupload/doupload'); ?> 
+                              <label for="files" style="width: 200px;
+float: left;">Select multiple images: </label>        
+                             <article>
+                            
+                            <input name="userfile[]" id="files" type="file" multiple/>
+                            <output id="result" />
+                         </article>
+<div class="clear"></div>
+                                         <button type="submit" class="btn btn-success" style="margin-top:30px;margin-left:200px;"><i class="icon-ok"></i> Submit</button>
+    <?php echo form_close(); ?> -->
+                                        <?php echo form_open_multipart('imageupload/douploadimage2'); ?> 
+   <input type="hidden" value="<?php echo $id ?> "name="articleid" id="articleid"> 
+<input type="hidden" name="page" value="<?php  echo "hiii" ?>">
+                                        
+     <label><strong>Uploading multiple images</strong></label>
+            <div class="fileUpload" style="width:100px;color:#fff">
+                <input id="myfiles" type="file" name="userfile[]" multiple="multiple"  />
+            </div>
+          <!--  <a href="" id="lnkupload" class="btn btn-success">Upload</a> -->
+            <table id="uploadedfiles">
+                <tr><th>Image</th><th>Name</th><th>Size</th><th>Actions</th></tr>
+            </table>
+        </div>
+      <button type="submit" class="btn btn-success" style="margin-top:30px;margin-left:200px;"><i class="icon-ok"></i> Submit</button>
+    <?php echo form_close(); ?>
+                                        
+                                        </div>
+                                    </div>
+                                </div>
+                             
+     
+                            
+                            <?php
+if (!empty($gallery)) {
+    ?>
+
+            <div class="row-content">
+                <div class="row"  style="width: 50%; display: inline;">
+                    <!-- LEFT SECTION-->
+
+                    <h3 style="margin-left: 73px;">Gallery<span class="edit-flote"><a href="#" onclick = "replacegallery()">
+<!--                                <img src="../images/edit-icon.png">-->
+                            </a></span></h3>
+
+
+
+<?php  $sn_count = 1;?>
+    <?php foreach ($gallery as $row) { ?>
+                    
+                        <div class="row-fluid" style="border: 2px solid #CFCFCF; width: 20%; float: left;padding-left:10px;margin-left:10px;margin-top:10px; ">
+                                            <div class="span6 ">
+                                        <div class="control-group">
+                                            <label class="control-label">Page No :<?php echo $sn_count++; ?></label>
+                                            <div class="controls">
+                                            <form action="<?php echo site_url(); ?>/imageupload/Updatedoupload"  name="add_article" id="add_article" method="post" enctype="multipart/form-data">
+                                                <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                    <div class="fileupload-new thumbnail">
+               
+<input type="hidden" value="<?php echo $id ?> "name="articleid" id="articleid">  
+
+        <a class="fancybox-effects-a" href="<?php echo base_url(); ?>/uploads/<?php echo $row['photo']; ?>" >
+        <img src="<?php echo base_url(); ?>/uploads/<?php echo $row['photo']; ?>" alt="" /></a>
+
+
+
+                    
+                                                    </div>
+                                                    
+                                                    <input type="hidden" value="<?php echo $row['id']; ?>" name="id" id="id"> 
+                                                    <div class="fileupload-preview fileupload-exists thumbnail" style="width: 30%;"></div>
+                                                    <div>
+                                                        <span class="btn btn-file"><span class="fileupload-new">Edit image</span>
+                                                            <span class="fileupload-exists">Change</span>
+                                                            <input type="file" class="default" name="photo"/></span>
+                                                             <a class="btn btn-important" href="<?php echo site_url('admin/deletegalleryimage?id=' . $row['id'].'&articleid='.$row['articleid']); ?>">Remove</a> 
+                                                     <!-- <a href="<?php echo site_url('imageupload/Updatedoupload?id=' . $row['id'].'&articleid='.$row['articleid']); ?>" class="btn fileupload-exists" >Upload</a>  -->
+                                                     <button type="submit" class="btn fileupload-exists" style="margin-top:20px;"><i class="icon-ok"></i> Upload</button>
+                                                    </div>
+                                                   
+                                                    </form>
+                                                    <!-- <button type="submit" class="btn btn-important" onclick="window.location='<?php echo site_url('admin/deletegalleryimage'); ?>'"> Remove</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     </div>
+                    
+
+    <?php } ?>
+
+      
+
+
+                </div>
+            </div>
+
+<?php }?>
+                 
+                              
+  
+                      
+                                   
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE FORM PORTLET-->
+            </div>
+        </div>          
+    </div>
+</div>
+</div>
+
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+
+
+<script>
+    jQuery(document).ready(function() {
+        FormValidation.init();
+
+        window.onload = function(){
+        
+    //Check File API support
+    if(window.File && window.FileList && window.FileReader)
+    {
+        var filesInput = document.getElementById("files");
+        
+        filesInput.addEventListener("change", function(event){
+            
+            var files = event.target.files; //FileList object
+            var output = document.getElementById("result");
+            
+            for(var i = 0; i< files.length; i++)
+            {
+                var file = files[i];
+                
+                //Only pics
+                if(!file.type.match('image'))
+                  continue;
+                
+                var picReader = new FileReader();
+                
+                picReader.addEventListener("load",function(event){
+                    
+                    var picFile = event.target;
+                    
+                    var div = document.createElement("div");
+                    
+                    div.innerHTML = "<div class='imagetable'><img class='thumbnail2' src='" + picFile.result + "'" +
+                            "title='" + picFile.name + "'/><a  class='close-div'><img src='<?php echo base_url() ?>/img/x.png'></a></div>";
+                                  // $('.close-div').click(function(){
+                                  //       alert('hii');
+                                  //      $(this).parent().remove();
+                                  //   });
+                               output.insertBefore(div,null);     
+
+                
+                });
+                
+                 //Read the image
+                picReader.readAsDataURL(file);
+            }                               
+           
+        });
+    }
+    else
+    {
+        console.log("Your browser does not support File API");
+    }
+
+}
+  });
+  $('.close-div').live('click',function(){
+   //alert('hii');
+    $(this).parent().parent().remove();
+    // $('#result'+result).html($('#result'+result).html());
+    // data.abort();
+
+    });
+
+</script>
+
+ <script>
+    $(document).ready(function () {
+        $('#view_photo').show();
+    });
+    function replacephoto() {
+        document.getElementById("view_photo").style.display = "none";
+        document.getElementById("edit_photo").style.display = "block";
+    }
+
+    function viewphoto() {
+        document.getElementById("view_photo").style.display = "block";
+        document.getElementById("edit_photo").style.display = "none";
+
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#view_gallery').show();
+    });
+    function replacegallery() {
+        document.getElementById("view_gallery").style.display = "none";
+        document.getElementById("edit_gallery").style.display = "block";
+    }
+
+    function viewgallery() {
+        document.getElementById("view_gallery").style.display = "block";
+        document.getElementById("edit_gallery").style.display = "none";
+
+    }
+</script>
+
+                                       

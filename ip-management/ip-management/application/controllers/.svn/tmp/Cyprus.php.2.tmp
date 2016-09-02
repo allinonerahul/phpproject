@@ -1,0 +1,1995 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Cyprus extends CI_Controller {
+
+    public $topMenuData;
+
+    function __construct() {
+        parent::__construct();
+
+        $this->load->model('Cyprus_model', 'cyprus');
+        $this->load->helper('url');
+        $this->load->library('session');
+        $this->load->library('cart');
+        $this->load->library('stock');
+        $this->load->library('category');
+        $this->load->library('sendmails');
+        $this->load->library('pagination');
+        $this->load->helper('url');
+        //  echo site_url();die;
+        if (!isset($this->session->userdata['cartsession']) || empty($this->session->userdata['cartsession'])) {
+            $cartsessionid = uniqid();
+
+            $this->session->set_userdata(array('cartsession' => $cartsessionid));
+        }
+
+        $this->topMenuData['user_data'] = $this->session->userdata;
+        //print_r($this->topMenuData['user_data']);die;
+        $this->topMenuData['location'] = $this->cyprus->getcity();
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'satishborkar.genie@gmail.com',
+            'smtp_pass' => 'satish_23',
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1'
+        );
+
+      
+     }
+
+    public function index() {
+        //Loading url helper
+        $this->load->view('header/header', $this->topMenuData);
+        //echo $this->session->userdata['__ci_last_regenerate'];exit();
+        $this->load->view('welcome_message');
+        $this->load->view('footer/footer');
+    }
+
+    public function about_us() {
+
+        //echo "About US";die;
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('about');
+        $this->load->view('footer/footer');
+    }
+
+    public function ajaxmap() {
+
+        // $response=array();
+
+        $Address = urlencode($this->input->post('location'));
+        $request_url = "http://maps.googleapis.com/maps/api/geocode/xml?address=" . $Address . "&sensor=true";
+        $xml = simplexml_load_file($request_url) or die("url not loading");
+        $status = $xml->status;
+        if ($status == "OK") {
+            $Lat = $xml->result->geometry->location->lat;
+            $Lon = $xml->result->geometry->location->lng;
+            echo json_encode(array('lat' => 'oooooooooo', 'lon' => $Lon));
+        }
+    }
+
+    public function faq() {
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('faq');
+        $this->load->view('footer/footer');
+    }
+
+    public function map() {
+        $center_lat = $_GET["lat"];
+        $center_lng = $_GET["lng"];
+        $radius = $_GET["radius"];
+        $dom = new DOMDocument("1.0");
+        $node = $dom->createElement("markers");
+        $parnode = $dom->appendChild($node);
+
+        $query = sprintf("SELECT address, name, lat, lng, ( 3959 * acos( cos( radians('%s') ) * cos( radians( lat ) ) * cos( radians( lng ) - radians('%s') ) + sin( radians('%s') ) * sin( radians( lat ) ) ) ) AS distance FROM markers HAVING distance < '%s' ORDER BY distance LIMIT 0 , 20",
+                        mysql_real_escape_string($center_lat),
+                        mysql_real_escape_string($center_lng),
+                        mysql_real_escape_string($center_lat),
+                        mysql_real_escape_string($radius));
+        $result = mysql_query($query);
+
+        header("Content-type: text/xml");
+
+        while ($row = @mysql_fetch_assoc($result)) {
+            $node = $dom->createElement("marker");
+            $newnode = $parnode->appendChild($node);
+            $newnode->setAttribute("name", $row['name']);
+            $newnode->setAttribute("address", $row['address']);
+            $newnode->setAttribute("lat", $row['lat']);
+            $newnode->setAttribute("lng", $row['lng']);
+            $newnode->setAttribute("distance", $row['distance']);
+        }
+
+        echo $dom->saveXML();
+    }
+
+    public function product() {
+
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('product');
+        $this->load->view('footer/footer');
+    }
+
+    public function amc() {
+
+        $this->load->view('header/header', $this->topMenuData);
+        $data['brands'] = $this->cyprus->getbrands();
+        $this->load->view('amc', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function sale_dashboard() {
+
+        //$userid=$_SESSION['id'];
+        //$comission=$this->cyprus->getcomission($userid);
+        //print_r($comission);die;
+        //$comision_amt=$comission['total']*5/100;
+
+        $this->load->view('header/header', $this->topMenuData);
+
+        $this->load->view('sale_dashboard');
+        $this->load->view('footer/footer');
+    }
+
+    public function dealer_dashboard() {
+
+        //$userid=$_SESSION['id'];
+        //$comission=$this->cyprus->getcomission($userid);
+        //print_r($comission);die;
+        //$comision_amt=$comission['total']*5/100;
+
+        $this->load->view('header/header', $this->topMenuData);
+
+        $this->load->view('dealer_dashboard');
+        $this->load->view('footer/footer');
+    }
+
+    
+
+    public function getdelaer() {
+        extract($_GET);
+        
+        //$data['dealerdata'] = $response = $this->cyprus->getserviceman($area, $location_id, $usertype);
+
+       $msg = $this->input->get('msg');
+            $data['msg'] = $msg;
+
+            $filter['filter_search'] = ($this->input->get('filter_search')) ? $this->input->get('filter_search') : '';
+            $data['filter_search'] = $filter['filter_search'];
+            /* code for pagination -start */
+            $config['base_url'] = site_url() . '/cyprus/getdelaer';
+            if (!empty($_GET)) {
+                $config['suffix'] = '?' . http_build_query($_GET);
+                $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+            }
+           
+            $config['total_rows'] = count($this->cyprus->getserviceman1($filter, $area, $location_id, $usertype));
+         
+            $config['per_page'] = 10;
+            //}
+
+            $config["uri_segment"] = 3;
+//            $config['num_links'] = 5;
+            $config['full_tag_open'] = '<div class="row-fluid"><div class="pagination" style=""><ul>';
+            $config['full_tag_close'] = '</ul></div></div>';
+            $config['first_link'] = '&laquo; First';
+            $config['first_tag_open'] = '<li class="prev page">';
+            $config['first_tag_close'] = '</li>';
+
+            $config['last_link'] = 'Last &raquo;';
+            $config['last_tag_open'] = '<li class="next page">';
+            $config['last_tag_close'] = '</li>';
+
+            $config['next_link'] = 'Next &rarr;';
+            $config['next_tag_open'] = '<li class="next page">';
+            $config['next_tag_close'] = '</li>';
+
+            $config['prev_link'] = '&larr; Prev';
+            $config['prev_tag_open'] = '<li class="prev page">';
+            $config['prev_tag_close'] = '</li>';
+
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+
+            $config['num_tag_open'] = '<li class="page">';
+            $config['num_tag_close'] = '</li>';
+            //$config['anchor_class'] = 'follow_link';
+            $this->pagination->initialize($config);
+            $data['pagination'] = $this->pagination->create_links();
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $limit = 'limit ' . $page . ',' . $config["per_page"];
+            /* code for pagination -end */
+
+            $data['dealerdata'] = $this->cyprus->getserviceman($filter, $limit, $area, $location_id, $usertype);
+            //echo "<pre>"; print_r($data);die;
+
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('amc', $data);
+            $this->load->view('footer/footer');
+
+
+
+        
+    }
+
+    public function getserviceman($msg = '') {
+
+        extract($_GET);
+
+       
+            $msg = $this->input->get('msg');
+            $data['msg'] = $msg;
+            
+            $filter['filter_search'] = ($this->input->get('filter_search')) ? $this->input->get('filter_search') : '';
+            $data['filter_search'] = $filter['filter_search'];
+            /* code for pagination -start */
+            $config['base_url'] = site_url() . '/cyprus/getserviceman';
+            if (!empty($_GET)) {
+                $config['suffix'] = '?' . http_build_query($_GET);
+                $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+            }
+           
+            $config['total_rows'] = count($this->cyprus->getserviceman1($filter, $area, $location_id, $usertype));
+           
+            $config['per_page'] = 10;
+            //}
+
+            $config["uri_segment"] = 3;
+//            $config['num_links'] = 5;
+            $config['full_tag_open'] = '<div class="row-fluid"><div class="pagination" style=""><ul>';
+            $config['full_tag_close'] = '</ul></div></div>';
+            $config['first_link'] = '&laquo; First';
+            $config['first_tag_open'] = '<li class="prev page">';
+            $config['first_tag_close'] = '</li>';
+
+            $config['last_link'] = 'Last &raquo;';
+            $config['last_tag_open'] = '<li class="next page">';
+            $config['last_tag_close'] = '</li>';
+
+            $config['next_link'] = 'Next &rarr;';
+            $config['next_tag_open'] = '<li class="next page">';
+            $config['next_tag_close'] = '</li>';
+
+            $config['prev_link'] = '&larr; Prev';
+            $config['prev_tag_open'] = '<li class="prev page">';
+            $config['prev_tag_close'] = '</li>';
+
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+
+            $config['num_tag_open'] = '<li class="page">';
+            $config['num_tag_close'] = '</li>';
+            //$config['anchor_class'] = 'follow_link';
+            $this->pagination->initialize($config);
+            $data['pagination'] = $this->pagination->create_links();
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $limit = 'limit ' . $page . ',' . $config["per_page"];
+            /* code for pagination -end */
+
+            $data['result'] = $this->cyprus->getserviceman($filter, $limit, $area, $location_id, $usertype);
+            //echo "<pre>"; print_r($data);die;
+
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('amc', $data);
+            $this->load->view('footer/footer');
+        
+            
+    }
+
+    public function comission($msg = NULL, $err = NULL) {
+        if ($this->session->userdata('validated')) {
+            $userid = $_SESSION['id'];
+            $filter = array();
+            $filter['userid'] = $userid;
+            $filter['month'] = ($this->input->get('month')) ? $this->input->get('month') : '';
+            $filter['year'] = ($this->input->get('year')) ? $this->input->get('year') : '';
+            $filter['filter_fdate'] = ($this->input->get('filter_fdate')) ? $this->input->get('filter_fdate') : '';
+            $filter['filter_ldate'] = ($this->input->get('filter_ldate')) ? $this->input->get('filter_ldate') : '';
+            $filter['filter_search'] = ($this->input->get('filter_search')) ? $this->input->get('filter_search') : '';
+
+            $data['month'] = $filter['month'];
+            $data['year'] = $filter['year'];
+            $data['filter_search'] = $filter['filter_search'];
+            $data['filter_fdate'] = $filter['filter_fdate'];
+            $data['filter_ldate'] = $filter['filter_ldate'];
+            /* code for pagination -start */
+            $config['base_url'] = site_url() . '/cyprus/comission';
+            if (!empty($_GET)) {
+                $config['suffix'] = '?' . http_build_query($_GET);
+                $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+            }
+
+            $config['use_page_numbers'] = FALSE;
+            $config['total_rows'] = count($this->cyprus->getsales_order($filter));
+            $config['per_page'] = 10;
+            $config["uri_segment"] = 3;
+            $config['full_tag_open'] = '<div class="pagination" style="float:right;"><ul>';
+            $config['full_tag_close'] = '</ul></div>';
+            $config['first_link'] = '&laquo; First';
+            $config['first_tag_open'] = '<li class="prev page">';
+            $config['first_tag_close'] = '</li>';
+
+            $config['last_link'] = 'Last &raquo;';
+            $config['last_tag_open'] = '<li class="next page">';
+            $config['last_tag_close'] = '</li>';
+
+            $config['next_link'] = 'Next &rarr;';
+            $config['next_tag_open'] = '<li class="next page">';
+            $config['next_tag_close'] = '</li>';
+
+            $config['prev_link'] = '&larr; Prev';
+            $config['prev_tag_open'] = '<li class="prev page">';
+            $config['prev_tag_close'] = '</li>';
+
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+
+            $config['num_tag_open'] = '<li class="page">';
+            $config['num_tag_close'] = '</li>';
+            //$config['anchor_class'] = 'follow_link';
+            $this->pagination->initialize($config);
+            $data['pagination'] = $this->pagination->create_links();
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            $limit = 'limit ' . $page . ',' . $config["per_page"];
+
+            $data['result_start'] = $page + 1;
+            $data['result_end'] = $data['result_start'] + $config['per_page'] - 1;
+            if ($data['result_end'] > $config['total_rows']) {
+                $data['result_end'] = $config['total_rows'];
+            }
+            /* code for pagination -end */
+
+            $data['result'] = $this->cyprus->getsales_order($filter, $limit);
+
+            //  echo "<pre>"; print_r($data['result']);exit();
+            // $data['item'] = $this->admin->manage_category();
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('viewsale', $data);
+            $this->load->view('footer/footer');
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function comissiondealer($msg = NULL, $err = NULL) {
+        if ($this->session->userdata('validated')) {
+            $userid = $_SESSION['id'];
+            $filter = array();
+            $filter['userid'] = $userid;
+            $filter['month'] = ($this->input->get('month')) ? $this->input->get('month') : '';
+            $filter['year'] = ($this->input->get('year')) ? $this->input->get('year') : '';
+            $filter['filter_fdate'] = ($this->input->get('filter_fdate')) ? $this->input->get('filter_fdate') : '';
+            $filter['filter_ldate'] = ($this->input->get('filter_ldate')) ? $this->input->get('filter_ldate') : '';
+            $filter['filter_search'] = ($this->input->get('filter_search')) ? $this->input->get('filter_search') : '';
+
+            $data['month'] = $filter['month'];
+            $data['year'] = $filter['year'];
+            $data['filter_search'] = $filter['filter_search'];
+            $data['filter_fdate'] = $filter['filter_fdate'];
+            $data['filter_ldate'] = $filter['filter_ldate'];
+            /* code for pagination -start */
+            $config['base_url'] = site_url() . '/cyprus/comission';
+            if (!empty($_GET)) {
+                $config['suffix'] = '?' . http_build_query($_GET);
+                $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+            }
+
+            $config['use_page_numbers'] = FALSE;
+            $config['total_rows'] = count($this->cyprus->getsales_order($filter));
+            $config['per_page'] = 10;
+            $config["uri_segment"] = 3;
+            $config['full_tag_open'] = '<div class="pagination" style="float:right;"><ul>';
+            $config['full_tag_close'] = '</ul></div>';
+            $config['first_link'] = '&laquo; First';
+            $config['first_tag_open'] = '<li class="prev page">';
+            $config['first_tag_close'] = '</li>';
+
+            $config['last_link'] = 'Last &raquo;';
+            $config['last_tag_open'] = '<li class="next page">';
+            $config['last_tag_close'] = '</li>';
+
+            $config['next_link'] = 'Next &rarr;';
+            $config['next_tag_open'] = '<li class="next page">';
+            $config['next_tag_close'] = '</li>';
+
+            $config['prev_link'] = '&larr; Prev';
+            $config['prev_tag_open'] = '<li class="prev page">';
+            $config['prev_tag_close'] = '</li>';
+
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+
+            $config['num_tag_open'] = '<li class="page">';
+            $config['num_tag_close'] = '</li>';
+            //$config['anchor_class'] = 'follow_link';
+            $this->pagination->initialize($config);
+            $data['pagination'] = $this->pagination->create_links();
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            $limit = 'limit ' . $page . ',' . $config["per_page"];
+
+            $data['result_start'] = $page + 1;
+            $data['result_end'] = $data['result_start'] + $config['per_page'] - 1;
+            if ($data['result_end'] > $config['total_rows']) {
+                $data['result_end'] = $config['total_rows'];
+            }
+            /* code for pagination -end */
+
+            $data['result'] = $this->cyprus->getsales_order($filter, $limit);
+
+            //  echo "<pre>"; print_r($data['result']);exit();
+            // $data['item'] = $this->admin->manage_category();
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('viewdelaler', $data);
+            $this->load->view('footer/footer');
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function insulation_tubes() {
+
+        $this->load->view('header/header', $this->topMenuData);
+        $data['brands'] = $this->cyprus->getbrands(10);
+        $this->load->view('insulation_tub', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function pre_insulated_copper_kit() {
+
+        $this->load->view('header/header', $this->topMenuData);
+        $data['brands'] = $this->cyprus->getbrands(4);
+        $this->load->view('pre-insulated-copper-kit', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function copper_tubes_pipes() {
+
+        $this->load->view('header/header', $this->topMenuData);
+        //$data['brands']=$this->cyprus->getbrands(6);
+        $this->load->view('vrc');
+        $this->load->view('footer/footer');
+    }
+
+    public function contact_us() {
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('contact_us');
+        $this->load->view('footer/footer');
+    }
+
+    public function change_password() {
+
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('change_password');
+        $this->load->view('footer/footer');
+    }
+
+    public function password() {
+
+        $data['userid'] = $this->input->get('code');
+
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('forgtepassword', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function editAddress() {
+
+        $id = $this->input->get('id');
+        $data['result'] = $this->cyprus->getAddressDetail($id);
+        //print_r($data['result']);exit();
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+        //print_r($data);exit();
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('editAddress', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function updateAddress() {
+        //print_r($_REQUEST);exit();
+        $id = $this->input->post('id');
+        //	$userid = $this->input->post('userid');
+        $fname = $this->input->post('fname');
+        $lname = stripslashes($this->input->post('lname'));
+        $userid = $this->input->post('userid');
+        $address = $this->input->post('address');
+        $address2 = $this->input->post('address2');
+        $pincode = $this->input->post('pincode');
+        //$header = $this->input->post('header');
+
+        $data = array('fname' => $fname, 'lname' => $lname, 'address' => $address, 'address2' => $address2, 'pincode' => $pincode);
+        $result = $this->cyprus->updateAddress($data, $id);
+
+        redirect('cyprus/billingaddress');
+    }
+
+    public function listAddressBook() {
+        $data = $this->session->userdata;
+        $data['resultbilling'] = $this->cyprus->getAddress($this->session->userdata('id'));
+                //print_r($data['result']);exit();
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('address_book', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function billingaddress()
+    {
+         $data = $this->session->userdata;
+         $id=$this->session->userdata('id');
+
+
+         $filter['filter_search'] = ($this->input->get('filter_search')) ? $this->input->get('filter_search') : '';
+            $data['filter_search'] = $filter['filter_search'];
+            /* code for pagination -start */
+            $config['base_url'] = site_url() . '/cyprus/billingaddress';
+            if (!empty($_GET)) {
+                $config['suffix'] = '?' . http_build_query($_GET);
+                $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+            }
+           // $config['total_rows'] = count($this->cyprus->getserviceman1($filter, $area, $location_id, $usertype));
+            $config['total_rows'] = count($this->cyprus->getAddress($id));
+           
+            $config['per_page'] = 10;
+            //}
+
+            $config["uri_segment"] = 3;
+//            $config['num_links'] = 5;
+            $config['full_tag_open'] = '<div class="row-fluid"><div class="pagination" style=""><ul>';
+            $config['full_tag_close'] = '</ul></div></div>';
+            $config['first_link'] = '&laquo; First';
+            $config['first_tag_open'] = '<li class="prev page">';
+            $config['first_tag_close'] = '</li>';
+
+            $config['last_link'] = 'Last &raquo;';
+            $config['last_tag_open'] = '<li class="next page">';
+            $config['last_tag_close'] = '</li>';
+
+            $config['next_link'] = 'Next &rarr;';
+            $config['next_tag_open'] = '<li class="next page">';
+            $config['next_tag_close'] = '</li>';
+
+            $config['prev_link'] = '&larr; Prev';
+            $config['prev_tag_open'] = '<li class="prev page">';
+            $config['prev_tag_close'] = '</li>';
+
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+
+            $config['num_tag_open'] = '<li class="page">';
+            $config['num_tag_close'] = '</li>';
+            //$config['anchor_class'] = 'follow_link';
+            $this->pagination->initialize($config);
+            $data['pagination'] = $this->pagination->create_links();
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $limit = 'limit ' . $page . ',' . $config["per_page"];
+            /* code for pagination -end */
+
+           // $data['resultbilling'] = $this->cyprus->getserviceman($filter, $limit, $area, $location_id, $usertype);
+            $data['resultbilling'] = $this->cyprus->getAddress($id,$limit);
+            //print_r($data['resultbilling']);die;
+
+       // $data['resultbilling'] = $this->cyprus->getAddress($id);
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('billingaddress', $data);
+        $this->load->view('footer/footer');
+
+    }
+     public function shippingaddress()
+    {
+        if ($this->session->userdata('validated')) 
+        {
+
+        $data = $this->session->userdata;
+         $id=$this->session->userdata('id');
+
+
+         $filter['filter_search'] = ($this->input->get('filter_search')) ? $this->input->get('filter_search') : '';
+            $data['filter_search'] = $filter['filter_search'];
+            /* code for pagination -start */
+            $config['base_url'] = site_url() . '/cyprus/shippingaddress';
+            if (!empty($_GET)) {
+                $config['suffix'] = '?' . http_build_query($_GET);
+                $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+            }
+           // $config['total_rows'] = count($this->cyprus->getserviceman1($filter, $area, $location_id, $usertype));
+            $config['total_rows'] = count($this->cyprus->getAddress1($id));
+           
+            $config['per_page'] = 5;
+            //}
+
+            $config["uri_segment"] = 3;
+//            $config['num_links'] = 5;
+            $config['full_tag_open'] = '<div class="row-fluid"><div class="pagination" style=""><ul>';
+            $config['full_tag_close'] = '</ul></div></div>';
+            $config['first_link'] = '&laquo; First';
+            $config['first_tag_open'] = '<li class="prev page">';
+            $config['first_tag_close'] = '</li>';
+
+            $config['last_link'] = 'Last &raquo;';
+            $config['last_tag_open'] = '<li class="next page">';
+            $config['last_tag_close'] = '</li>';
+
+            $config['next_link'] = 'Next &rarr;';
+            $config['next_tag_open'] = '<li class="next page">';
+            $config['next_tag_close'] = '</li>';
+
+            $config['prev_link'] = '&larr; Prev';
+            $config['prev_tag_open'] = '<li class="prev page">';
+            $config['prev_tag_close'] = '</li>';
+
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+
+            $config['num_tag_open'] = '<li class="page">';
+            $config['num_tag_close'] = '</li>';
+            //$config['anchor_class'] = 'follow_link';
+            $this->pagination->initialize($config);
+            $data['pagination'] = $this->pagination->create_links();
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $limit = 'limit ' . $page . ',' . $config["per_page"];
+            /* code for pagination -end */
+
+           // $data['resultbilling'] = $this->cyprus->getserviceman($filter, $limit, $area, $location_id, $usertype);
+            $data['resultshipping'] = $this->cyprus->getAddress1($id,$limit);
+        
+        //$data['resultshipping'] = $this->cyprus->getAddress1($this->session->userdata('id'));
+        //print_r($data['result']);exit();
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('shippingaddress', $data);
+        $this->load->view('footer/footer');
+        }
+        else{
+             redirect(base_url());
+        }
+
+
+    }
+
+    public function deleteAddress() {
+        $id = $this->input->post('id');
+        $this->cyprus->deleteAddress($id);
+    }
+
+    public function update_password() {
+
+        $user_id = $this->session->userdata;
+
+        $user_data = $this->cyprus->get_user_details($user_id['id']);
+        $old_pwd = $this->input->post('old_password');
+        $new_pwd = $this->input->post('new_password');
+        $chk_pwd = $this->input->post('confirm_password');
+        $err = '';
+
+        $aenc_new_pwd = md5($old_pwd);
+
+        if ($user_data['password'] != $aenc_new_pwd) {
+            $err = "Old password does not match.";
+        } else if ($new_pwd != $chk_pwd) {
+            $err = "New and confirm password not matching.";
+        }
+        if (!empty($err)) {
+            $this->session->set_flashdata('error', $err);
+            redirect("cyprus/change_password");
+        } else {
+            // $enc_new_pwd = $this->encryptdecrypt->crypt($new_pwd);
+            $this->cyprus->update_password(md5($new_pwd), $user_id['id']);
+            $this->session->set_flashdata('success', 'Password updated successfully.');
+            redirect("cyprus/change_password");
+        }
+    }
+
+    public function update_password_forget() {
+
+        //$user_id = $this->session->userdata;
+        //print_r($_POST);die;
+        //$user_data = $this->cyprus->get_user_details($user_id['id']);
+        // $old_pwd = $this->input->post('old_password');
+        $new_pwd = $this->input->post('new_password');
+        $user_id = $this->input->post('code');
+        $chk_pwd = $this->input->post('confirm_password');
+
+        $aenc_new_pwd = md5($new_pwd);
+
+        // $enc_new_pwd = $this->encryptdecrypt->crypt($new_pwd);
+        $this->cyprus->update_password(md5($new_pwd), $user_id);
+        $this->session->set_flashdata('success', 'Password updated successfully.');
+        redirect("cyprus/password");
+    }
+
+    public function orderHistory() {
+        $data = $this->session->userdata;
+
+        /* code for pagination -start */
+        $config['base_url'] = site_url() . '/cyprus/orderHistory';
+        if (!empty($_GET)) {
+            $config['suffix'] = '?' . http_build_query($_GET);
+            $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+        }
+
+        $config['use_page_numbers'] = FALSE;
+        $config['total_rows'] = count($this->cyprus->orderHistory($data));
+        $config['per_page'] = 5;
+        $config["uri_segment"] = 3;
+        $config['full_tag_open'] = '<div class="pagination" style="float:right;"><ul>';
+        $config['full_tag_close'] = '</ul></div>';
+        $config['first_link'] = '&laquo; First';
+        $config['first_tag_open'] = '<li class="prev page">';
+        $config['first_tag_close'] = '</li>';
+
+        $config['last_link'] = 'Last &raquo;';
+        $config['last_tag_open'] = '<li class="next page">';
+        $config['last_tag_close'] = '</li>';
+
+        $config['next_link'] = 'Next &rarr;';
+        $config['next_tag_open'] = '<li class="next page">';
+        $config['next_tag_close'] = '</li>';
+
+        $config['prev_link'] = '&larr; Prev';
+        $config['prev_tag_open'] = '<li class="prev page">';
+        $config['prev_tag_close'] = '</li>';
+
+        $config['cur_tag_open'] = '<li class="active"><a href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+
+        $config['num_tag_open'] = '<li class="page">';
+        $config['num_tag_close'] = '</li>';
+        //$config['anchor_class'] = 'follow_link';
+        $this->pagination->initialize($config);
+        $data['pagination'] = $this->pagination->create_links();
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+        $limit = 'limit ' . $page . ',' . $config["per_page"];
+
+        $data['result_start'] = $page + 1;
+        $data['result_end'] = $data['result_start'] + $config['per_page'] - 1;
+        if ($data['result_end'] > $config['total_rows']) {
+            $data['result_end'] = $config['total_rows'];
+        }
+        /* code for pagination -end */
+
+        $data['result'] = $this->cyprus->orderHistory($data,$limit);
+        //$data['status']=$this->cyprus->getorderstatus();
+        //echo "<pre>";	print_r($data['result']);exit();
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('order_history', $data);
+        $this->load->view('footer/footer');
+    }
+     public function orderHistory1($msg = '') {
+
+        extract($_GET);
+
+       
+            $msg = $this->input->get('msg');
+            $data['msg'] = $msg;
+
+            
+
+            $filter['filter_search'] = ($this->input->get('filter_search')) ? $this->input->get('filter_search') : '';
+            $data['filter_search'] = $filter['filter_search'];
+            /* code for pagination -start */
+            $config['base_url'] = site_url() . '/cyprus/getserviceman';
+            if (!empty($_GET)) {
+                $config['suffix'] = '?' . http_build_query($_GET);
+                $config['first_url'] = $config['base_url'] . '?' . http_build_query($_GET);
+            }
+            $config['total_rows'] = count($this->cyprus->getserviceman1($filter, $area, $location_id, $usertype));
+           
+            $config['per_page'] = 2;
+            //}
+
+            $config["uri_segment"] = 3;
+//            $config['num_links'] = 5;
+            $config['full_tag_open'] = '<div class="row-fluid"><div class="pagination" style=""><ul>';
+            $config['full_tag_close'] = '</ul></div></div>';
+            $config['first_link'] = '&laquo; First';
+            $config['first_tag_open'] = '<li class="prev page">';
+            $config['first_tag_close'] = '</li>';
+
+            $config['last_link'] = 'Last &raquo;';
+            $config['last_tag_open'] = '<li class="next page">';
+            $config['last_tag_close'] = '</li>';
+
+            $config['next_link'] = 'Next &rarr;';
+            $config['next_tag_open'] = '<li class="next page">';
+            $config['next_tag_close'] = '</li>';
+
+            $config['prev_link'] = '&larr; Prev';
+            $config['prev_tag_open'] = '<li class="prev page">';
+            $config['prev_tag_close'] = '</li>';
+
+            $config['cur_tag_open'] = '<li class="active"><a href="#">';
+            $config['cur_tag_close'] = '</a></li>';
+
+            $config['num_tag_open'] = '<li class="page">';
+            $config['num_tag_close'] = '</li>';
+            //$config['anchor_class'] = 'follow_link';
+            $this->pagination->initialize($config);
+            $data['pagination'] = $this->pagination->create_links();
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $limit = 'limit ' . $page . ',' . $config["per_page"];
+            /* code for pagination -end */
+
+            $data['result'] = $this->cyprus->getserviceman($filter, $limit, $area, $location_id, $usertype);
+            //echo "<pre>"; print_r($data);die;
+
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('amc', $data);
+            $this->load->view('footer/footer');
+        
+            
+    }
+
+
+
+
+    public function getOrderwiseProduct() {
+
+        $orderId = $this->input->get('orderId');
+
+        $data['order_details'] = $this->cyprus->getOrder($orderId);
+        $data['product_details'] = $this->cyprus->getOrderProduct($orderId);
+        $data['view'] = "no data";
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('success', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function getOrder() {
+
+        $orderId = $this->input->get('orderId');
+
+        $data['order_details'] = $this->cyprus->getOrder($orderId);
+        $data['product_details'] = $this->cyprus->getOrderProduct($orderId);
+        $data['view'] = "no data";
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('admin/vieworder_detail', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function myAccount() {
+        if ($this->session->userdata('validated')) {
+            $data = $this->session->userdata;
+            $data['result'] = $this->cyprus->myAccount($data);
+            //print_r($data['result']);die;
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('my_account', $data);
+            $this->load->view('footer/footer');
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function mange_order() {
+        if ($this->session->userdata('validated')) {
+
+            echo "Grade";
+            die;
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function editProfile() {
+        if ($this->session->userdata('validated')) {
+            $data = $this->session->userdata;
+            $data['result'] = $this->cyprus->myAccount($data);
+
+            $this->load->view('header/header', $this->topMenuData);
+            //print_r($data);exit();
+            $this->load->view('edit_profile', $data);
+            $this->load->view('footer/footer');
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function updateProfile() {
+        //print_r($_POST);exit();
+        $id = $this->input->post('id');
+        $fname = $this->input->post('fname1');
+        $lname = $this->input->post('lname1');
+        //$address=$this->input->post('address');
+        $email = $this->input->post('email1');
+        //	echo $email;exit();
+        $phone = $this->input->post('phone1');
+        /* $profile_image=$this->input->post('profile_image'); */
+        $data = array('fname' => $fname, 'lname' => $lname, 'email' => $email, 'phone' => $phone);
+        //print_r($data);die;
+        $this->cyprus->updateProfile($data, $id);
+        redirect('cyprus/myAccount');
+    }
+
+    public function getType() {
+        $id = $this->input->post('price1');
+        $idd = $this->input->post('id');
+        $data['productName'] = $idd;
+
+        $data['subcategory'] = $this->glitzz->category_sub_details($idd);
+        $this->load->view('getType', $data);
+    }
+
+    public function addAddress() {
+        //print_r($_POST);exit();
+        $fname = $this->input->post('fname');
+        $lname = $this->input->post('lname');
+        $userid = $this->input->post('userid');
+        $address = $this->input->post('address');
+        $address2 = $this->input->post('address2');
+        $pincode = $this->input->post('pincode');
+        $header = $this->input->post('header');
+        $address_type = $this->input->post('address_type');
+        $location = $this->input->post('location_id');
+
+        $data = array('address_type' => $address_type, 'userid' => $userid, 'fname' => $fname, 'lname' => $lname, 'address' => $address, 'address2' => $address2, 'pincode' => $pincode, 'location_id' => $location, 'status' => 1);
+
+        $result = $this->cyprus->addAddress($data);
+        if($address_type=='bill')
+        {
+            $this->billingaddress();
+        }
+         if($address_type=='ship')
+        {
+            $this->shippingaddress();
+        }
+        if ($result == 0) {
+            echo "not successs";
+        } else {
+            /* $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+              $this->load->view('header/header',$this->topMenuData);
+              $this->load->view('checkout',$data);
+              $this->load->view('footer/footer'); */
+
+            if (!empty($header)) {
+                redirect('cyprus/listAddressBook');
+            } else {
+                $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+                $this->load->view('header/header', $this->topMenuData);
+                $this->load->view('checkout', $data);
+                $this->load->view('footer/footer');
+            }
+        }
+    }
+
+    public function registerUser() {
+        $fname = $this->input->post('fname');
+        $lname = $this->input->post('lname');
+        $email = $this->input->post('email');
+        $dec_password = $this->input->post('password');
+        $usertype = $this->input->post('usertype');
+        $password = md5($dec_password);
+        $data = array('fname' => $fname, 'lname' => $lname, 'email' => $email, 'password' => $password, 'status' => 1);
+        $result = $this->glitzz->register_user($data);
+        //print_r($data);die;
+//print_r($result);exit();
+        if ($result == 0) {
+            echo "not successs";
+        } else {
+            $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+            //$this->load->view('header/header',$this->topMenuData);
+            $this->load->view('checkout', $data);
+            //$this->load->view('footer/footer');
+        }
+        //redirect('glitzz/product_details');
+    }
+
+    public function checkout() {
+        //$data['viewcartid'] = $this->input->get('viewcartid');
+        //$arrCartdata = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+        //print_r($arrCartdata );
+        //echo $this->topMenuData['user_data']['cartsession'];
+
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+        //print_r($data);exit();
+        if (empty($data['arrCartdata'])) {
+            $err = "Please Add Product In Cart";
+            $this->session->set_flashdata('error', $err);
+            //redirect('glitzz/index');
+            redirect(base_url());
+        } else {
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('checkout', $data);
+            $this->load->view('footer/footer');
+        }
+    }
+
+    public function addNewAddress() {
+
+        if (isset($_GET['noheader'])) {
+            $data['header'] = $_GET['noheader'];
+        }
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+        //print_r($data);exit();
+        $data['location'] = $this->cyprus->getcity();
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('add_new_address', $data);
+        $this->load->view('footer/footer');
+    }
+
+    public function checkout1() {
+        $billing_address = $this->input->post('billing_address_id');
+        //$location_id = $this->input->post('location_id');
+        $this->session->set_userdata('billing_address', $billing_address);
+        //$this->session->set_userdata('location_id',$location_id);
+        //echo $billing_address;die;
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+        if (empty($data['arrCartdata'])) {
+            echo "string";
+            die;
+            $err = "Please Add Product In Cart";
+            $this->session->set_flashdata('error', $err);
+            //redirect('glitzz/index');
+            redirect(base_url());
+        } else {
+            $this->load->view('header/header', $this->topMenuData);
+            $this->load->view('checkout1', $data);
+            $this->load->view('footer/footer');
+        }
+    }
+
+    public function paymentMode() {
+        if ($this->session->userdata('validated')) {
+            $shipping_address = $this->input->post('billing_address_id');
+
+            $this->session->set_userdata('shipping_address', $shipping_address);
+            $data['taxtype'] = $this->cyprus->gettaxtype();
+
+            $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+            if (empty($data['arrCartdata'])) {
+                $err = "Please Add Product In Cart";
+                $this->session->set_flashdata('error', $err);
+                //redirect('glitzz/index');
+                redirect(base_url());
+            } else {
+
+                $this->load->view('header/header', $this->topMenuData);
+                $this->load->view('payment', $data);
+                $this->load->view('footer/footer');
+            }
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function promocodeinsert() {
+
+        if ($this->session->userdata('validated')) {
+            $promocode = $this->input->post('promocode');
+            $response = $this->cyprus->isvalidpromocode($promocode);
+
+            $this->session->set_userdata('promocode', '');
+            $this->session->set_userdata('refcode', '');
+
+            if ($response) {
+                $refcode = $this->input->post('refcode');
+
+                $this->session->set_userdata('promocode', $promocode);
+                $this->session->set_userdata('refcode', $refcode);
+                //$this->session->set_userdata('taxid',$taxid);
+                $data['taxtype'] = $this->cyprus->gettaxtype();
+                //print_r($_SESSION);die;
+                $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+                if (empty($data['arrCartdata'])) {
+                    $err = "Please Add Product In Cart";
+                    $this->session->set_flashdata('error', $err);
+                    //redirect('glitzz/index');
+                    redirect(base_url());
+                } else {
+                    //print_r($tax);die;
+
+                    $this->load->view('header/header', $this->topMenuData);
+                    $this->load->view('confirm_order');
+                    $this->load->view('footer/footer');
+                }
+            } else {
+                //not
+                $err = "Please enter valid promocode";
+                $this->session->set_flashdata('error', $err);
+                redirect(site_url('cyprus/showCart'));
+            }
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function skip() {
+
+        if ($this->session->userdata('validated')) {
+            $this->session->set_userdata('promocode', '');
+            $this->session->set_userdata('refcode', '');
+            //print_r($_SESSION);die;
+            $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+            if (empty($data['arrCartdata'])) {
+                $err = "Please Add Product In Cart";
+                $this->session->set_flashdata('error', $err);
+                //redirect('glitzz/index');
+                redirect(base_url());
+            } else {
+                //print_r($tax);die;
+
+                $this->load->view('header/header', $this->topMenuData);
+                $this->load->view('confirm_order');
+                $this->load->view('footer/footer');
+            }
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function showCart() {
+        if ($this->session->userdata('validated')) {
+            $online_payment = $this->input->post('online_payment');
+
+            $taxtype = $this->input->post('taxtype');
+
+
+            $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+            //$arrCartdata = cart::getCart($this->topMenuData['user_data']['cartsession']);
+            $taxtype = isset($taxtype) ? $taxtype : 1;
+
+            $isService = cart::checkCartProductType($this->topMenuData['user_data']['cartsession'], 'services');
+            if ($isService) {
+                $taxtype = 8;
+            }
+
+            $this->session->set_userdata('taxid', $taxtype);
+            $this->session->set_userdata('payment_mode', $online_payment);
+
+            if (empty($data['arrCartdata'])) {
+                $err = "Please Add Product In Cart";
+                $this->session->set_flashdata('error', $err);
+                //redirect('glitzz/index');
+                redirect(base_url());
+            } else {
+                //$data['taxtype']=$this->cyprus->gettaxtype();
+                $this->load->view('header/header', $this->topMenuData);
+                $this->load->view('promocode', $data);
+                $this->load->view('footer/footer');
+            }
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function placeOrder() {
+//print_r($this->session->userdata);die;
+        if ($this->session->userdata('validated')) {
+            $qty = '';
+            $pid = '';
+            $producttype = "product";
+            $userid = $this->session->userdata['id'];
+            $firstname = $this->session->userdata['fname'];
+            $lastname = $this->session->userdata['lname'];
+            $email = $this->session->userdata['email'];
+            $payment_mode = $this->session->userdata['payment_mode'];
+            $taxid = $this->session->userdata['taxid'];
+
+            $refferalcode = $this->session->userdata['refcode'];
+            $promocode = $this->session->userdata['promocode'];
+
+            $arrCartdata = cart::getCart($this->topMenuData['user_data']['cartsession']);
+            $deliveryCharges = 0;
+            // generate invoice no
+            $invoice_no = uniqid();
+
+
+            // $arrCartdata = cart::getCart($userdata['cartsession']);
+
+            $discount = $this->input->post('discount');
+
+            //$categoryid = $this->input->post('categorytype');
+
+            $isService = cart::checkCartProductType($this->session->userdata['cartsession'], 'services');
+
+            if ($isService) {
+                $producttype = "services";
+            } else {
+                $isNonCommerical = false;
+                foreach ($arrCartdata as $value) {
+                    if ($value->categoryid == 4 || $value->categoryid == 5) {
+                        $isNonCommerical = true;
+                    }
+                }
+                if ($isNonCommerical) {
+                    $deliveryCharges = cart::getDeliveryCharges($this->session->userdata['location_id']);
+                }
+            }
+            //echo $deliveryCharges;die;
+            $billingAddress = cart::getUserAddress($this->session->userdata['billing_address']);
+            $shippingAddress = cart::getUserAddress($this->session->userdata['shipping_address']);
+
+
+            $payment_firstname = isset($billingAddress['fname']) ? $billingAddress['fname'] : $firstname;
+            $payment_lastname = isset($billingAddress['lname']) ? $billingAddress['lname'] : $lastname;
+            $payment_address_1 = $billingAddress['address'];
+            $payment_address_2 = $billingAddress['address2'];
+            $payment_postcode = $billingAddress['pincode'];
+            $payment_city = $billingAddress['location_id'];
+            $payment_country = isset($billingAddress['countryid']) ? $billingAddress['countryid'] : 0;
+
+            $shipping_firstname = isset($billingAddress['fname']) ? $billingAddress['fname'] : $firstname;
+            $shipping_lastname = isset($billingAddress['lname']) ? $billingAddress['lname'] : $lastname;
+            $shipping_address_1 = $billingAddress['address'];
+            $shipping_address_2 = $billingAddress['address2'];
+            $shipping_postcode = $billingAddress['pincode'];
+            $shipping_city = $billingAddress['location_id'];
+            $shipping_country = isset($billingAddress['countryid']) ? $billingAddress['countryid'] : 0;
+
+            //calculate total price
+            cart::getTotalPrice($this->session->userdata['cartsession']);
+
+            $servicetax = cart::getServicecharge($this->session->userdata['taxid']);
+            $refferalDiscout = cart::getRefferalDiscount($refferalcode);
+
+            //$discount           = 0;//cart::getDeliveryCharges($userdata['location_id']);
+
+            $totalProductCost = Cart::$totalPrice;
+
+
+            $ipaddress = $_SERVER['REMOTE_ADDR'];
+            $insert_data = array(
+                'invoice_no' => $invoice_no,
+                'userid' => $userid,
+                'producttype' => $producttype,
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'email' => $email,
+                'payment_method' => $payment_mode,
+                'payment_code' => $promocode,
+                'promocode' => $refferalcode,
+                'payment_firstname' => $payment_firstname,
+                'payment_lastname' => $payment_lastname,
+                'payment_address_1' => $payment_address_1,
+                'payment_address_2' => $payment_address_2,
+                'payment_postcode' => $payment_postcode,
+                'payment_city' => $payment_city,
+                'payment_country_id' => $payment_country,
+                'shipping_firstname' => $shipping_firstname,
+                'shipping_lastname' => $shipping_lastname,
+                'shipping_address_1' => $shipping_address_1,
+                'shipping_address_2' => $shipping_address_2,
+                'shipping_postcode' => $shipping_postcode,
+                'shipping_city' => $shipping_city,
+                'shipping_city' => $shipping_country,
+                'order_status_id' => 1,
+                'tax_id' => $taxid,
+                'total' => $totalProductCost,
+                'tax_amt' => $servicetax,
+                'refferal_discount' => $refferalDiscout,
+                'discount' => $discount,
+                'deliverycharge' => $deliveryCharges,
+                'ip' => $ipaddress,
+                'date_added' => date('Y-m-d H:i:s')
+            );
+            //echo "<pre>"; print_r($insert_data);die;
+            $orderId = $this->cyprus->placeOrder($insert_data);
+
+
+
+            foreach ($arrCartdata as $value) {
+
+                $qty = $value->quantity;
+                $pid = $value->productid;
+
+                $insert_product_order = array(
+                    'userid' => $userid,
+                    'orderid' => $orderId,
+                    'productid' => $value->productid,
+                    'productqty' => $value->quantity,
+                    'productrate' => $value->price,
+                    'productlength' => $value->length
+                );
+
+                $orderProductId = $this->cyprus->placeOrderProduct($insert_product_order);
+
+                //echo $orderProductId;
+            }
+
+
+            $cart = $this->cyprus->getCartId($this->topMenuData['user_data']['cartsession']);
+            foreach ($cart as $value) {
+                cart::deleteCart($value['id']);
+            }
+
+
+            redirect('cyprus/order_detail?orderid=' . $orderId);
+        } else {
+            redirect(base_url());
+        }
+    }
+
+    public function order_detail() {
+
+        $orderId = $this->input->get('orderid');
+
+        $data['order_details'] = $this->cyprus->getOrder($orderId);
+        $data['product_details'] = $this->cyprus->getOrderProduct($orderId);
+        $data['view'] = 1;
+//print_r($data['order_details']);die;
+
+        if ($data['order_details']['producttype'] != 'services') {
+            $location_id = $data['order_details']['location_id'];
+        } else {
+            $data['msg'] = "";
+            $data['ordersuccess'] = "Your order place successfully.";
+        }
+
+        $this->load->view('header/header', $this->topMenuData);
+        //   $data['mail']=$email;
+        $data['ordersuccess'] = "Your order place successfully.";
+        $this->load->view('success', $data);
+        $this->load->view('footer/footer');
+        $this->sendordermail($data);
+    }
+
+    public function sendordermail($data) {
+
+
+        //$toEmail = $data['mail'];
+        $toEmail = "satishborkar.genie@gmail.com";
+        $fromEmail = "satishborkar.genie@gmail.com";
+        $subject = "Welcome to Cyprus Shopping.";
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'satishborkar.genie@gmail.com',
+            'smtp_pass' => 'satish_23',
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1'
+        );
+
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+
+        $this->email->from($fromEmail);
+
+        $this->email->to($toEmail);  // replace it with receiver mail id
+        $this->email->subject($subject); // replace it with relevant subject
+        $body = $this->load->view('ordermail', $data, TRUE);
+        //$body="Welcome ".$data['fname']."Thank you for Regsitering with CYPRUS";
+
+
+        $this->email->message($body);
+        $this->email->send();
+    }
+
+    public function register() {
+        $data['fname'] = $this->input->post('fname');
+        $data['lname'] = $this->input->post('lname');
+        $data['email'] = $this->input->post('email');
+        $data['password'] = md5($this->input->post('password'));
+        $data['phone'] = $this->input->post('phone');
+        $data['area'] = $this->input->post('area');
+        $data['location_id'] = $this->input->post('location');
+        $data['status'] = '1';
+        $data['taxno'] = '';
+        $data['promo_code'] = '';
+        $usertype = $this->input->post('usertype');
+        $taxno = $this->input->post('taxno');
+        $data['usertype'] = $usertype;
+        if (!empty($taxno)) {
+            $data['taxno'] = $taxno;
+        }
+
+        if ($usertype == 'dealer') {
+            $data['status'] = '0';
+        }
+        if ($usertype == 'sales') {
+            $length = 8;
+            $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            $data['promo_code'] = substr(str_shuffle($chars), 0, $length);
+        }
+        $res = $this->cyprus->checkemail($data['email']);
+
+        //echo $res;
+        if ($res) {
+            echo "exist";
+            die;
+        } else {
+
+            $this->cyprus->register($data);
+            //$this->sendmail($data);
+            /* $data1['email']=$this->input->post('email');
+              $this->sendmails->sendRegistrationEmail($data1); */
+            echo "success";
+        }
+
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+        if (empty($data['arrCartdata'])) {
+            echo "success";
+        } else {
+            $this->load->view('checkout', $data);
+        }
+    }
+
+    public function sendmail($data) {
+
+
+        $toEmail = $data['email'];
+        $fromEmail = "satishborkar.genie@gmail.com";
+        $subject = "Welcome to Cyprus Shopping.";
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'satishborkar.genie@gmail.com',
+            'smtp_pass' => 'satish_23',
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1'
+        );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+
+        $this->email->from($fromEmail);
+
+        $this->email->to($toEmail);  // replace it with receiver mail id
+        $this->email->subject($subject); // replace it with relevant subject
+        // $body = $this->load->view('testmail',$result,TRUE);
+        $body = "Welcome " . $data['fname'] . "Thank you for Regsitering with CYPRUS";
+
+
+        $this->email->message($body);
+        $this->email->send();
+    }
+
+    public function login() {
+        $email = $this->input->post('email');
+        $dec_password = $this->input->post('password');
+        $password = md5($dec_password);
+        $result = $this->cyprus->login($email, $password);
+
+        //echo $result;
+        if ($result == 1) {
+            echo "success";
+        }
+        if ($result == 2) {
+            echo "dealer";
+        }
+        if ($result == 3) {
+            echo "notsuccess";
+        }
+
+        //redirect('glitzz/product_details');
+    }
+
+    public function forget_password() {
+        $email = $this->input->post('email');
+        // echo $email;
+
+        $result = $this->cyprus->mail_exists($email);
+        // print_r($result);
+        //$password = $result['password'];
+        //echo $p= md5($password);
+        //$password=$result['id'];
+
+        if ($result) {
+            $data['email'] = $email;
+            $data['link'] = '<a href="' . site_url() . '/cyprus/password?code=' . $result['id'] . '">Clik Here</a>';
+            $fname = $result['fname'];
+
+            $this->sendmailforget($data);
+        }
+
+
+        //echo $result;
+        //redirect('glitzz/product_details');
+    }
+
+    public function sendmailforget($data) {
+
+
+        $fromEmail = "satishborkar.genie@gmail.com";
+        $subject = "Welcome to Cyprus Shopping.";
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'satishborkar.genie@gmail.com',
+            'smtp_pass' => 'satish_23',
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1'
+        );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+        $this->email->from($fromEmail);
+
+        $toEmail = $data['email'];
+
+        $this->email->to($toEmail);  // replace it with receiver mail id
+        $this->email->subject($subject); // replace it with relevant subject
+        // $body = $this->load->view('testmail',$result,TRUE);
+        //$body="forget password ".$data['link'];
+        //$body = 'Invalid key please try again. <a href="http://demo.phpgang.com/login-signup-in-php/#forget">Forget Password?</a>';
+        $body = 'Hello, <br>';
+        $body .= 'Please ' . $data['link'] . ' To update your password';
+
+
+        $this->email->message($body);
+        $this->email->send();
+    }
+
+    public function logout() {
+        $this->session->sess_destroy();
+        redirect(site_url());
+    }
+
+    public function product_details() {
+        //if ($this->session->userdata('validated')) {
+        $id = $this->input->get('id');
+        $catid = $this->input->get('categoryid');
+        $product_data['category_names'] = $this->glitzz->category_details($id);
+        $product_data['related_images'] = $this->glitzz->getrelatedImages($catid);
+        $product_data['manufacture_images_r'] = $this->glitzz->getManufacturImageR();
+        $product_data['zoom_images'] = $this->glitzz->zoomImage();
+        $product_data['one_zoom_images'] = $this->glitzz->onezoomImage($id);
+        $product_data['product_data'] = $this->glitzz->product_details($id);
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('product_details', $product_data);
+        $this->load->view('footer/footer');
+        //}
+        // else {
+        // 	redirect('/');
+        // }
+    }
+
+    public function changecity() {
+
+        $location_id = $this->input->post('location_id');
+        if ($location_id) {
+          //  setcookie('location_id', $location_id, time() + 60 * 60 * 24 * 100, "/");
+            $this->session->set_userdata('location_id', $location_id);
+            $locationName = cart::getUserLocation($location_id);
+            $this->session->set_userdata('location_name', $locationName);
+            // setcookie('location_name', $locationName, time() + 60 * 60 * 24 * 100, "/");
+        }
+        exit;
+    }
+
+    public function add_to_cart() {
+
+        $data['userid'] = isset($this->topMenuData['user_data']['id']) ? $this->topMenuData['user_data']['id'] : '';
+        $data['sessionid'] = $this->topMenuData['user_data']['cartsession'];
+        $data['productid'] = $this->input->post('product_id');
+        $data['quantity'] = $this->input->post('qty');
+        $data['productlenth'] = $this->input->post('length');
+        $data['acton'] = $this->input->post('acton');
+        $data['brandid'] = $this->input->post('brand');
+
+        $arr_json = array("txtsuccess" => true, "txtmessage" => "");
+
+        if (empty($data['productid']) || $data['productid'] < 0 || $data['quantity'] < 0 || empty($data['quantity'])) {
+            $arr_json['txtsuccess'] = false;
+            $arr_json['txtmessage'] = 'Please select all fields';
+        }
+
+        //check if product is different category type then not allow
+        $txtTypecheck = cart::checkProductType($data['productid'], $data['sessionid']);
+
+        if (!$txtTypecheck) {
+            $arr_json['txtsuccess'] = false;
+            $arr_json['txtmessage'] = 'You are not allow to add product and service same time. Please check out cart and then try.';
+        }
+
+        $productDetail = $this->cyprus->getProductDetailbyId($data['productid']);
+        // print_r($productDetail[0]);
+        if ($productDetail) {
+            $minQty = $productDetail[0]['min_qty'];
+            $maxQty = $productDetail[0]['max_qty'];
+
+            if ($minQty && $maxQty) {
+                if ($minQty > $data['quantity']) {
+                    $arr_json['txtsuccess'] = false;
+                    $arr_json['txtmessage'] = 'Minimum qty ' . $minQty . ' is required.';
+                } else if ($maxQty < $data['quantity']) {
+                    $arr_json['txtsuccess'] = false;
+                    $arr_json['txtmessage'] = 'Maximun qty ' . $maxQty . ' is allow';
+                }
+            }
+        }
+
+
+        if ($arr_json['txtsuccess']) {
+            //Check product esixt into data base and take its category
+            $catid = $this->cyprus->getproductcategory($data['productid']);
+
+            /* $location_id = $this->input->post('loc_id');
+              if(!isset($this->topMenuData['user_data']['location_id']) || $this->topMenuData['user_data']['location_id']=='')
+              {
+              $this->session->set_userdata('location_id',$location_id);
+              } */
+
+            //check product exist into cart or not
+            $chk = cart::check_product_exitin_cart($data['sessionid'], $data['productid']);
+            if (!empty($chk)) {
+                cart::update_cart($data['productid'], $data['sessionid'], $data['quantity']);
+
+                $arr_json['txtmessage'] = 'Product updated in cart.';
+            } else {
+                cart::add_to_cart($data);
+                $arr_json['txtmessage'] = 'Product addedd successfully';
+            }
+        }
+
+        echo json_encode($arr_json);
+
+        die;
+    }
+
+    public function getin_touch() {
+        extract($_POST);
+
+        $data = array(
+            'name' => $name,
+            'userid' => $userid,
+            'area' => $area,
+            'comment' => $comment,
+            'mobile' => $mobile
+        );
+
+
+        $this->cyprus->getin_touch($data);
+        //$adminmailid=$this->cyprus->getadminmailid();
+        $username = $this->cyprus->getusername($userid);
+        //print_r($username);
+
+        $datamail['servicemanname'] = $username['fname'];
+
+        if ($usertype == 'Sales') {
+            $datamail['usertype'] = 'Servicesman';
+        }
+        if ($usertype == 'Dealer') {
+            $datamail['usertype'] = 'Dealer';
+        }
+
+        $adminmailid = 'satishborkar.genie@gmail.com';
+
+        //$datamail['email']=$adminmailid['email'];
+        $datamail['servicemanname'] = $username['fname'];
+        $datamail['promo_code'] = $username['promo_code'];
+        $datamail['area'] = $username['area'];
+        $datamail['email'] = $adminmailid;
+        $datamail['name'] = $name;
+        $datamail['area'] = $area;
+        $datamail['comment'] = $comment;
+        $datamail['mobile'] = $mobile;
+        $this->sendmailadmin($datamail);
+        echo "success";
+        //print_r($data);
+    }
+
+    public function sendmailadmin($datamail) {
+
+
+        $toEmail = $datamail['email'];
+        $fromEmail = "satishborkar.genie@gmail.com";
+        $subject = 'Enquiry for ' . $datamail['usertype'] . '';
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'satishborkar.genie@gmail.com',
+            'smtp_pass' => 'satish_23',
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1'
+        );
+        $this->load->library('email', $config);
+        $this->email->set_newline("\r\n");
+
+        $this->email->from($fromEmail);
+
+        $this->email->to($toEmail);  // replace it with receiver mail id
+        $this->email->subject($subject); // replace it with relevant subject
+        // $body = $this->load->view('testmail',$result,TRUE);
+        $body = 'Hello, Admin New enquiry for ' . $datamail['usertype'] . ' <br>';
+        $body .= 'Customer ' . $datamail['name'] . ' Want service for ' . $datamail['area'] . ' area and mobile of customer is ' . $datamail['mobile'] . ' and ' . $datamail['usertype'] . ' Name is ' . $datamail['servicemanname'] . ' Referal code is ' . $datamail['promo_code'] . ' Area is ' . $datamail['area'];
+        // $body="Welcome ".$data['fname']."Thank you for Regsitering with CYPRUS";
+
+
+        $this->email->message($body);
+        $this->email->send();
+    }
+
+    public function getamount() {
+
+
+
+        $sizeid = $this->input->post('sizeid');
+        $product_type = $this->input->post('producttype');
+        $category_id = $this->input->post('category_id');
+        $length = $this->input->post('length');
+        $qty = $this->input->post('qty');
+        $brand = $this->input->post('brand');
+
+
+        $productDetails = array("totalprice" => 0.00, 'productid' => '', 'txtsuccess' => true, 'txtmessage' => '');
+
+        $amtarray = $this->cyprus->getproductamount($product_type, $sizeid, $length, $category_id, $brand);
+
+        $price = 0.0;
+
+        if ($amtarray) {
+            $productDetail = $this->cyprus->getProductDetailbyId($amtarray['id']);
+            // print_r($productDetail[0]);
+            if ($productDetail) {
+                $minQty = $productDetail[0]['min_qty'];
+                $maxQty = $productDetail[0]['max_qty'];
+
+                if ($minQty && $maxQty) {
+                    if ($minQty > $qty) {
+                        $productDetails['txtsuccess'] = false;
+                        $productDetails['txtmessage'] = 'Minimum qty ' . $minQty . ' is required.';
+                    } else if ($maxQty < $qty) {
+                        $productDetails['txtsuccess'] = false;
+                        $productDetails['txtmessage'] = 'Maximun qty ' . $maxQty . ' is allow';
+                    }
+                }
+            }
+
+            if ($productDetails['txtsuccess'] && $qty > 0) {
+                $price = round(($amtarray['price'] * $qty), 2);
+                $productDetails['totalprice'] = $price;
+                $productDetails['productid'] = $amtarray['id'];
+            }
+        }
+
+        echo json_encode($productDetails);
+        exit ();
+        //echo round($price);
+        //print_r($amtarray);
+    }
+
+    public function getamountservices() {
+
+
+        $product_type = $this->input->post('producttype');
+        $sizeid = $this->input->post('sizeid');
+        $category_id = $this->input->post('category_id');
+        //$length = $this->input->post('length');
+        $length = $this->input->post('length');
+        $qty = 1;
+        //$amtarray=$this->cyprus->getproductamount($id);
+        $amtarray = $this->cyprus->getproductamount($product_type, $sizeid, $length, $category_id);
+        //  print_r($amtarray);
+        $price = 0.0;
+        if ($qty > 0) {
+            $price = $amtarray['price'] * $qty;
+        }
+        $productDetails = array("totalprice" => $price, 'productid' => $amtarray['id']);
+        echo json_encode($productDetails);
+        exit ();
+    }
+
+    public function getproduct() {
+
+        $product_type = $this->input->post('product_type');
+
+        //echo $product_type;
+        $product = $this->cyprus->getproduct($product_type);
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_tube() {
+
+        $product_type = $this->input->post('product_type');
+
+        //echo $product_type;
+        $product = $this->cyprus->getProduct_tube($product_type);
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_services() {
+
+        $categoryid = $this->input->post('categoryid');
+
+        //echo $product_type;
+        $product = $this->cyprus->getCategory_sizes($categoryid);
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_amc() {
+
+        $product_type = $this->input->post('product_type');
+
+        //echo $product_type;
+        $product = $this->cyprus->getProduct_amc($product_type);
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_vrv() {
+
+        $product_type = $this->input->post('product_type');
+
+        //echo $product_type;
+        $product = $this->cyprus->getProduct_vrv($product_type);
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_normal() {
+
+        $product_type = $this->input->post('product_type');
+
+        //echo $product_type;
+        $product = $this->cyprus->getProduct_normal($product_type);
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_insulation() {
+
+        //$product_type = $this->input->post('product_type');
+        //echo $product_type;
+        $product = $this->cyprus->getProduct_insulation();
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_copper() {
+
+        $product_type = $this->input->post('product_type');
+
+        //echo $product_type;
+        $product = $this->cyprus->getProduct_copper($product_type);
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function getProduct_capabillary() {
+
+        $product_type = $this->input->post('product_type');
+
+        //echo $product_type;
+        $product = $this->cyprus->getProduct_capabillary();
+        //print_r($product);
+        $results = array();
+        foreach ($product as $val) {
+            $results[] = array(
+                'id' => $val['id'],
+                'product' => $val['size']
+            );
+        }
+        //print_r($results);
+        $this->output->set_content_type('application/json');
+        $this->output->set_output(json_encode($results));
+
+        //echo "1600";
+    }
+
+    public function removecart() {
+        $cartid = $this->input->get('cartid');
+
+        if (cart::deleteCart($cartid)) {
+            echo true;
+        } else {
+            echo false;
+        }
+
+        die;
+    }
+
+    public function updateCart() {
+        $this->load->view('header/cartbag', $this->topMenuData);
+    }
+
+    public function updateMenu() {
+        $parentId = $this->input->get('topcatid');
+
+        $data['subMenuData'] = $this->glitzz->getSubcategory($parentId, 6);
+
+        $this->load->view('header/menu', $data);
+    }
+
+    public function viewcart() {
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['cartsession']);
+
+	//echo "<pre>";	print_r($data['arrCartdata']);
+        $this->load->view('header/header', $this->topMenuData);
+        $this->load->view('viewcart', $data);
+        $this->load->view('footer/footer');
+    }
+
+}

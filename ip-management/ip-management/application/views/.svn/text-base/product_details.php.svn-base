@@ -1,0 +1,254 @@
+ <?php //print_r($category_names);
+ //print_r($manufacture_images_r);
+ //$categoryid = $product_data['name'];
+ //echo $categoryid;
+  ?>
+  <div class="mm-toggle-wrap">
+    <div class="mm-toggle"><i class="icon-align-justify"></i><span class="mm-label">Menu</span> </div>
+  </div>
+  <!-- end nav --> 
+  <!-- Breadcrumbs -->
+  <div class="breadcrumbs bounceInUp animated">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <ul>
+            <li class="home"> <a title="Go to Home Page" href="#">Home</a><span>» </span></li>
+            <li class=""> <a title="Go to Home Page" href="#"><?php echo $category_names['name']; ?></a><span>» </span></li>
+            <li class="category13"><strong><?php echo $product_data['name']; ?></strong></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Breadcrumbs End --> 
+  <!-- Main Container -->
+  <div class="main-container col1-layout">
+    <div class="main container">
+      <div class="col-main">
+        <div class="row">
+          <div class="product-view">
+            <div class="product-essential">
+              <form action="#" method="post" id="product_addtocart_form">
+                <input name="form_key" value="6UbXroakyQlbfQzK" type="hidden">
+                <div class="product-img-box col-sm-4 col-xs-12 bounceInRight animated">
+                  <div class="new-label new-top-left"> New </div>
+                  <div class="product-image">
+                    <div class="large-image"> <a href="<?php echo base_url(); ?>/assets/images/products/<?php echo $one_zoom_images['image']; ?>" class="cloud-zoom" id="zoom1" rel="useWrapper: false, adjustY:0, adjustX:20"> <img alt="Thumbnail" src="<?php echo base_url(); ?>/assets/images/products/<?php echo $one_zoom_images['image']; ?>"> </a> </div>
+               
+                    <div class="flexslider flexslider-thumb">
+                      <ul class="previews-list slides">
+                      <?php foreach($zoom_images as $zoom_image) { ?>
+                        <li>
+						<a href='<?php echo base_url(); ?>/assets/images/products/<?php echo $zoom_image['image']; ?>' class='cloud-zoom-gallery' rel="useZoom: 'zoom1', smallImage: '<?php echo base_url(); ?>assets/images/products/<?php echo $zoom_image['image']; ?>' ">
+						<img src="<?php echo base_url(); ?>/assets/images/products/<?php echo $zoom_image['image']; ?>" alt = "Thumbnail 1"/></a></li>
+
+                       
+                      <?php } ?>
+                      </ul>
+                    </div>
+                  </div>
+                  <!-- end: more-images --> 
+                </div>
+ 
+
+                <div class="product-shop col-sm-5 col-xs-12 bounceInUp animated">
+                  
+                  <div class="product-name">
+                    <h1><?php echo $product_data['name']; ?></h1>
+                  </div>
+
+                  <div class="short-description"> 
+                    <!--<h2>Quick Overview</h2>-->
+                    <p><?php echo $product_data['shortdes']; ?></p>
+                  </div>
+
+                  <div class="ratings">
+                    <div class="rating-box">
+                      <div style="width:60%" class="rating"></div>
+                    </div>
+                    <p class="rating-links"> <a href="#"><?php echo $product_data['totalreview']; ?> Review(s)</a> <span class="separator">|</span> 
+                      <?php if(!empty($user_data['fname'])) { ?>
+                    <a href="#" id = "review_added" data-toggle="modal" data-target="#review">Add Your Review</a> </p>
+                    <?php } else { ?>
+                      <a href="#" data-toggle="modal" data-target="#login">Add Your Review</a> </p>
+                    <?php } ?>
+                  </div>
+                  
+                  <!--<p class="availability in-stock pull-right"><span>In Stock</span></p>-->
+                  <div class="price-block">
+                    <div class="price-box">
+                      <!--<p class="old-price"> <span class="price-label">Regular Price:</span> <span class="price"> $315.99 </span> </p>-->
+                      <p class="special-price"> <span class="price-label">Special Price</span> <span id="product-price-48" class="price"><?php echo $product_data['price']; ?></span> </p>
+                    </div>
+                  </div>
+                  <div class="add-to-box">
+                    <div class="add-to-cart">
+                      <label for="qty">Qty:</label>
+                      <div class="pull-left">
+                        <div class="custom pull-left">
+                          <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;" class="increase items-count" type="button"><i class="icon-plus">&nbsp;</i></button>
+                          <input type="text" class="input-text qty" title="Qty" value="1" maxlength="12" id="qty" name="qty">
+                          <input type = "hidden" id = "user-id" name = "user-id" value = "<?php if(isset($user_data['id'])) echo $user_data['id']; ?>">
+                          <input type = "hidden" id = "product-id" name = "product-id" value = "<?php if(isset($product_data['id'])) echo $product_data['id']; ?>">
+                          <input type = "hidden" id = "session-id" name = "session-id" value = "<?php if(isset($user_data['__ci_last_regenerate'])) echo $user_data['__ci_last_regenerate']; ?>">
+
+                          <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 0 ) result.value--;return false;" class="reduced items-count" type="button"><i class="icon-minus">&nbsp;</i></button>
+                        </div>
+                      </div>
+                      
+                      <button class="button btn-cart" id= "cart" title="Add to Cart" type="button"><span><i class="icon-basket"></i> Add to Cart</span></button>
+                      
+                    </div>
+
+                    <div class="email-addto-box">
+                    <div id = "demo"></div>
+                      <ul class="add-to-links">
+                      <?php if(!empty($user_data['fname'])) { ?>
+                        <li>
+                        
+                        <input type = "hidden" id = "user-id" name = "user-id" value = "<?php if(isset($user_data['id'])) echo $user_data['id']; ?>">
+                        <input type = "hidden" id = "product-id" name = "product-id" value = "<?php echo $product_data['id']; ?>">
+                       
+                         <a class="link-wishlist" id = "wishlist" href="#" ><span>Add to Wishlist</span></a>
+                         </li>
+                      <?php } else { ?>
+                        <li> <a class="link-wishlist" href="#" data-toggle="modal" data-target="#login" ><span>Add to Wishlist</span></a></li>
+
+                      <?php } ?>
+                        <!--<li><span class="separator">|</span> <a class="link-compare" href="compare.html"><span>Add to Compare</span></a></li>-->
+                      </ul>
+                      <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>
+                    </div>
+
+                  </div>
+                </div>
+                <aside class="col-lg-3 col-sm-3 col-xs-12 bounceInLeft animated"> 
+                  <!--<div class="brand-img">	<a href="#" target="_blank">
+		<img src="images/brand-logo.png">
+		</a>
+	</div>-->
+                  
+                  <div class="product-sibebar-banner">
+                    <div class="text-banner"> <a title="Text Banner" href="#"><img src="<?php echo base_url(); ?>/assets/images/RHS-banner-img.jpg" alt="banner"></a> </div>
+                  </div>
+                </aside>
+              </form>
+            </div>
+            
+            <div class="related-slider col-lg-12 col-xs-12 bounceInDown animated">
+              <div class="slider-items-products">
+                <div class="slider-items-products">
+                  <div class="new_title center">
+                    <h2>RELATED PRODUCTS </h2>
+                  </div>
+                  <div id="related-products-slider" class="product-flexslider hidden-buttons">
+                    <div class="slider-items slider-width-col4 products-grid">
+                    <?php foreach($related_images as $related_image) { ?>
+                      <div class="item">
+                        <div class="item-inner">
+                         <ul class="previous-collections-list">
+                            <li><a href="<?php echo site_url(''); ?>/glitzz/product_details?id=<?php echo $related_image['id']; ?>&categoryid=<?php echo $related_image['categoryid']; ?>"><img src="<?php echo base_url(); ?>/assets/images/products/<?php echo $related_image['mainimage']; ?>" class="lazy-img"><span class="view-products"><div class="pro_head"><?php echo $related_image['name']; ?></div> </span></a></li></ul>
+                        </div>
+                      </div>
+                    <?php } ?>
+                    
+                 
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Main Container End --> 
+  
+  <!-- Upsell Product Slider -->
+    <div class="product-section">
+  <div class="main-col">
+    <div class="container">
+      <div class="row"> 
+        <!-- Featured Slider -->
+        <div class="best-pro container wow bounceInUp animated">
+          <div class="slider-items-products">
+            <div class="new_title center">
+            <h2>RETAILOR</h2>
+          </div>
+           <div id="best-seller-slider" class="product-flexslider hidden-buttons">
+              <div class="slider-items slider-width-col4 products-grid">
+            <?php foreach($manufacture_images_r as $manufacture_image_r) { ?>
+                     <div class="item">
+                <div class="item-inner">
+      <div class="product-thumb transition">
+                  <div class="image"><a href="<?php echo site_url(''); ?>/glitzz/product_retailors?id=<?php echo $manufacture_image_r['id']; ?>"><img src="<?php echo base_url(); ?>assets/images/brand/<?php echo $manufacture_image_r['logo']; ?>" class="lazy-img"><span class="view-products"><div class="pro_head">VIEW PRODUCTS</div> </span></a>
+                       </div>
+                   </div>
+                  </div>
+                </div>
+                    <?php } ?>
+            
+               
+              
+              
+           </div>
+          </div>
+        </div>
+        <!-- End Featured Slider --> 
+      </div>
+    </div>
+  </div>
+  </div>
+
+  
+<!--<div class="footer full-width">
+		<div class="background-footer"></div>
+		<div class="background">
+	
+			<div class="pattern">
+									
+				<div style="width:100%; margin:0 auto; border-bottom:1px solid #CCC; border-top:1px solid #ccc; margin-bottom:25px;">	
+
+                                       <div class="container">
+                   
+                         <div class="row">
+                                                                                                                                  <div class="col-sm-12">
+                                                                                                                                       <div class="row exclusive-footer-columns">
+     <div class="col-sm-4 logo">
+          <img alt="Logo" src="<?php echo base_url(); ?>/assets/images/logo.png">
+     </div>
+     
+     <div class="col-sm-4 contact">
+          <img alt="Mail" src="<?php echo base_url(); ?>/assets/images/icon-mail.png">
+          <div class="right">
+               <div class="title">cs@glitzz.in </div>
+               <p>We respon up to 24 hours</p>
+          </div>
+     </div>
+     
+     <div class="col-sm-4 contact">
+          <img alt="Phone" src="<?php echo base_url(); ?>/assets/images/icon-phone.png">
+          <div class="right">
+               <div class="title">07303-555-444</div>
+               <p>Mon - Fri: 9:00 - 17:00</p>
+          </div>
+     </div>
+</div>                                                                                                                        </div>
+          </div>      </div>
+          </div>
+          
+      
+               </div>
+          </div>
+          
+               </div>-->
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+

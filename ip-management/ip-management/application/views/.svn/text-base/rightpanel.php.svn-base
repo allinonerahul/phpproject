@@ -1,0 +1,19 @@
+ <aside class="col-right sidebar col-xs-11 col-sm-3 col-md-2  col-sm-push-1" style="margin-top:7px;">
+        <div class="block block-account">
+          <div class="block-title">My Account</div>
+          <div class="block-content">
+            <ul>
+               <?php  $txtCssActive = $this->router->fetch_method()=='myAccount' ? 'current' : '' ; ?>
+              <li class="level0 parent drop-menu <?php echo $txtCssActive; ?>"><a href="<?php echo site_url(); ?>/cyprus/myAccount">My Account</a></li>
+               <?php  $txtCssActive = $this->router->fetch_method()=='editProfile' ? 'current' : '' ; ?>
+              <li class="level0 parent drop-menu <?php echo $txtCssActive; ?>"><a href="<?php echo site_url(); ?>/cyprus/editProfile">Edit Account</a></li>
+               <?php  $txtCssActive = $this->router->fetch_method()=='change_password' ? 'current' : '' ; ?>
+                 <li class="level0 parent drop-menu <?php echo $txtCssActive; ?>"><a href="<?php echo site_url(); ?>/cyprus/change_password">Change Password</a></li>
+                  <?php  $txtCssActive = $this->router->fetch_method()=='billingaddress' ? 'current' : '' ; ?>
+              <li class="level0 parent drop-menu <?php echo $txtCssActive; ?>"><a href="<?php echo site_url(); ?>/cyprus/billingaddress">Address Book</a></li>
+               <?php  $txtCssActive = $this->router->fetch_method()=='orderHistory' ? 'current' : '' ; ?>
+              <li class="level0 parent drop-menu <?php echo $txtCssActive; ?>"><a href="<?php echo site_url(); ?>/cyprus/orderHistory">Order History</a></li>
+            </ul>
+          </div>
+        </div>
+        </aside>

@@ -1,0 +1,61 @@
+<?php
+
+/* * ***************************************************************************\
+  +-----------------------------------------------------------------------------+
+  | Project        : glitss                                             |
+  | FileName       : cart.php                                            |
+  | Version        : 1.0                                                        |
+  | Developer      : subedar Yadav                                              |
+  | Created On     : 30-10-2015                                                 |
+  | Modified On    :                                                            |
+  | Modified   By  :                                                            |
+  | Authorised By  :  subedar Yadav                                             |
+  | Comments       :  This class used for site config related acivity           |
+  | Email          : subedar2507@gmail.com                                      |
+  +-----------------------------------------------------------------------------+
+  \**************************************************************************** */
+
+class stock 
+{
+
+	 
+   
+    public static function getstockwithcity($location_id,$qty,$product_id)
+    { 
+        $response='';
+        if(!empty($location_id) && !empty($qty) && !empty($product_id))
+        {
+          $sql="select * from product_stock where cityid='$location_id' and productid='$product_id'";
+    	   //echo "ok";die;
+        $CI =& get_instance();
+        $query  = $CI->db->query($sql);
+        $obj=$query->row();  
+     // echo "<pre>"; print_r($obj);die;
+      
+            if(isset($obj))
+            {
+              $stock = $obj->productqty;
+             
+                if($stock > $qty)
+                {
+                  $response = 1;
+                  //  echo "aval";die;
+                }
+                else
+                {
+                  $response = 0;
+                }
+                
+            }
+        
+        }
+       
+       return $response;
+    }
+
+	
+	
+
+}
+
+?>

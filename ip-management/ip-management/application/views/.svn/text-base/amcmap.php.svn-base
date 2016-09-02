@@ -1,0 +1,410 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<body class="cms-index-index cms-home-page">
+<div id="page"> 
+  <!-- Header -->
+  
+    <!-- end header -->
+    <div class="mm-toggle-wrap">
+      <div class="mm-toggle"><i class="icon-align-justify"></i><span class="mm-label">Menu</span> </div>
+      <div class="mm-toggle-two"><a href="#"> <img src="images/mb_logo.png"> </a></div>
+    </div>
+    <div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png"> </div>
+    <div class="tabsection">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12  col-sm-12 col-xs-12 border-1">
+             <div class="copp-tab">
+            <ul class="nav nav-tabs">
+              <li class="bc "><a href="#amc" data-toggle="tab" class="ab" aria-expanded="false"><div class="tabmenu">LOCATE AN AC SERVICE-MAN </div><span>IN YOUR NEARBY LOCALITY</span></a></li>
+              <li  class="bc "><a href="#amc" data-toggle="tab" class="ab" aria-expanded="false"><div class="tabmenu">LOCATE YOUR DEALER </div><span>IN YOUR NEARBY LOCALITY</span></a></li>
+              <li  class="bc"><a href="#service" data-toggle="tab"  class="ab" aria-expanded="false"><div class="tabmenu">SERVICES</div> <span>FOR AIR CONDITIONERS</span></a></li>
+              <li  class="bc active"><a href="#normal" data-toggle="tab"  class="ab" aria-expanded="false"><div class="tabmenu">AMC</div>
+   <span>FOR AIR CONDITIONERS</span>
+   </a></li>
+            
+            </ul>
+            </div>
+            <div class="tab-content "> 
+              <!--==================VRV/VRFAPPLICATIONS======================-->
+
+              
+              <div class="tab-pane fade  " id="amc">
+              
+                <div class="vrf-section">
+                  <div class="col-lg-8" style="border:none;">
+                  
+               
+                    <div class="vrf-section-map">
+                    
+              
+                    
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>CONTACT DETAILS</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="namein-section">
+                   <h3 style="color:#fff; font-size:16px;" id="msg_touch"></h3>
+                  <div class="col-md-3">
+                  <div class="name"><p>NAME</p></div>
+                  </div>
+                    <div class="col-md-9">
+                  <div class="name-input"> <input type="text" placeholder="NAME" id="name"></div>
+                  </div>
+                  <div class="clearfix"></div>
+                    <div class="col-md-7">
+                  <div class="name"><p>SERVICE AREA</p></div>
+                  </div>
+                    <div class="col-md-5">
+                  <div class="name-input"> <input type="text" placeholder="SERVICE AREA" id="area"></div>
+                  </div>
+                   <div class="clearfix"></div>
+                    <div class="col-md-4">
+                  <div class="name"><p>COMMENT</p></div>
+                  </div>
+                    <div class="col-md-8">
+                  <div class="name-input"> <input type="text" placeholder="COMMENT" id="comment"></div>
+                  </div>
+                  <div class="clearfix"></div>
+                    <div class="col-md-4">
+                  <div class="name"><p>MOBILE</p></div>
+                  </div>
+                    <div class="col-md-8">
+                  <div class="name-input"> <input type="text" placeholder="MOBILE" id="mobile" maxlength="10"></div>
+                  </div>
+
+
+                  </div>
+                  <div class="total-section">
+           
+                  <!-- <h5>GET IN TOUCH</h5> -->
+                  <h5><a href="#" id="get_in_touch">GET IN TOUCH</a></h5>
+                  </div>
+                  <div class="taxt-inc" style="margin-top:10px;">
+                  <p><span>Taxes Included
+</span><br>
+
+Please note: The above price changes on the fly with new attributes added to the booking
+</p>
+                  </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--==================VRV/VRFAPPLICATIONS END======================--> 
+            <!--==================NORMAL APPLICATIONS======================-->
+
+            <div class="tab-pane fade " id="service">
+                <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>SERVICES</h2>
+                        <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. <br>
+                          This is a dummy text, please dont read this. </p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form>
+                          
+                           <input type = "hidden" id = "user-id" name = "user-id" value = "<?php if(isset($user_data['id'])) echo $user_data['id']; ?>">
+                          <input type = "hidden" id = "product-id" name = "product-id" value = "<?php if(isset($product_data['id'])) echo $product_data['id']; ?>">
+                          <input type = "hidden" id = "session-id" name = "session-id" value = "<?php if(isset($user_data['__ci_last_regenerate'])) echo $user_data['__ci_last_regenerate']; ?>">
+
+                          <div class="col-md-3  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Type</label>
+                            <select class="" id="service_type">
+                              <option class="enter_email_input" value="">Select type</option>
+                              <option value="7">Window</option>
+                              <option value="8">Split</option>
+                           
+                            </select>
+                          </div>
+                          <div class="col-md-3  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Services</label>
+                            <select class="" id="services">
+                              <option class="enter_email_input" value="">Select service</option>
+                           
+                            </select>
+                          </div>
+                          
+                          <!-- <div class="col-md-3  col-sm-3 col-xs-12">
+                            <select class="" id="">
+                              <option class="enter_email_input" value="">DURATION</option>
+                                <?php
+
+                                for ($i=1; $i <=5 ; $i++) 
+                                { ?>
+
+                              <option  value="<?php echo $i ?>"><?php echo $i." yr"; ?></option>
+
+                               <?php  }
+                                 ?>
+                              </select>
+                          </div> -->
+
+                        <div class="col-md-3  col-sm-3 col-xs-12">
+                        <label  class="labeloption" >Qty</label>
+                            <select class="" id="sevice_qty">
+                              <option class="enter_email_input" value="">Select qty</option>
+                                <?php
+
+                                for ($i=1; $i <=5 ; $i++) 
+                                { ?>
+
+                              <option  value="<?php echo $i ?>"><?php echo $i; ?></option>
+
+                               <?php  }
+                                 ?>
+                              </select>
+                          </div>
+                     <div class="clearfix"></div>
+                          &nbsp;<br><br><br>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="inst">
+                    <p>Installation Kit Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="total-section">
+                       <div class="col-md-12 col-h">
+                    <h3 style="color:#fff; font-size:16px; margin-top:0px;"  id="msg_service"></h3>
+                  </div>
+                  <h1 id="amount_service">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+                  <h5><a href="#" id="cart_service">ADD TO CART</a></h5>
+                  </div>
+                  <div class="taxt-inc">
+                  <p><!-- <span>Taxes Included
+</span> --><br>
+
+Delivery charges will be borne by the customer
+</p>
+                  </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="tab-pane fade  active in" id="normal">
+                <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>AMC</h2>
+                        <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. <br>
+                          This is a dummy text, please dont read this. </p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form>
+                          <div class="col-md-3  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Type</label>
+                            <select class="" id="amc_type">
+                              <option class="enter_email_input" value="">Select type</option>
+                              <option value="9">Window</option>
+                              <option value="10">Split</option>
+                           
+                            </select>
+                          </div>
+                          <div class="col-md-3  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Services</label>
+                            <select class="" id="amc_services">
+                              <option class="enter_email_input" value="">Select service</option>
+                           
+                            </select>
+                          </div>
+
+                          <div class="col-md-3  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Duration</label>
+                            <select class="" id="">
+                              <option class="enter_email_input" value="">Select duration</option>
+                                <?php
+
+                                for ($i=1; $i <=5 ; $i++) 
+                                { ?>
+
+                              <option  value="<?php echo $i ?>"><?php echo $i." yr"; ?></option>
+
+                               <?php  }
+                                 ?>
+                              </select>
+                          </div>
+                          
+                        <div class="col-md-3  col-sm-3 col-xs-12">
+                        <label  class="labeloption" >Qty</label>
+                            <select class="" id="amc_qty">
+                              <option class="enter_email_input" value="">Select qty</option>
+                                <?php
+
+                                for ($i=1; $i <=5 ; $i++) 
+                                { ?>
+
+                              <option  value="<?php echo $i ?>"><?php echo $i; ?></option>
+
+                               <?php  }
+                                 ?>
+                              </select>
+                          </div>
+                     <!-- <div class="clearfix"></div> -->
+                          &nbsp;<br><br><br>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="inst">
+                    <p>Installation Kit Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="total-section">
+                  <h3 style="color:#fff; font-size:16px;" id="msg_amc"></h3>
+                  <h1 id="amount_amc">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+                  <h5><a href="#" id="cart_amc">ADD TO CART</a></h5>
+                  </div>
+               <div class="taxt-inc">
+                  <p><!-- <span>Taxes Included
+</span> --><br>
+
+Delivery charges will be borne by the customer
+</p>
+                  </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--==================NORMAL APPLICATIONS END======================--> 
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+
+</div>
+<div id="mobile-menu">
+  <ul>
+    <li> </li>
+    <li>
+      <div class="home"><a href="#"><i class="icon-home"></i>Home</a> </div>
+    </li>
+    <li><a href="#">ABOUT US</a> </li>
+    <li ><a href="#" >PRODUCTS</a> </li>
+    <li><a href="#">FAQS</a></li>
+    <li><a href="#">SIGN UP/ LOGIN</a> </li>
+    <li><a href="#">FAQS</a></li>
+    <li><a href="#">CART</a> </li>
+  </ul>
+</div>
+
+<!-- End Footer --> 
+<!-- JavaScript --> 
+
+
+</body>
+</html>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript">
+
+  $('#get_in_touch').click(function(){
+  //alert("In Add to Cart");
+            var name = $("#name").val();
+            var area = $("#area").val();
+            var comment = $("#comment").val();
+            var mobile = $("#mobile").val();
+               
+           if(name=='' || area=='' || comment=='' || mobile=='')
+           {
+            $('#msg_touch').text("All fields are mandatory..");
+
+            setTimeout(function() 
+              {
+                   $("#msg_touch").text('');
+              }, 4000);
+            return false;
+           }
+            $.ajax({
+                type: "POST",
+               // url: "<?php echo site_url(); ?>/cyprus/add_to_cart",
+                url: "<?php echo site_url(); ?>/cyprus/getin_touch",
+                data: {"name":name,"area":area,"comment":comment,"mobile":mobile},
+                
+                success: function (data) {
+                    if (data == 'success') {
+                      
+                       //alert(data);
+                      $('#msg_touch').html("Thank you we will give feedback soon.");
+                      //$('#msg_touch').text("ok");
+                     
+
+                      setTimeout(function() 
+                      {
+                           $("#msg_touch").text('');
+                      }, 4000);
+
+                      }
+                    
+                },
+                
+            });
+            return false;
+        //}
+
+    });
+
+
+
+/*$("#location").change(function(){
+    var add = $("#location").val();
+   
+
+     var geocoder =  new google.maps.Geocoder();
+    geocoder.geocode( { 'address': add}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+           // alert("lat long is : " + results[0].geometry.location.lat() + "    " +results[0].geometry.location.lng()); 
+            $("#mapdisplay").html('<iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"  src="http://maps.google.nl/maps?q='+add+'&hl=nl&ie=UTF8&t=v&z=13&amp;output=embed"></iframe>');
+          } else {
+            alert("Something got wrong " + status);
+          }
+        });
+   
+
+
+});*/
+
+
+</script>
+

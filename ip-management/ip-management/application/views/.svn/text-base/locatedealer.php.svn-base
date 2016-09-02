@@ -1,0 +1,166 @@
+<?php $usertype =  $this->input->get('usertype');?>
+<div class="tab-pane fade <?php if($usertype=='Dealer'){ ?>active in<?php } ?>" id="dealer">
+    
+    <div class="vrf-section">
+        <div class="col-lg-8">
+            <div class="vrf-section">
+                
+                <div class="cpr-h" style="height:100px;">
+                    <div class="search_offer_two">
+                        <form action="<?php echo site_url(); ?>/cyprus/getdelaer" method="get" id="serviceman_form">
+                            <div class="col-md-5">
+                                <label style="color:rgb(51, 51, 51); font-size:14PX;font-weight: bold; ">Local Area </label>
+                                <input type="text" placeholder="Local area" name="area" value="<?php echo $this->input->get('area'); ?>">
+                                <input type="hidden" placeholder="Keywords" name="usertype" value="Dealer">
+
+
+                            </div>
+
+                            <div class="col-md-5">
+                                <label style="color:rgb(51, 51, 51); font-size:14PX;font-weight: bold; ">Location:</label>
+                                 <?php $location_id =  $this->input->get('location_id');?>
+                                <select id="city" name="location_id">
+                                    <option class="enter_email_input" value="">Select Location</option>
+                                    <?php foreach ($location as $val) {
+ ?>
+                                        <option  value="<?php echo $val['id']; ?>" <?php echo ($location_id==$val['id'])? "selected" : ''; ?>><?php echo $val['name']; ?></option>
+<?php } ?>
+                                </select>
+                            </div>
+                            <div class="col-md-2 p-4">
+                                <div class="search_b ">
+                                    <button type="submit" id="getserviceman" class="btn btn-large" >Search </button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div >
+                    <div class="search_det">
+
+                        <div class="col-md-10" id="app">
+                            <div class="col-md-6">
+                                <h6>Name</h6>
+                            </div>
+
+                            <div class="col-md-6">
+                                <h6>Location</h6>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <?php
+                                    if (!empty($dealerdata)) {
+                                        foreach ($dealerdata as $value) {
+                    ?>
+                                            <div class="search_det">
+                                                <div class="col-md-10" id="app">
+                                                    <div class="col-md-6">
+                                                        <p><?php echo $value['fname'] ?></p>
+                                                    </div>
+                                                    <div class="col-md-6">
+
+                                                        <p><?php echo $value['area']."&nbsp;&nbsp;".$value['city'] ?></p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 p-4">
+                                                    <div class="view_b" id="buttonapp" style="margin-top:10px;">
+                                                        <button type="button" id="menu-toggle" class="btn btn-large" onclick="getintouchdealer(<?php echo $value['id']; ?>)">Get In touch </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                    <?php
+                                        }
+                                    } else {
+                    ?>
+                    <h6> &nbsp;&nbsp;&nbsp;No Dealer found</h6>
+                    <?php } ?>
+
+                    <?php if (!empty($dealerdata)) {
+ ?>
+                                        <div class="row-fluid" style="margin-left:300px;">
+
+                                            <div class="span6" >
+<?php echo $pagination; ?>
+                                    </div>
+                                </div>
+<?php } ?>
+
+
+                    <div class="clearfix"></div>
+
+
+
+
+
+                </div>
+
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+        <div class="col-lg-4" hidden id="divgetintouchdealer">
+            <div class="sidebar-section">
+                <div class="amount">
+                    <h2>CONTACT DETAILS</h2>
+                    <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                </div>
+                <form id="getintouchformdealer">
+                    <div class="namein-section">
+                        <h3 style="color:#fff; font-size:16px;" id="msg_touchdealer"></h3>
+                        <div class="col-md-3">
+                            <div class="name"><p>NAME</p></div>
+                        </div>
+
+                        <input type="hidden" name="userid" value="" id="useriddealer">
+                        <input type="hidden" name="usertype" value="Dealer" >
+
+                        <div class="col-md-9">
+                            <div class="name-input"> <input type="text" name="name" placeholder="YOUR NAME" id="namedealer"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-7">
+                            <div class="name"><p>SERVICE AREA</p></div>
+                        </div>
+                        <div class="col-md-5">
+                           
+                            <div class="name-input"> <input type="text" placeholder="SERVICE AREA" name="area" id="areadealer"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <div class="name"><p>COMMENT</p></div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="name-input"> <input type="text" placeholder="COMMENT" id="commentserviceman" name="comment" ></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-md-4">
+                            <div class="name"><p>MOBILE</p></div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="name-input"> <input type="text" placeholder="MOBILE" id="mobiledelaer" name="mobile" maxlength="10"></div>
+                        </div>
+
+
+                    </div>
+                </form>
+                <div class="total-section">
+
+
+                    <h5><a href="#" onclick="getintouchsubmitdelaer()">GET IN TOUCH</a></h5>
+                </div>
+                <div class="taxt-inc" style="margin-top:10px;">
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>

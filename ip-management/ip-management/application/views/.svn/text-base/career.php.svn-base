@@ -1,0 +1,154 @@
+<div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png" style="height:"> </div>
+
+<div class="main-container col2-right-layout wow bounceInUp animated">
+  <div class="main container">
+  <div class="contact-title">
+    <h4>Looking For Career Opportunities ! Apply Now</h4>
+        </div>
+  <div class="cont-page">
+ 
+    <div class="row">
+      <section class="col-main">
+      
+        <div class="static-contain">
+          <fieldset class="group-select">
+            <ul>
+              <li id="billing-new-address-form">
+                <fieldset>
+                  <legend>New Address</legend>
+                  <form action="<?php echo site_url();?>/cyprus/addCareer" method="post"> 
+                  <input type="hidden" name="billing[address_id]" id="billing:address_id">
+                  <ul>
+                    <li>
+                      <div class="customer-name">
+                      <div class="row" style="padding-bottom:10px;">
+                      <div class="col-md-6">
+                        <div class="input-box name-firstname">
+                        <div class="col-md-5">  <label for="first_name"> First Name <span class="required">*</span></label></div>
+                     
+                               <div class="col-md-7"> <input type="text" id="first_name" name="first_name" title="First Name" class="input-text " required></div>
+                                                      
+                        </div>
+                        </div>
+                           <div class="col-md-6">
+                        <div class="input-box name-lastname">
+                             <div class="col-md-5"><label for="last_name"> Last Name <span class="required">*</span> </label></div>
+                         
+                                <div class="col-md-7"> <input type="text" title="Last Name" name="last_name" class="input-text" required></div>
+                          
+                        </div>
+                        </div>
+                        </div>
+                               <div class="row" style="padding-bottom:10px;">
+                                              <div class="col-md-6">
+                        <div class="input-box">
+                             <div class="col-md-5">  <label for="date_of_birth"> Date of Birth <span class="required">*</span> </label></div>
+                        
+                         <div class="col-md-7">   <input type="text" id="date_of_birth" name="date_of_birth" title="Date of Birth" class="input-text" required></div>
+                          </div>
+                        </div>
+                         <div class="col-md-6">  
+                        <div class="input-box">
+                        <div class="col-md-5">    <label for="email">Email <span class="required">*</span></label></div>
+                    
+                         <div class="col-md-7">   <input type="text" id="email" name="email" title="Email" class="input-text" ></div>
+                      </div>
+                        </div>
+                      </div>
+                      <div class="row" style="padding-bottom:10px;">
+                                              <div class="col-md-6">
+                        <div class="input-box">
+                             <div class="col-md-5">  <label for="location"> Location   </label></div>
+                        
+                         <div class="col-md-7">   <input type="text"  class="input-text" name = "current_location" required></div>
+                          </div>
+                        </div>
+                         <div class="col-md-6">  
+                        <div class="input-box">
+                        <div class="col-md-5">    <label for="mobile">Mobile No.<span class="required">*</span></label></div>
+                    
+                         <div class="col-md-7">   <input type="text" name= "mobile" class="input-text" ></div>
+                      </div>
+                        </div>
+                      </div>
+                      <div class="row" style="padding-bottom:10px;">
+                              <div class="col-md-6">  
+                         <div class="input-box">
+                           <div class="col-md-5">  <label for="employment_type">EmploymentType <!-- <span class="required">*</span>--></label></div>
+                 
+                         <div class="col-md-7">    <select class="form-control" style="width:274px !important;" name="employment_type">
+	<option value="0">Select</option>
+	<option value="1">Full time</option>
+	<option value="2">Part Time</option>
+	<option value="3">Retainer</option>
+
+</select></div>
+                      </div>
+                      </div>
+                         <div class="col-md-6"> 
+                             <div class="input-box">
+                           <div class="col-md-5">    <label>HigestQualification </label></div>
+                
+                       <div class="col-md-7"> <input type="text" title="HigestQualification" name="highest_qualification" class="input-text"></div>
+                      </div>
+                         </div>
+                         </div>
+                      
+                         <div class="row" style="padding-bottom:10px;">
+                              <div class="col-md-6">  
+                         <div class="input-box">
+                           <div class="col-md-5">  <label for="function">Function </label></div>
+                 
+                         <div class="col-md-7">    <input type="text" name="function" id="function" title="Function" class="input-text" required></div>
+                      </div>
+                      </div>
+                         <div class="col-md-6"> 
+                             <div class="input-box">
+                           <div class="col-md-5">    <label>Experience <span class="required">*</span></label></div>
+                
+                       <div class="col-md-7"> <select class="form-control" style="width:274px !important;" name="experience">
+	<option value="0">Select</option>
+	<option value="1">Full time</option>
+	<option value="2">Part Time</option>
+	<option value="3">Retainer</option>
+
+</select></div>
+                      </div>
+                         </div>
+                         </div>
+                         
+                         
+                           <div class="row" style="padding-bottom:10px;">
+                               <div class="col-md-12"> 
+                               
+                              <div class="col-md-1">     <label for="comment">Comment<em class="required">*</em></label></div>
+                         <div class="col-md-11"> 
+                      <div style="float:none; width:86%; margin-left:3%;" class="">
+                        <textarea name="comment" id="comment" title="Comment" class="input-text" cols="5" rows="3" required></textarea>
+                      </div>
+                      </div>
+                               
+                                </div>
+                           
+                           </div>
+                    </li>
+                 
+              
+                  </ul>
+                  <div class="buttons-set" style="margin:0 auto; width:20%;">
+                    <button type="submit" title="Submit" class="button submit" id="submit" style="width:100%; font-size: padding:10px 0;"> <span style="font-size:20px;"> Submit </span> </button>
+                  </div>
+                </form>
+                </fieldset>
+              </li>
+              <!-- <li><span class="require"><em class="required">* </em>Required Fields</span> -->
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+      </section>
+     </div>
+    </div>
+  </div>
+</div>
+<!-- Main Container End -->

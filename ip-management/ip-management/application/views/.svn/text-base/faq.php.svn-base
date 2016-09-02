@@ -1,0 +1,45 @@
+<div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png" style="height:"> </div>
+
+<div class="container content_wrapper">
+  <h1>My Account &amp; My Orders </h1>
+  <div class="row" align="justify">
+<div class="col-xs-12 content_heading">
+<h3>What is 'My Account'? How do I update my information?</h3>
+<p>It is easy to update your CU Stores account and view your orders any time through 'My Account'. 'My Account' allows you complete control over your transactions on CU Stores</p>
+<div class="faq-list">
+<ul>
+<li>Manage/edit your personal data like address, phone numbers, email ids</li>
+	<li>Change your password</li>
+	<li>Track the status of your orders</li>
+</ul>
+</div>
+</div>
+
+<div class="col-xs-12 content_heading">
+<h3>
+
+How do I know my order has been confirmed?</h3>
+<p>
+
+Once your order has been logged and payment authorization has been received, we confirm receipt of the order and begin processing it. You will receive an email containing the details of your order as soon as we confirm and process it. In this mail you will be provided with a unique Order ID (eg. AB0123456), a listing of the item(s) you have ordered and the expected delivery time. You will also be notified when we ships the item(s) to you.  You can track your order status in your 'My Account' dashboard.
+</p>
+</div>
+<div class="col-xs-12 content_heading">
+<h3>
+Can I order a product that is 'Out of Stock'?</h3>
+<p>
+
+Unfortunately, products listed as 'Out of Stock' are not available for sale for a particular location. In case you wants the products, please contact us through contact us form. Upon receipt of your enquiry, our customer care team will get in touch with you. 
+</p>
+</div>
+<div class="col-xs-12 content_heading">
+<h3>
+Is it necessary to have an account to shop on CU Stores?</h3>
+<p>
+
+A consumer can shop on CU Stores by providing just their email ID and Mobile Number; however dealer and service providers need to submit more information to shop on CU Stores. It is necessary to have an account to shop for and purchase items on CU Stores. 
+
+</p></div>
+
+</div>
+</div>

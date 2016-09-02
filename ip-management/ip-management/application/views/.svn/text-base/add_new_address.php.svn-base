@@ -1,0 +1,125 @@
+
+
+
+  <!-- end nav --> 
+  <!-- <div class="breadcrumbs">
+  <div class="container">
+    <div class="row">
+   <div class="col-xs-12">
+      <ul>
+        <li class="home"> <a title="Go to Home Page" href="<?php echo site_url(); ?>">Home</a><span>&mdash;›</span></li>
+        <li class="category13"><strong>Add New Address</strong></li>
+      </ul>
+      </div>
+    </div>
+  </div>
+</div> -->
+  <!-- Main Container -->
+  <section class="main-container col2-right-layout bounceInUp animated md-h" style="margin-top:20px;">
+  <div class="main container user-row">
+    <div class="row">
+     <div class="col-main col-sm-9">
+        <div class="page-title">
+              <h4 style="color:#f15a23;">New Address </h4>
+
+          </div>
+        <div id="checkout-step-billing" class="step a-item" >
+            <form id="register_address" name="register_address" method="post" action="<?php echo site_url(); ?>/cyprus/addAddress">
+                <fieldset class="group-select">
+                    <ul class="form-list" style="width:80%;">
+                    
+                    <li id="billing-new-address-form">
+                      <fieldset>
+                        <legend>New Address</legend>
+                        <input type="hidden" name="userid" value="<?php echo $user_data['id'];  ?>" id="userid">
+                        <ul>
+                             <!-- <li>
+                            <div class="customer-name">
+                              <div class="input-box name-firstname">
+                                <label for="billing:firstname"> First Name <span class="required">*</span> </label>
+                               
+                                <input type="text" id="fname" name="fname" title="First Name" class="input-text" required>
+                              </div>
+                              <div class="input-box name-lastname">
+                                <label for="billing:lastname"> Last Name <span class="required">*</span> </label>
+                                <br>
+                                <input type="text" id="lname" name="lname" title="Last Name" class="input-text" required>
+                              </div>
+                            </div>
+                          </li> -->
+                         
+                          <li>
+                            <label>Street Address <span class="required">*</span></label>
+                            <br>
+                            <input type="text" title="Street Address" name="address" value="" class="input-text" required>
+                          </li>
+                            <label>Address <span class="required">*</span></label>
+                          <li>
+                            <input type="text" title="Street Address 2" name="address2" class="input-text" required>
+                          </li>  
+                          <li>
+                      <label>Location <span class="required">*</span></label>
+                      <br>
+                      
+                      <select name="location_id"  class="address-select"  style="width:230px;" required>
+                      <option>Select Location</option>
+                      <?php foreach ($location as $value) {
+                        ?>
+                        <option value="<?php echo $value['id'];?>"><?php echo $value['name']; ?></option>
+                    
+                      <?php } ?>
+                        
+                        
+                      </select>
+                      
+                    </li>                      
+                          <li>                           
+                            <div class="input-box">
+                              <label for="billing:fax">Pincode</label>
+                              <br>
+                              <input type="text" name="pincode"  title="pincode" class="input-text" id="pincode" required>
+                                <input type="hidden" name="header" value="<?php if(isset($header)){echo $header;}else{ echo '';} ?>"  class="input-text" id="header">
+                            </div>
+                          </li>
+                         
+                        </ul>
+                      </fieldset>
+                    </li>
+                    <li>
+                      <label>Address Type <span class="required"></span></label>
+                      <br>
+                      
+                      <select name="address_type"  class="address-select"  style="width:230px;" required>
+                      <option>Select address type</option>
+                      <option value="bill">Billing </option>
+                      <option value="ship">Shipping</option>
+                        
+                      </select>
+                      
+                    </li>
+                    
+                  </ul>
+                  <p class="require"><em class="required">* </em>Required Fields</p>
+                  <button type="submit" class="button continue" ><span>Continue</span></button>
+                  <?php if(empty($header)) {?>
+                  <a href="<?php echo site_url(); ?>/cyprus/checkout"><button type="submit" class="button back" ><span>BACK</span></button></a>
+                <?php } 
+                else{
+                	?>
+                	 <a href="<?php echo site_url(); ?>/cyprus/billingaddress"><button type="submit" class="button continue" ><span>BACK</span></button></a>
+                	<?php
+                }
+                ?>
+                </fieldset>
+              </form>
+            </div>
+      </div>
+      <?php $this->load->view('rightpanel'); ?>
+    </div>
+  </div>
+  </section>
+  
+  </div>
+  </div>
+  </div>
+  </div>

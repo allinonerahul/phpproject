@@ -1,0 +1,196 @@
+
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="#">Manage Delivery Message</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+
+        <!-- BEGIN ADVANCED TABLE widget-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN EXAMPLE TABLE widget-->
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4><i class="icon-reorder"></i>List Delivery Message</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="portlet-body">
+                            <div class="clearfix">
+                                <!-- <div class="btn-group">
+                                    <a href="<?php echo site_url('admin/admin/addtaxcategory'); ?>">
+                                        <button id="" class="btn btn-warning">
+                                            Add Tax <i class="icon-plus"></i>
+                                        </button>
+                                    </a>
+                                </div> -->
+                               
+                            </div>
+                            
+                            <div class="space15"></div>
+                            <span id="delete_error"></span>
+                            <div class="space15"></div>
+                            <?php if (isset($msg) && $msg != '') { ?>
+                                <div class="alert alert-success">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $msg; ?>
+                                </div>
+                            <?php } ?>
+
+                            <?php if (isset($err) && $err != '') { ?>
+                                <div class="alert alert-error">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $err; ?>
+                                </div>
+                            <?php } ?>
+ <form action="<?php echo site_url();?>/admin/admin/manage_delivery_msg" method="get" id="misscall" class="printdata" style="margin-top: -69px;
+  float: right;" >
+
+                                  <div class="input-append filter" style="">
+                                   
+                                    <input name="filter_search" type="text" style="" placeholder="Search category" class="span12"  value="<?php
+                                           if (isset($filter_search)) {
+                                               echo $filter_search;
+                                           }
+?>"/>
+                                </div>
+
+                                 <div class="input-append date">
+                                    <label> &nbsp;</label>
+                                    <button class="btn btn-success" style="margin-left: 10px;margin-top: -17px;" type="submit"  >Search</button>
+                                </div>
+                            </form>
+                            
+                            
+                            <form action="" class="form-horizontal" name="group_delete" id="group_delete" method="post">
+                                <table class="table table-striped table-bordered" id="">
+                                    <thead>
+                                        <tr>
+                                        <th>Sr No.</th>
+                                           <!--  <th><input type="checkbox" name="articleid[]" class="group-checkable" data-set="#sample_2 .checkboxes" onchange="checkAll(this)" /></th> -->
+                                            <th>Category Name</th>
+                                            <th>Delivery Message In Stock</th>
+                                            <th>Delivery Message Out Stock</th>
+                                              <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        
+                                         
+                                        $sn_count = $result_start;
+                                        if ($result) {
+                                            
+                                                                                        
+                                            foreach ($result as $val) {
+                                                ?>
+                                                <tr class="">
+                                                 <td ><?php echo $sn_count++ ?></td>
+                                                 <td ><?php echo $val['name'] ?></td>
+                                                 <td ><?php echo $val['delivery_message_in_stock'] ?></td>
+                                                 <td ><?php echo $val['delivery_msg_out_stock'] ?></td>
+                                               
+                                                    <td>
+                                                       <a class="" style="text-decoration:none" href="<?php echo site_url('admin/admin/edit_delivery_msg?articleid=' . $val['id']); ?>"><img src="<?php echo base_url(); ?>img/edit_event.png" alt="Edit" title="Edit"/></a>&nbsp;&nbsp;
+                                                    </td> 
+                                                </tr>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                 <?php if (!empty($result)) { ?>    
+                            <div class="row-fluid" >
+                          
+                                <div class="span6" style="margin-left: -30px;">
+                                    <?php echo $pagination; ?>
+                                </div>
+                            </div>
+<?php } ?>
+                <!-- END EXAMPLE TABLE widget-->
+            </div>
+        </div>
+
+        <!-- END ADVANCED TABLE widget-->
+
+        <!-- END PAGE CONTENT-->
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+
+
+<script type="text/javascript">
+    $('#group-checkable').click(function() {
+
+        var checkboxes = $(this).closest('form').find(':checkbox');
+        if ($(this).is(':checked')) {
+            checkboxes.attr('checked', 'checked');
+        } else {
+            checkboxes.removeAttr('checked');
+        }
+    });
+    $("#delete_category").click(function() {
+
+        if ($("input:checkbox:checked.checkboxes").length > 0) {
+//            alert('hi');
+
+            $("#group_delete").attr("action", "<?php echo site_url(); ?>/admin/deletearticle");
+            $("#group_delete").submit();
+        }
+    });
+    $("#delete_check").click(function() {
+
+        if ($("input:checkbox:checked.checkboxes").length > 0) {
+
+            $("#delete_check").attr("href", "#delete_selected_foodchart");
+
+        } else {
+            bootbox.alert("Please select any Record.");
+        }
+    });
+    
+    function checkAll() {
+       // alert('hi');
+          var checkboxes = document.getElementsByTagName('input'), val = null;    
+     for (var i = 0; i < checkboxes.length; i++)
+     {
+          if (checkboxes[i].type == 'checkbox')
+         {
+             if (val === null) val = checkboxes[i].checked;
+             checkboxes[i].checked = val;
+         }
+     }
+        }
+    
+    
+    
+    /******************** food category list *****************************/
+    
+    $("#food_category").on("change",function(){
+//        var selected_id = $(this).val();
+        $("#food_category_search").attr('action',"<?php echo site_url('admin/foodChart')?>");
+        $("#food_category_search").submit();
+    });
+
+
+
+</script>

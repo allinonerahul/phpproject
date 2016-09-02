@@ -1,0 +1,56 @@
+<div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png" style="height:"> </div>
+
+<div class="container content_wrapper">
+<h1>SHIPPING POLICIES</h1>
+
+<div class="row" align="justify">
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>What are the delivery charges?</h3>
+<p>Delivery and shipping charge varies depends on type of products, ordered quantity, delivery or shipping location and mode of delivery. </p>
+<p>We incur relatively higher shipping costs on low order quantity and value of the items. In such cases, we charge a nominal delivery charge. The delivery charge may be waived off by us on case to case basis, if you order for a minimum predefined value. Please check with delivery charges in the order cart or performa invoice for your order before you place the order or check out.</p>
+</div>
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Why does the delivery date not correspond to the delivery timeline?</h3>
+<p>It is possible that the our logistic, transporter or courier partners have a holiday between the day your placed your order and the date of delivery, which is based on the timelines shown on the order /product page. Further, some logistic, transporter or courier partners do not work on Sundays. In this case, your estimated delivery date may extent by 1-2 days</p>
+</div>
+</div>
+
+<div class="row" align="justify">
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>What is the estimated delivery time?</h3>
+<p>We generally ship the items within the time specified on the product / order page. Business days exclude public holidays and Sundays. Estimated delivery time depends on Product's availability with us and the destination to which you want the order shipped to.</p>
+</div>
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Are there any hidden costs (taxes, octroi etc) on items sold by us?</h3>
+<p>There are NO hidden charges when you make a purchase on CU Stores. List prices are excluding of Taxes and Delivery/Shipping Charges only. The price you see on the product page is net of taxes and delivery charges. Taxes and Delivery charges and are not hidden charges and are charged depending on products, shipping destination as per our shipping policy.</p>
+</div>
+</div>
+
+<div class="row" align="justify">
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Why does the estimated delivery time vary for each Product?</h3>
+<p>You have probably noticed varying estimated delivery times for different products you are interested in. Delivery times are influenced by product availability, geographic location of our warehouses or channel partners, your shipping destination and the logistic, transporter and courier partner's time-to-deliver in your location. If you haven't provided your pincode until the checkout stage, the pincode in your shipping address will be used to check for serviceability.</p>
+</div>
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Why is the COD option not offered in selected products and location?</h3>
+<p>Availability of CoD depends on the ability of our logistic and courier partner servicing your location to accept cash as payment at the time of delivery. Our logistic and courier partners sometime doesn't accept cash on behalf of us or have limits on the cash amount payable on delivery depending on the destination,  and your order value.</p>
+<p style="margin-bottom:0"><strong>Out of Stock</strong></p>
+<p>Currently, the item is not available for sale or dispatch.</p>
+
+</div>
+
+</div>
+
+<div class="row" align="justify">
+<div class="col-xs-12 col-sm-6 content_heading">
+<h3>Does CU Stores deliver internationally?</h3>
+<p>As of now, CU Stores doesn't allow online booking for its products for international customers. You will be able to make your purchases on our website from anywhere in the world with credit/debit cards issued in India, but please ensure the delivery address is in India.</p>
+</div>
+<div class="col-xs-12 col-sm-6 content_heading">
+<p>However interested customers can contact us through filling contact us form for their requirements. Upon receipt of your enquiry, our customer care team will send you the desired information and quote. Upon confirmation of the quote and receipt of orders, we will deliver the products to international customers as per agreed specification and commercial terms. </p>
+</div>
+
+</div>
+
+
+</div>

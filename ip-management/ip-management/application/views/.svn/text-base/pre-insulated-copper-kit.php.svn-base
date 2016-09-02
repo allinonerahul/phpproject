@@ -1,0 +1,362 @@
+
+<body class="cms-index-index cms-home-page">
+<div id="page"> 
+  <!-- Header -->
+ 
+    <!-- end header -->
+
+    <div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png"> </div>
+    <div class="tabsection">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12  col-sm-12 col-xs-12 border-1">
+            <ul class="nav nav-tabs">
+              <li style="width:50%;" class="bc active"><a href="#amc" data-toggle="tab" class="ab" aria-expanded="false">PRE-INSULATED <br><span>HEAVY &amp; LIGHT</span></a></li>
+              <li style="width:50%;" class="bc "><a href="#normal" data-toggle="tab" class="ab" aria-expanded="false">BARE TUBE<br>
+   <span>HEAVY &amp; LIGHT</span>
+   </a></li>
+            
+            </ul>
+            <div class="tab-content "> 
+              <!--==================VRV/VRFAPPLICATIONS======================-->
+              <div class="tab-pane fade active in" id="amc">
+                <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>PRE-INSULATED INTERCONNECTED TUBE</h2>
+                        <p>Cyprus Pre-Insulated Refrigeration ACR Copper Tubing Coils are manufactured to the chemical, mechanical,cleanness and eddy-current test requirements. </p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+
+                          
+
+
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form id="preinsulated_form">
+                          <!-- <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Ac Ton</label>
+                            <select class="" name="acton">
+                              <option class="enter_email_input">Select Ac Ton</option>
+                              <?php 
+                                for ($i=1; $i <=10 ; $i++) { 
+                                  ?>
+                              <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                              <?php 
+                                }
+                              ?>
+                           
+                            </select>
+                          </div> -->
+                          <input type="hidden" name="category_id" value="4">
+                          <input type="hidden" name="product_id" id="product_id_preinsulated_form" value="">
+                          <div class="col-md-4  col-sm-4 col-xs-12">
+                          <label  class="labeloption" >Brand</label>
+                            <select class="" name="brand" onChange="get_product_amount('preinsulated_form')">
+                              <option class="enter_email_input" value="">Select brand</option>
+                              <?php
+                                     foreach ($brands as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                         
+                          <div class="col-md-4  col-sm-4 col-xs-12">
+                          <label  class="labeloption" >Type</label>
+                            <select class="" id="producttype_preinsulated_form" name="producttype" onChange="get_product_amount('preinsulated_form')">
+                              <option class="enter_email_input" value="">Select type</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorytype(4);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['typename']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                           
+                            </select>
+                          </div>
+                          <div class="col-md-4  col-sm-4 col-xs-12">
+                          <label  class="labeloption">Size</label>
+                            <select class="" id="size_preinsulated_form"  name="sizeid" onChange="get_product_amount('preinsulated_form')">
+                              <option class="enter_email_input" value="">Select size</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategory_sizes(4);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                          
+                        <div class="col-md-4  col-sm-4 col-xs-12">
+                        <label  class="labeloption" >Length</label>
+                            <select class="" id="length_preinsulated_form"  name="length" onChange="get_product_amount('preinsulated_form')">
+                              <option class="enter_email_input" value="0">Select length</option>
+                             <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorylength(4);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['lengthname']; ?></option>
+                                        
+
+                                      <?php   }
+
+                                     ?>
+
+
+                            </select>
+                          </div>
+                     <!-- <div class="clearfix"></div> -->
+                    
+                          <div class="col-md-2  col-sm-4 col-xs-12">
+                          <label  class="labeloption" >Qty</label>
+                           
+                            <br>
+                            <input type="text" name="qty" maxlength="3" id="qty_preinsulated_form" style="height:40px;" placeholder="Enter Qty" onKeyUp="get_product_amount('preinsulated_form')">
+                          </div>
+                    
+                        </form>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="inst">
+                    <p>Pre-Insulated Interconnected Tube Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <!-- <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p> -->
+                  </div>
+                  <div class="total-section">
+                  <div class="col-md-12 col-h">
+                  <h3 style="color:#fff; font-size:16px; margin-top:0px;" id="msg_preinsulated_form"></h3>
+                  </div>
+                  <h1 id="amount_preinsulated_form">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+                  <h5><a href="javascript:void(0);" onClick="validateCartForm('preinsulated_form');">ADD TO CART</a></h5>
+                  </div>
+                     <div class="taxt-inc">
+                         <ol>
+                         <li>Delivery Charges will vary on Shipping Address. </li>
+                         <li> Tax Charges will vary on Billing Address.</li>
+                     </ol>
+                          </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--==================VRV/VRFAPPLICATIONS END======================--> 
+            <!--==================NORMAL APPLICATIONS======================-->
+            <div class="tab-pane fade  " id="normal">
+                <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>BARE TUBE</h2>
+                        <p>Cyprus Refrigeration ACR Copper Tubing Coils are manufactured to the chemical, mechanical, cleanness and eddy current test requirements. </p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                           <div class="form-section">
+                        <div class="search_offer_two">
+                        <form id="bartube_form" >
+                          <!-- <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Ac Ton</label>
+                            <select class="" name="acton" onChange="get_product_amount('bartube_form')">
+                              <option class="enter_email_input">Select Ac Ton</option>
+                              <?php 
+                                for ($i=1; $i <=10 ; $i++) { 
+                                  ?>
+                              <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
+                              <?php 
+                                }
+                              ?>
+                           
+                            </select>
+                          </div> -->
+
+                          <input type="hidden" name="category_id" value="5">
+                          <input type="hidden" name="product_id" id="product_id_bartube_form" value="">
+
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Brand</label>
+                            <select class="" name="brand" onChange="get_product_amount('bartube_form')">
+                              <option class="enter_email_input">Select brand</option>
+                              <?php
+                                     foreach ($brands as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Type</label>
+                            <select class="" id="producttype_bartube_form" name="producttype" onChange="get_product_amount('bartube_form')">
+                              <option class="enter_email_input">Select type</option>
+                               <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorytype(5);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['typename']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                           
+                            </select>
+                          </div>
+
+                          
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Size</label>
+                            <select class="" id="size_bartube_form" name="sizeid" onChange="get_product_amount('bartube_form')">
+                              <option class="enter_email_input" value="">select size</option>
+                               <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategory_sizes(5);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                           
+                            </select>
+                          </div>
+                          
+                          
+                        <div class="col-md-4  col-sm-3 col-xs-12">
+                        <label  class="labeloption" >Length</label>
+                            <select class="" id="length_bartube_form" name="length" onChange="get_product_amount('bartube_form')">
+                              <option class="enter_email_input" value="0">Select length</option>
+                              <?php 
+                                $length = $CI->Cyprus_model->getCategorylength(5);
+                              ?>
+                             <?php
+                                     
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['lengthname']; ?></option>
+                                        
+
+                                      <?php   }
+
+                                     ?>
+
+
+                            </select>
+                          </div>
+
+                     <!-- <div class="clearfix"></div> -->
+                    
+                          <div class="col-md-2  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Qty</label>
+                            
+                            <input type="text" name="qty" maxlength="4" id="qty_bartube_form" style="height:40px;" placeholder="Enter Qty" onKeyUp="get_product_amount('bartube_form');">
+                          </div>
+                          <div class="col-md-6  col-sm-3 col-xs-12">
+                        <div class="custom pull-left">
+                         
+                        </div>
+                      </div>
+                    
+                        </form>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="inst">
+                    <p>Bare Tube Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <!-- <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p> -->
+                  </div>
+                  <div class="total-section">
+                  <div class="col-md-12 col-h">
+                  <h3 style="color:#fff; font-size:16px; margin-top:0px;" id="msg_bartube_form"></h3>
+                  </div>
+                  <h1 id="amount_preinsulated_form">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+                  <h5><a href="javascript:void(0);" onClick="validateCartForm('bartube_form');">ADD TO CART</a></h5>
+                  </div>
+                     <div class="taxt-inc">
+                         <ol>
+                           <li> Delivery Charges will vary on Shipping Address. </li>
+                            <li> Tax Charges will vary on Billing Address. </li>
+                        </ol>
+                          </div>
+                  
+                  </div>
+                </div>
+                <!--<div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="total-section">
+                 <div class="col-md-12 col-h"> <h3 style="color:#fff; font-size:16px;" id="msg_bartube_form"></h3></div>
+                  <h1 id="amount_bartube_form">TOTAL : 0</h1>
+              
+                  <h5><a href="javascript:void(0)" onClick="validateCartForm('bartube_form');">ADD TO CART</a></h5>
+
+                  </div>                  
+                     <div class="taxt-inc">
+                          <p>
+                            1. Delivery Charges will vary on Shipping Address. <br>
+                            2. Tax Charges will vary on Billing Address.
+                        </p>
+                          </div>
+                  
+                  </div>
+                </div>-->
+              </div>
+            </div>
+            <!--==================NORMAL APPLICATIONS END======================--> 
+          
+      
+          
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+
+</div>
+
+
+

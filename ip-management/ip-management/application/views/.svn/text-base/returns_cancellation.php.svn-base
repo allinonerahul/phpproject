@@ -1,0 +1,86 @@
+<div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png" style="height:"> </div>
+
+<div class="container content_wrapper">
+<h1>PRODUCT RETURN AND ORDER CANCELLATION</h1>
+
+<div class="row" align="justify">
+<div class="col-xs-12 col-sm-6 content_heading">
+<p>Product returns and order cancellation are easy. Conveniently place your product return or order cancellation request online if you've received an item in a 'Damaged', 'Defective' or 'Not as Described' state. </p>
+<p>Please note that all items must be in new unused condition. In the event that an order needs to be returned, there will be a 10 % restocking fee and the buyer will be responsible for the return shipping charges. All returns will be paid at the sale price or current price of the product, whichever is lower within 7 days from receipt of returned material. All returns are subject to inspection by CU Stores LLP for damage. If a product is damaged no refund will be given.</p>
+<p>Please complete the form below to request for a product return.  On receipt of the below information, CU Stores LLP will review the order details and arrange for product returns as per CU Stores product return policies</p>
+</div>
+<div class="col-xs-12 col-sm-6 content_heading order-cancellation">
+<h3>Order Information</h3>
+<form action="<?php echo site_url();?>/cyprus/addReturnCancellation" method="post"> 
+
+	
+  <div class="form-group col-sm-6">
+
+    <!--<label for="firstname"></label>-->
+    <input type="text" class="form-control" name="first_name" placeholder="First Name">
+    <input type = "hidden" name="id" id="id" >
+  </div>
+    <div class="form-group col-sm-6">
+    <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+  </div>
+  
+  <div class="form-group col-sm-6">  
+    <input type="email" class="form-control" name="email" placeholder="Email Address">
+  </div>
+    <div class="form-group col-sm-6">
+    <input type="text" class="form-control" name="invoice_no" placeholder="Order No" value="">
+  </div>
+    <div class="form-group col-sm-6">  
+    <input type="text" class="form-control" name="order_date" placeholder="Order Date" value="">
+  </div>
+    <div class="form-group col-sm-6">
+    <input type="text" class="form-control" name="mobile_no" placeholder="Mobile Number">
+  </div>
+  <h4>Reason for Return or Cancellation:</h4>
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value="1">
+   Damaged', 'Defective' on  Arrival
+  </label>
+</div>
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value="2"> 
+	Faulty, please supply details
+  </label>
+</div>
+
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value="3"> 
+	Order Error
+  </label>
+</div>
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value="4"> 
+	Other, please supply details
+  </label>
+</div>
+<div class="radio">
+  <label>
+    <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> 
+	Received Wrong Item
+  </label>
+</div>
+
+<div class="form-group col-sm-12 margin-top-15">
+   <textarea class="form-control" rows="3"  name="message" placeholder="Message"></textarea>
+</div>
+ 
+  <button type="submit" class="btn btn-default">Submit</button>
+  
+</form>
+
+
+</div>
+</div>
+
+
+
+</div>

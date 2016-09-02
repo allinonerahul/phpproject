@@ -1,0 +1,175 @@
+
+<div id="page"> 
+  <!-- Header -->
+ 
+    <!-- end header -->
+   
+    <div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png"> </div>
+    <div class="tabsection">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12  col-sm-12 col-xs-12 border-1">
+            <ul class="nav nav-tabs">
+           
+              <li style="width:100%;" class="bc active"><a href="#normal" data-toggle="tab" class="ab" aria-expanded="false">INSULATION TUBESC<BR>
+   <span>&nbsp;</span>
+   </a></li>
+            
+            </ul>
+            <div class="tab-content "> 
+        
+            <!--==================NORMAL APPLICATIONS======================-->
+            <div class="tab-pane fade  active in" id="normal">
+            
+                <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>INSULATION TUBES</h2>
+                        <p>Cyprus  a flexible, closed-cell elastomeric tube insulation product used to conserve energy and prevent condensation on piping applications.</p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form id="insulation_tube_form">
+                          <input type="hidden" name="category_id" value="10">
+                          <input type="hidden" name="product_id" id="product_id_insulation_tube_form" value="">
+                          <div class="col-md-4  col-sm-4 col-xs-12">
+                          <label  class="labeloption" >Brand</label>
+                            <select class="" id="brand_insulation_tube_form" name="brand" onchange="get_product_amount('insulation_tube_form');">
+                              <option class="enter_email_input">Select brand</option>
+                              <?php
+                                     foreach ($brands as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          <div class="col-md-4  col-sm-4 col-xs-12">
+                          <label  class="labeloption" >Size</label>
+                            <select class="" id="size_insulation_tube_form" name="sizeid" onchange="get_product_amount('insulation_tube_form');">
+                             <option class="enter_email_input" value="">Select size</option>
+                             
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategory_sizes(10);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                             
+                            </select>
+                          </div>
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Guage</label>
+                            <select class="" id="guage_insulation_tube_form" name="producttype" onchange="get_product_amount('insulation_tube_form');">
+                              <option class="enter_email_input" value="0">Select guage</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorytype(10);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['typename']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                          <div class="col-md-4  col-sm-4 col-xs-12">
+                          <label  class="labeloption" >Length</label>
+                            <select class="" id="length_insulation" name="length" onchange="get_product_amount('insulation_tube_form');">
+                              <option class="enter_email_input" value="6">Select length</option>
+
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorylengthinsulation(10);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['lengthname']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                      
+                           <div class="col-md-2  col-sm-4 col-xs-12">
+                          <label  class="labeloption" >Qty</label>
+                          <br>
+                           
+                            <input type="text" name="qty" id="qty_insulation_tube_form" style="height:40px;" maxlength="4" placeholder="Enter Qty" onkeyup="get_product_amount('insulation_tube_form');">
+                          </div> 
+                          <div class="clearfix"></div>
+                         
+                          <div class="col-md-6  col-sm-4 col-xs-12">
+                        <div class="custom pull-left">
+                        </div>
+                      </div>
+
+                        </form>
+                      </div>
+                    </div>
+
+                    <!-- <div class="clearfix"></div> -->
+                    <div class="inst">
+                    <p>Insulation Tubes Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <!-- <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p> -->
+                  </div>
+                  <div class="total-section">
+                    <div class="col-md-12 col-h">
+                    <h3 style="color:#fff; font-size:16px; margin-top:0px;"  id="msg_insulation_tube_form"></h3>
+                  </div>
+                  <h1 id="amount_insulation_tube_form">TOTAL : 0</h1>
+                  <h5><a href="javascript::void(0)" onclick="validateCartForm('insulation_tube_form')">ADD TO CART</a></h5>
+                  <!-- <h5><button class="button btn-cart" id= "cart" title="Add to Cart" type="button" style="height:40px;">ADD TO CART</button></h5> -->
+
+                  <!-- <button class="button btn-cart" id= "cart" title="Add to Cart" type="button"><span><i class="icon-basket"></i> Add to Cart</span></button> -->
+                  <!-- <button><a href="<?php echo site_url(); ?>/glitzz/checkout">Checkout</a></button> -->
+                  </div>
+                  <div class="taxt-inc">
+                  <ol>
+                   <li> Delivery Charges will vary on Shipping Address. </li>
+                  <li>Tax Charges will vary on Billing Address.</li>
+                  
+              </ol>
+                  </div>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--==================NORMAL APPLICATIONS END======================--> 
+          
+      
+          
+        </div>
+       
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<!-- End Footer --> 
+<!-- JavaScript --> 
+

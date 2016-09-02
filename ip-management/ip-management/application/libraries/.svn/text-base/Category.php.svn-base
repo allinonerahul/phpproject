@@ -1,0 +1,68 @@
+<?php
+
+/* * ***************************************************************************\
+  +-----------------------------------------------------------------------------+
+  | Project        : glitss                                             |
+  | FileName       : category.php                                            |
+  | Version        : 1.0                                                        |
+  | Developer      : subedar Yadav                                              |
+  | Created On     : 30-10-2015                                                 |
+  | Modified On    :                                                            |
+  | Modified   By  :                                                            |
+  | Authorised By  :  subedar Yadav                                             |
+  | Comments       :  This class used for site config related acivity           |
+  | Email          : subedar2507@gmail.com                                      |
+  +-----------------------------------------------------------------------------+
+  \**************************************************************************** */
+
+class category {
+
+	 
+    public static $arrCategory = array();
+    
+
+    public static function getCategories($parentid = '',$limit='')
+    { 
+         $arrCategory = array();
+
+			$sql = "SELECT * FROM category WHERE 1 ";
+				if($parentid !=='')
+					$sql .=  " AND parentid =".$parentid;
+				
+				if($limit)
+					$sql .= "  LIMIT ".$limit;
+				$sql .= " ORDER BY orderno ASC ";
+//echo $sql;
+			  $CI =& get_instance();
+			 $query  = $CI->db->query($sql);
+			 $arrCategory = $query->result_array();
+            
+                   
+       return $arrCategory;
+    }
+
+
+	public static function getManufactures($type='retailer',$limit='')
+    { 
+         $arrManufactures =array();
+
+			$sql = "SELECT * FROM manufacturer WHERE 1 ";
+				if($type !=='')
+					$sql .=  " AND type ='".$type."'";
+				
+				if($limit)
+					$sql .= "  LIMIT ".$limit;
+
+			  $CI =& get_instance();
+			 $query  = $CI->db->query($sql);
+			 
+			 $arrManufactures = $query->result_array();
+            
+                   
+       return $arrManufactures;
+    }
+	
+
+}
+
+?>

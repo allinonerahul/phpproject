@@ -1,0 +1,725 @@
+<?php
+
+/* * ***************************************************************************\
+  +-----------------------------------------------------------------------------+
+  | Project        : glitss                                             |
+  | FileName       : cart.php                                            |
+  | Version        : 1.0                                                        |
+  | Developer      : subedar Yadav                                              |
+  | Created On     : 30-10-2015                                                 |
+  | Modified On    :                                                            |
+  | Modified   By  :                                                            |
+  | Authorised By  :  subedar Yadav                                             |
+  | Comments       :  This class used for site config related acivity           |
+  | Email          : subedar2507@gmail.com                                      |
+  +-----------------------------------------------------------------------------+
+  \**************************************************************************** */
+
+class cart {
+
+	 
+    public static $arrCart = array();
+    public static $totalPrice = 0.00;
+    public static $serviceCharge = 0.00;
+    public static $excisetax = 0.00;
+    public static $depositeCharge = 0.00;
+    public static $serviceType = '';
+    public static $totalDeliveryCharges = 0;
+    public static $totaldiscount = 0;
+    public static $totalQty;
+    public static $totalUnitprice;
+    public static $totalWeight;
+    public static $ordernumber;
+    public static $totalReferaldiscount;
+    public static $totalInvoiceamount;
+    public static $totalPyableamout;
+
+    public static function getOrderNumber()
+    {
+        if(!self::$ordernumber)
+        {
+            //create order number accoring to year-month-date-hours-minuts-seconds
+            self::$ordernumber = date('y').date('m').date('d').date('H').date('i').date('s');
+        }
+
+        return self::$ordernumber;
+    }
+    
+    /**
+     * Function for get cart
+     * @return <type> return cart
+     */
+    public static function getCart($seeeionid='',$userId='')
+    { 
+        if(empty(self::$arrCart))
+        { 
+			if($seeeionid)
+			{
+				//$sql = "SELECT *,cart.id as cartid , cart.productlenth as length FROM cart RIGHT JOIN product ON(cart.productid = product.id) WHERE sessionid ='".$seeeionid."' ";
+        //$sql = "SELECT *,cart.id as cartid , cart.productlenth as length,category.name as categoryname,category.type as categoytype,size.size as sizename, product_length.lengthname   FROM cart RIGHT JOIN product ON(cart.productid = product.id) RIGHT JOIN category ON (category.id=product.categoryid) RIGHT JOIN size ON (product.sizeid=size.id) RIGHT JOIN product_length ON (product.length=product_length.id) WHERE sessionid ='".$seeeionid."' ";
+				$sql = "SELECT *,cart.id as cartid ,product.weight, product_type.typename as producttype , cart.productlenth as length,brand.brand_name  as brandname ,category.name as categoryname,category.type as categoytype,size.size as sizename, product_length.lengthname   FROM cart RIGHT JOIN product ON(cart.productid = product.id)  RIGHT JOIN product_type ON(product.producttype = product_type.id) RIGHT JOIN brand ON (brand.id=product.brandid)  RIGHT JOIN category ON (category.id=product.categoryid) RIGHT JOIN size ON (product.sizeid=size.id) RIGHT JOIN product_length ON (product.length=product_length.id) WHERE sessionid ='".$seeeionid."' ";
+				
+				if($userId)
+					$sql .= " AND userid=".$userId;
+
+			  $CI =& get_instance();
+			 $query  = $CI->db->query($sql);
+			 self::$arrCart = $query->result();
+
+			 self::getTotalPrice($seeeionid,$userId);
+			}
+            
+        }           
+       return self::$arrCart;
+    }
+
+	
+	public static function getTotalPrice($seeeionid='',$userId='')
+	{
+
+		if($seeeionid)
+			{
+				 $sqltotal = "select round(sum(product.price * cart.quantity),2) as totalprice FROM cart RIGHT JOIN product ON(cart.productid = product.id) WHERE sessionid ='".$seeeionid."' ";
+				
+				if($userId)
+					$sqltotal .= " AND userid=".$userId;
+
+			 $CI =& get_instance();
+			 $query  = $CI->db->query($sqltotal);
+			 $objPrice  = $query->result();			 
+			 self::$totalPrice = $objPrice[0]->totalprice;
+			}
+	}
+
+       public static function getServicecharge($taxid)
+       {
+           //$totalPrice = self::$totalPrice;
+           if($taxid)
+           {
+             $sqlQuery = "select * from tax_master where id=".$taxid;
+
+             $CI =& get_instance();
+             $query  = $CI->db->query($sqlQuery);
+             $objPrice  = $query->result();
+             if($objPrice)
+             {
+                //self::$serviceCharge = ($totalPrice * $objPrice[0]->rate)/100;
+                self::$serviceType = $objPrice[0]->tax_type;
+              }
+           }
+
+              //return round(self::$serviceCharge,2);
+
+       }
+
+    public static function getdiscount($code,$cat_id,$minqty,$usertype)
+    {
+        if($code && $cat_id && $minqty && $usertype)
+        {
+              $cur_date = date('Y-m-d');
+              $CI =& get_instance();
+              $query =  $CI->db->query("select * from coupon where '$cur_date' between start_date and end_date and code = '$code' and category_id='$cat_id' and status='1' and (`min_qty`)<=$minqty and usertype='$usertype'");
+
+              return $query->row_array();
+        }
+
+    }
+
+    public static function getDeliveryCharges($locationId=0,$categoryId=0)
+    {
+        $deliveryCharges =0;
+        if($locationId && $categoryId)
+        {
+              $sqlQuery  = "select * from delivery_charges where location_id=".$locationId." AND category_id=".$categoryId;
+              $CI =& get_instance();
+              $query =  $CI->db->query($sqlQuery);
+
+              $DeliveryDetail =  $query->row_array();
+              if($DeliveryDetail)
+              {
+                $deliveryCharges = $DeliveryDetail['delivery_charges'];
+              }
+        }
+
+        return $deliveryCharges;
+
+    }
+
+       public static function getRefferalDiscount($refferalcode,$productprice)
+       {
+          //$totalPrice = self::$totalPrice;
+           $referalDiscount = '0.0';
+           if($refferalcode)
+           {
+             $sqlQuery = "select  u.id as uid, g.* from users u, grade g where u.promo_code='".$refferalcode."' AND u.grade_id= g.id";
+             $CI =& get_instance();
+             $query  = $CI->db->query($sqlQuery);
+             $objPrice  = $query->result();
+             if($objPrice)
+             {
+                $referalDiscount = ($productprice * $objPrice[0]->discount_rate)/100;
+              }
+           }
+
+              return round($referalDiscount,2);
+
+       }
+
+       public static function getSalespersonCommision($refferalcode)
+       {
+           $totalPrice = self::$totalPrice;
+           $referalDiscount = '0.0';
+           if($refferalcode)
+           {
+             $sqlQuery = "select  u.id as uid, g.* from users u, grade g where u.promo_code='".$refferalcode."' AND u.grade_id= g.id";
+             $CI =& get_instance();
+             $query  = $CI->db->query($sqlQuery);
+             $objPrice  = $query->result();
+             if($objPrice)
+             {
+                $referalDiscount = ($totalPrice * $objPrice[0]->commission_rate)/100;
+              }
+           }
+
+              return round($referalDiscount,2);
+
+       }
+
+
+	public static function deleteCart($cartId)
+	{
+
+		if($cartId)
+			{
+                            $sqltotal = "DELETE FROM cart  WHERE id=".$cartId;
+                            $CI =& get_instance();
+                            $CI->db->delete('cart', array('id' => $cartId));
+                            return ($CI->db->affected_rows() > 0) ? true : false;
+			}
+	}
+
+      public static function add_to_cart($data)
+        {
+           $CI =& get_instance();
+            $query = $CI->db->insert('cart', $data);
+            return True;
+         }
+
+          public static function getlocationiddelivery($userid)
+        {
+           $CI =& get_instance();
+          // $query = $CI->db->query("SELECT * FROM `cart` WHERE `sessionid` = '".$sessionid."' AND `productid` ='".$productid."'");      
+           $query = $CI->db->query("SELECT location_id FROM `address` WHERE `userid`='".$userid."' and `address_type`='ship'");    
+           //echo $this->db->last_query();die;  
+          return $query->row_array();
+         }
+            public static function getlocationidtax($userid)
+        {
+           $CI =& get_instance();
+        
+           $query = $CI->db->query("SELECT location_id FROM `address` WHERE `userid`='".$userid."' and `address_type`='bill'");    
+          return $query->row_array();
+         }
+
+
+      public static function check_product_exitin_cart($sessionid, $productid)
+       {
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT * FROM `cart` WHERE `sessionid` = '".$sessionid."' AND `productid` ='".$productid."'");      
+        return $query->row_array();
+    }
+
+
+    public static function update_cart($productid, $sessionid, $qty)
+     {
+        if($sessionid && $productid )
+        { 
+            $CI =& get_instance();
+            $query = $CI->db->query("UPDATE `cart` SET `quantity`=".$qty." WHERE  `sessionid` ='".$sessionid."' AND productid=".$productid);
+            return True;
+        }
+    }
+
+   public static function getUserAddress($addressId=0)
+   {
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT address.*,location.name as location FROM address LEFT JOIN location ON (address.location_id=location.id) WHERE address.id ='".$addressId."'");
+        return $query->row_array();
+    }
+
+
+   public static function getUserLocation($locationId=0)
+   {
+       $locationName ='';
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT * FROM location WHERE id =".$locationId);
+        $locationDetail =  $query->row_array();
+        
+        if($locationDetail)
+        {
+           $locationName =  $locationDetail['name'];
+        }
+        return $locationName;
+    }
+
+    public static function getlocationbilling($userid=0,$type='')
+   {
+       $locationName ='';
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT l.name as location  FROM address a left join location l on(a.location_id=l.id)  WHERE a.userid =$userid  and a.address_type='$type' ");
+        $locationDetail =  $query->row_array();
+        
+        if($locationDetail)
+        {
+           $locationName =  $locationDetail['location'];
+        }
+        return $locationName;
+    }
+
+   public static function checkProductType($productid=0,$sessionid)
+   {
+      $txtReturn =  true;
+       $arrCart = self::getCart($sessionid);
+       //print_r($arrCart);
+       if(count($arrCart))
+       {           
+            $CI =& get_instance();
+            $query = $CI->db->query("SELECT *, c.type as categorytype FROM product p RIGHT JOIN category c on (p.categoryid =c.id) WHERE p.id =".$productid);
+            $productType =  $query->row_array();
+
+            if($productType)
+            {
+                $productType =  $productType['categorytype'];
+
+               foreach($arrCart as $productDetails)
+               {
+                   if($productType != $productDetails->categoytype)
+                   {
+                        $txtReturn = false;
+                        break;
+                   }
+
+               }
+            }
+       }
+            return $txtReturn;
+    }
+
+/***
+ *  check product type exist in cart or not
+ */
+   public static function checkCartProductType($sessionid,$productType='')
+   {
+      $txtReturn =  false;
+       $arrCart = self::getCart($sessionid);
+       //print_r($arrCart);
+       
+       if(count($arrCart))
+       {            
+
+            if($productType)
+            {
+               foreach($arrCart as $productDetails)
+               {
+                   if($productType == $productDetails->categoytype)
+                   {
+                        $txtReturn = true;
+                        break;
+                   }
+
+               }
+            }
+       }
+            return $txtReturn;
+    }
+
+    public static function getTaxCharges($taxid,$billingLocation,$categoryid)
+    {
+        $taxdetail = array('taxvalue'=>0,'depositevalue'=>0);
+         $CI =& get_instance();
+         $query = $CI->db->query("SELECT * FROM tax_location_cat tl  WHERE tl.taxid ='".$taxid."' AND locationid='".$billingLocation."' AND categoryid='".$categoryid."'");
+         $productTax =  $query->row_array();
+         if($productTax)
+         {
+            $taxdetail['taxvalue']= $productTax['taxvalue'];
+            $taxdetail['depositevalue']= $productTax['depositevalue'];
+         }
+
+         return $taxdetail;
+    }
+
+
+      public static function getdeliverymsg($locationid, $quantity, $productid,$categoryid)
+      {
+            $newproductdetail=array('deliverytimemessage'=>'');
+
+                  $responsestock = stock::getstockwithcity($locationid, $quantity, $productid);
+                       if (!$responsestock)
+                          {
+                              if ($categoryid == 6 || $categoryid == 7 || $categoryid == 8 || $categoryid == 9 || $categoryid == 10)
+                              {
+
+                                $deliverytimemsg= self::getDeliverytimemsg_comercial_outstock($categoryid);
+                                 
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_msg_out_stock'];
+
+                                  //$newproductdetail['deliverytimemessage'] = '7 to 15 Woking Days';
+
+                              }
+                              else if ($categoryid == 4 || $categoryid == 5 )
+                              {
+                                $deliverytimemsg= self::getDeliverytimemsg_noncomercial_outstock($categoryid);
+                                 // print_r($deliverytimemsg);die;
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_msg_out_stock'];
+                              }
+                          }
+                           else
+                           {
+
+                             if ($categoryid == 6 || $categoryid == 7 || $categoryid == 8 || $categoryid == 9 || $categoryid == 10)
+                              {
+                                 // $newproductdetail['deliverytimemessage'] = '5 to 7 Working Days';
+                                 $deliverytimemsg= self::getDeliverytimemsg_comercial_instock($categoryid);
+                                 // print_r($deliverytimemsg);die;
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_message_in_stock'];
+
+                              }
+                              else if ($categoryid == 4 || $categoryid == 5 )
+                              {
+                                 $deliverytimemsg= self::getDeliverytimemsg_noncomercial_instock($categoryid);
+                                 // print_r($deliverytimemsg);die;
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_message_in_stock'];
+                                 // $newproductdetail['deliverytimemessage'] = '1 to 2 days Working';
+                              }
+                           }
+
+                           return $newproductdetail;
+
+      }
+
+
+    /***
+ *  check product type exist in cart or not
+ */
+   public static function setcartProductDeliveryCharges($sessionDetail,$locationid,$delivery_location)
+   {
+       //print_r($sessionDetail);die;
+      $txtReturn =  false;
+       $arrCart = self::getCart($sessionDetail['cartsession']);
+       $isService = self::checkCartProductType($sessionDetail['cartsession'],'services');
+
+       $billingLocation = 0;
+       //get user billing address location
+       
+           $billingAddress = self::getUserAddress($sessionDetail['billing_address']);
+            $billingLocation = $billingAddress['location_id'];
+          //echo  $billingLocation;
+            $taxid=$sessionDetail['taxid'];
+           /* $chktax=self::checktax($billingLocation,$taxid);
+            if(empty($chktax))
+            {
+              $taxid=11;
+
+            }
+            */
+            
+
+
+
+       $newCartArray = array();
+       if(count($arrCart))
+       {
+               foreach($arrCart as $productDetails)
+               {
+                 //echo "<pre>";print_r($productDetails);die;
+
+                   $newproductdetail = (array)$productDetails;
+                   $newproductdetail['deliverymessage'] ='';
+                   $newproductdetail['deliverycharge'] =0;
+                   $newproductdetail['taxamount'] =0;
+                   $newproductdetail['depositeamount'] =0;
+                   $newproductdetail['deliverytimemessage'] ='';
+                   $newproductdetail['discount'] =0;
+                   $newproductdetail['invoiceamount'] =0;
+                   $newproductdetail['referaldiscount'] =  self::getRefferalDiscount($sessionDetail['refcode'],$productDetails->quantity * $productDetails->price);
+           
+                  
+                  $exciseid = $sessionDetail['excisetax'];
+                  self::$totalQty +=$productDetails->quantity;
+                  self::$totalWeight +=$productDetails->weight;
+                  self::$totalUnitprice +=$productDetails->price;
+                  self::$totalReferaldiscount +=$newproductdetail['referaldiscount'];
+                  //calculate discount section
+                   $promocode  = $sessionDetail['promocode'];
+                    $usertype   = $sessionDetail['usertype'];
+                    $categoryid = $productDetails->categoryid;
+                    $minqty = $productDetails->quantity;
+
+                    $response   = cart::getdiscount($promocode,$categoryid,$minqty,$usertype);
+                    //print_r($response);die;
+                    if($response)
+                    {
+                         $subtotal= $productDetails->quantity * $productDetails->price;
+                        
+                        $productdiscount = $subtotal*$response['discount']/100;
+                        self::$totaldiscount += $productdiscount;
+                        $newproductdetail['discount'] = $productdiscount;
+                    }
+
+
+                  $taxcharges = self::getTaxCharges($taxid,$billingLocation,$productDetails->categoryid);
+                  if($taxid ==1 && $taxcharges['taxvalue']==0)
+                  {
+                      $taxid =11; // cst
+                      self::getServicecharge(11); // pass cst id for chnage name of tax type
+					  
+                      $taxcharges = self::getTaxCharges($taxid,$billingLocation,$productDetails->categoryid);
+                  }
+
+                  // calculate excise amount
+                  $excisetaxamt = self::getTaxCharges($exciseid,$billingLocation,$productDetails->categoryid);
+                  $newproductdetail['exciseamount'] =  round(($excisetaxamt['taxvalue'] * ($productDetails->quantity * $productDetails->price))/100,2);
+
+                  //calculate tax on product price and excise both
+                  $newproductdetail['taxamount'] =  round(($taxcharges['taxvalue'] * (($productDetails->quantity * $productDetails->price) + $newproductdetail['exciseamount']) )/100,2);
+
+                  //calculate deposite amount
+                  $newproductdetail['depositeamount'] =  round(($taxcharges['depositevalue'] * (($productDetails->quantity * $productDetails->price) + $newproductdetail['exciseamount']))/100,2);
+
+                  self::$serviceCharge = self::$serviceCharge + $newproductdetail['taxamount'];
+                  self::$excisetax = self::$excisetax + $newproductdetail['exciseamount'];
+                  self::$depositeCharge = self::$depositeCharge + $newproductdetail['depositeamount'];
+
+                   //check for delivery chages and its messsage
+                   if(!$isService)
+                   {                    
+                      //$newproductdetail['taxamount'] =0;
+
+                       $newproductdetail['deliverymessage'] ='Bone By Customer';
+
+                       if($productDetails->categoryid=='4' ||$productDetails->categoryid=='5' )
+                       {
+                           if($productDetails->quantity <6)
+                           {
+                             $locationdeliveryCharges =  self::getDeliveryCharges($delivery_location,$productDetails->categoryid);
+                             
+                            $newproductdetail['deliverycharge'] = round($locationdeliveryCharges * $productDetails->quantity,2);
+                            self::$totalDeliveryCharges = self::$totalDeliveryCharges + $newproductdetail['deliverycharge'];
+                            $newproductdetail['deliverymessage'] ='';
+                           }                           
+                       }                  
+                     
+                       //now check for delivery date and time message
+                       $responsestock = stock::getstockwithcity($locationid, $productDetails->quantity, $productDetails->productid);
+                       if (!$responsestock)
+                          {
+                              if ($productDetails->categoryid == 6 || $productDetails->categoryid == 7 || $productDetails->categoryid == 8 || $productDetails->categoryid == 9 || $productDetails->categoryid == 10)
+                              {
+
+                                $deliverytimemsg= self::getDeliverytimemsg_comercial_outstock($productDetails->categoryid);
+                                 
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_msg_out_stock'];
+
+                                  //$newproductdetail['deliverytimemessage'] = '7 to 15 Woking Days';
+
+                              }
+                              else if ($productDetails->categoryid == 4 || $productDetails->categoryid == 5 )
+                              {
+                                $deliverytimemsg= self::getDeliverytimemsg_noncomercial_outstock($productDetails->categoryid);
+                                 // print_r($deliverytimemsg);die;
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_msg_out_stock'];
+                              }
+                          }
+                           else
+                           {
+
+                             if ($productDetails->categoryid == 6 || $productDetails->categoryid == 7 || $productDetails->categoryid == 8 || $productDetails->categoryid == 9 || $productDetails->categoryid == 10)
+                              {
+                                 // $newproductdetail['deliverytimemessage'] = '5 to 7 Working Days';
+                                 $deliverytimemsg= self::getDeliverytimemsg_comercial_instock($productDetails->categoryid);
+                                 // print_r($deliverytimemsg);die;
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_message_in_stock'];
+
+                              }
+                              else if ($productDetails->categoryid == 4 || $productDetails->categoryid == 5 )
+                              {
+                                 $deliverytimemsg= self::getDeliverytimemsg_noncomercial_instock($productDetails->categoryid);
+                                 // print_r($deliverytimemsg);die;
+                                $newproductdetail['deliverytimemessage'] = $deliverytimemsg['delivery_message_in_stock'];
+                                 // $newproductdetail['deliverytimemessage'] = '1 to 2 days Working';
+                              }
+                           }
+                   }
+
+                   $newproductdetail['invoiceamount'] = (($productDetails->quantity * $productDetails->price) + $newproductdetail['taxamount'] + $newproductdetail['deliverycharge']) - ($newproductdetail['discount'] + $newproductdetail['referaldiscount']) ;
+                     self::$totalInvoiceamount +=$newproductdetail['invoiceamount'] ;
+
+                     $newproductdetail['payableamount'] = $newproductdetail['invoiceamount'] + $newproductdetail['depositeamount'];
+                     self::$totalPyableamout += $newproductdetail['payableamount'];
+
+                   $newCartArray[]= $newproductdetail;
+
+               }    
+       }
+
+        return $newCartArray;
+            
+    }
+
+    public static function checktax($billlocation,$taxid)
+    {
+
+      $CI =& get_instance();
+        $query = $CI->db->query("SELECT * FROM tax_location_cat WHERE locationid ='$billlocation' and taxid='$taxid' ");
+        return $query->row_array();
+        
+    } 
+
+    public static function getDeliverytimemsg_noncomercial_outstock($categoryid)
+    {
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT delivery_msg_out_stock FROM category WHERE id =".$categoryid);
+        return $query->row_array();
+        
+    }
+
+    public static function getDeliverytimemsg_noncomercial_instock($categoryid)
+    {
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT delivery_message_in_stock FROM category WHERE id =".$categoryid);
+        return $query->row_array();
+        
+    }
+
+    public static function getDeliverytimemsg_comercial_outstock($categoryid)
+    {
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT delivery_msg_out_stock FROM category WHERE id =".$categoryid);
+        return $query->row_array();
+        
+    }
+     public static function getDeliverytimemsg_comercial_instock($categoryid)
+    {
+        $CI =& get_instance();
+        $query = $CI->db->query("SELECT delivery_message_in_stock FROM category WHERE id =".$categoryid);
+        return $query->row_array();
+        
+    }
+
+
+      public static function convert_number_to_words($number)
+       {
+
+        $hyphen      = '-';
+        $conjunction = ' and ';
+        $separator   = ', ';
+        $negative    = 'negative ';
+        $decimal     = ' point ';
+        $dictionary  = array(
+            0                   => 'zero',
+            1                   => 'one',
+            2                   => 'two',
+            3                   => 'three',
+            4                   => 'four',
+            5                   => 'five',
+            6                   => 'six',
+            7                   => 'seven',
+            8                   => 'eight',
+            9                   => 'nine',
+            10                  => 'ten',
+            11                  => 'eleven',
+            12                  => 'twelve',
+            13                  => 'thirteen',
+            14                  => 'fourteen',
+            15                  => 'fifteen',
+            16                  => 'sixteen',
+            17                  => 'seventeen',
+            18                  => 'eighteen',
+            19                  => 'nineteen',
+            20                  => 'twenty',
+            30                  => 'thirty',
+            40                  => 'fourty',
+            50                  => 'fifty',
+            60                  => 'sixty',
+            70                  => 'seventy',
+            80                  => 'eighty',
+            90                  => 'ninety',
+            100                 => 'hundred',
+            1000                => 'thousand',
+            1000000             => 'million',
+            1000000000          => 'billion',
+            1000000000000       => 'trillion',
+            1000000000000000    => 'quadrillion',
+            1000000000000000000 => 'quintillion'
+        );
+
+        if (!is_numeric($number)) {
+            return false;
+        }
+
+        if (($number >= 0 && (int) $number < 0) || (int) $number < 0 - PHP_INT_MAX) {
+            // overflow
+            trigger_error(
+                'convert_number_to_words only accepts numbers between -' . PHP_INT_MAX . ' and ' . PHP_INT_MAX,
+                E_USER_WARNING
+            );
+            return false;
+        }
+
+        if ($number < 0) {
+            return $negative . self::convert_number_to_words(abs($number));
+        }
+
+        $string = $fraction = null;
+
+        if (strpos($number, '.') !== false) {
+            list($number, $fraction) = explode('.', $number);
+        }
+
+        switch (true) {
+            case $number < 21:
+                $string = $dictionary[$number];
+                break;
+            case $number < 100:
+                $tens   = ((int) ($number / 10)) * 10;
+                $units  = $number % 10;
+                $string = $dictionary[$tens];
+                if ($units) {
+                    $string .= $hyphen . $dictionary[$units];
+                }
+                break;
+            case $number < 1000:
+                $hundreds  = $number / 100;
+                $remainder = $number % 100;
+                $string = $dictionary[$hundreds] . ' ' . $dictionary[100];
+                if ($remainder) {
+                    $string .= $conjunction . self::convert_number_to_words($remainder);
+                }
+                break;
+            default:
+                $baseUnit = pow(1000, floor(log($number, 1000)));
+                $numBaseUnits = (int) ($number / $baseUnit);
+                $remainder = $number % $baseUnit;
+                $string = self::convert_number_to_words($numBaseUnits) . ' ' . $dictionary[$baseUnit];
+                if ($remainder) {
+                    $string .= $remainder < 100 ? $conjunction : $separator;
+                    $string .= self::convert_number_to_words($remainder);
+                }
+                break;
+        }
+
+        if (null !== $fraction && is_numeric($fraction)) {
+            $string .= $decimal;
+            $words = array();
+            foreach (str_split((string) $fraction) as $number) {
+                $words[] = $dictionary[$number];
+            }
+            $string .= implode(' ', $words);
+        }
+
+        return $string;
+    }
+
+}
+
+?>

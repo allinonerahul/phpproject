@@ -1,0 +1,634 @@
+
+
+    <!-- end header -->
+   <!-- <div class="mm-toggle-wrap">
+      <div class="mm-toggle"><i class="icon-align-justify"></i><span class="mm-label">Menu</span> </div>
+      <div class="mm-toggle-two"><a href="#"> <img src="images/mb_logo.png"> </a></div>
+    </div>-->
+    <div class="bread_crum_section"> <img src="<?php echo base_url();?>assets/images/vrc_img.png"> </div>
+    <div class="tabsection">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12  col-sm-12 col-xs-12 border-1">
+          <div class="copp-tab">
+            <ul class="nav nav-tabs">
+              <li class="tab-copp active"><a href="#vrv" data-toggle="tab" class="ab" aria-expanded="false">COPPER<br> TUBES
+                </a></li>
+              <li class="tab-copp"><a href="#normal" data-toggle="tab" class="ab" aria-expanded="false">COPPER <br>PIPES
+                </a></li>
+              <li  class=" tab-copp"><a href="#copper" data-toggle="tab" class="ab" aria-expanded="false">COPPER<br>
+                FITTINGS</a></li>
+              <li  class="tab-copp"><a href="#capility" data-toggle="tab" class="ab" aria-expanded="true">CAPILLARY<br>
+                TUBINGS</a></li>
+            </ul>
+            </div>
+            <div class="tab-content "> 
+              <!--==================VRV/VRFAPPLICATIONS======================-->
+              <div class="tab-pane fade  active in" id="vrv">
+                <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>COPPER TUBES</h2>
+                        <p>Cyprus pre-insulated Refrigeration ACR Copper Tubing Coils are manufactured to the chemical, mechanical,
+
+cleanness and eddy-current test requirements. </p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form id="copper_tube_form">
+
+                        <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Brand</label>
+                            <select class="" name="brand" onchange="get_product_amount('copper_tube_form')">
+                              <option class="enter_email_input">Select brand</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $brands = $CI->Cyprus_model->getbrands(6);
+
+                                //$data['brands']=$this->cyprus->getbrands(6);
+                                     foreach ($brands as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          <input type="hidden" name="category_id" value="6">
+                          <input type="hidden" name="product_id" id="product_id_copper_tube_form" value="">
+
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Type</label>
+                            <select class="" id="copper_tube_type" name="producttype" onchange="get_product_amount('copper_tube_form')">
+                              <option class="enter_email_input">Select type</option>
+                             
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorytype(6);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['typename']; ?></option>
+                                        
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Size</label>
+                            <select class="" id="size_copper_tube_form" name="sizeid" onchange="get_product_amount('copper_tube_form')">
+                              <option class="enter_email_input" value="">Select size</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategory_sizes(6);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Length</label>
+                            <select class="" id="length_copper_tube_form" name="length" onchange="get_product_amount('copper_tube_form')">
+                              <option class="enter_email_input" value="0">Select length</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorylength(6);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['lengthname']; ?></option>
+                                        
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+
+                          <div class="col-md-2  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Qty</label>
+                            <br>
+                            <input type="text" name="qty" id="qty_copper_tube_form" maxlength="3" style="height:40px;" placeholder="Enter Qty" onkeyup="get_product_amount('copper_tube_form')">
+                          </div> 
+
+                          
+                        </form>
+                      </div>
+                    </div>
+                    <!-- <div class="clearfix"></div> -->
+                    <div class="inst">
+                    <p>Copper Tubes Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  
+                  </div>
+                  <div class="total-section">
+                  <div class="col-md-12 col-h">
+                  <h3 style="color:#fff; font-size:16px; margin-top:0px;" id="msg_copper_tube_form"></h3>
+                  </div>
+                  <h1 id="amount_copper_tube_form">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+   <h5><a href="javascript::void(0)" onclick="validateCartForm('copper_tube_form')">ADD TO CART</a></h5>
+                  </div>
+                     <div class="taxt-inc">
+                        <ol>
+                      <li> Delivery Charges will vary on Shipping Address. </li>
+                          <li> Tax Charges will vary on Billing Address.</li>
+                       </ol>
+                          </div>
+                  
+                  </div>
+                </div>
+                <!--<div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                   <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="total-section">
+                   <div class="col-md-12 col-h"> <h3 style="color:#fff; font-size:16px;" id="msg_copper_tube_form"></h3></div>
+                  <h1 id="amount_copper_tube_form">TOTAL : 0</h1>
+                  <h5><a href="javascript::void(0)" onclick="validateCartForm('copper_tube_form')">ADD TO CART</a></h5>
+                  </div>
+                 <div class="taxt-inc">
+                          <p>
+                            1. Delivery Charges will vary on Shipping Address. <br>
+                            2. Tax Charges will vary on Billing Address.
+                        </p>
+                          </div>
+                  
+                  </div>
+                </div>-->
+              </div>
+            </div>
+            <!--==================VRV/VRFAPPLICATIONS END======================--> 
+            <!--==================NORMAL APPLICATIONS======================-->
+            <div class="tab-pane fade" id="normal">
+             <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>COPPER PIPES</h2>
+                        <p>Cyprus Refrigeration ACR Copper Straight Length Pipes are manufactured to Seamless Drawn Copper Specs: DIN
+
+1785 , DIN 1754 , BS 2871 , BS EN 1057</p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form id="copper_pipe_form">
+                        <div class="col-md-4  col-sm-3 col-xs-12">
+                        <label  class="labeloption" >Brand</label>
+                            <select class="" name="brand" onchange="get_product_amount('copper_pipe_form')">
+                              <option class="enter_email_input">Select brand</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $brands = $CI->Cyprus_model->getbrands(7);
+
+                                     foreach ($brands as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                           <input type="hidden" name="category_id"  value="7">
+                           <input type="hidden" name="product_id" id="product_id_copper_pipe_form" value="">
+                          
+
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Type</label>
+                            <select class="" id="type_copper_pipe_form" name="producttype" onchange="get_product_amount('copper_pipe_form')">
+                              <option class="enter_email_input" value="0">Select type</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorytype(7);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['typename']; ?></option>
+                                        
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                          
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Size</label>
+                            <select class="" id="size_copper_pipe_form" name="sizeid" onchange="get_product_amount('copper_pipe_form')">
+                              <option class="enter_email_input" value="">Select size</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategory_sizes(7);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                              
+                            </select>
+                          </div>
+                         
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Length</label>
+                            <select class="" id="length_copper_pipe_form" name="length" onchange="get_product_amount('copper_pipe_form')">
+                              <option class="enter_email_input" value="0">Select length</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorylength(7);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['lengthname']; ?></option>
+                                        
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                         
+                          <div class="col-md-2  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Qty</label>
+                            <input type="text" name="qty" id="qty_copper_pipe_form" style="height:40px;" maxlength="3" placeholder="Enter Qty" onkeyup="get_product_amount('copper_pipe_form')">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <!-- <div class="clearfix"></div> -->
+                    <div class="inst">
+                    <p>Copper Pipes Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                  <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  
+                  </div>
+                  <div class="total-section">
+                  <div class="col-md-12 col-h">
+                  <h3 style="color:#fff; font-size:16px; margin-top:0px;" id="msg_copper_pipe_form"></h3>
+                  </div>
+                  <h1 id="amount_copper_pipe_form">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+                   <h5><a href="javascript:void(0)" onclick="validateCartForm('copper_pipe_form')">ADD TO CART</a></h5>
+                  </div>
+                     <div class="taxt-inc">
+                        <ol>
+                        <li> Delivery Charges will vary on Shipping Address. </li>
+                          <li> Tax Charges will vary on Billing Address.</li>
+                        </ol>
+                          </div>
+                  
+                  </div>
+                </div>
+                <!--<div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="total-section">
+                  <h3 style="color:#fff; font-size:16px;" id="msg_copper_pipe_form"></h3>
+                  <h1 id="amount_copper_pipe_form">TOTAL : 0</h1>
+                  <h5><a href="javascript:void(0)" onclick="validateCartForm('copper_pipe_form')">ADD TO CART</a></h5>
+                  </div>
+                     <div class="taxt-inc">
+                          <p>
+                            1. Delivery Charges will vary on Shipping Address. <br>
+                            2. Tax Charges will vary on Billing Address.
+                        </p>
+                          </div>
+                  
+                  </div>
+                </div>-->
+              </div>
+            </div>
+            <!--==================NORMAL APPLICATIONS END======================--> 
+            <!--==================COPPER FITTING======================-->
+            <div class="tab-pane fade" id="copper">
+             <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>COPPER FITTINGS</h2>
+                        <p>Cyprus Refrigeration / ACR Copper Coils &amp; Straight lengths and Type K, L or M Coils &amp; Straight lengths copper
+
+fittings are Lead Free.</p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form id="copper_fitting_form">
+                        
+                            <div class="col-md-4  col-sm-3 col-xs-12">
+                            <label  class="labeloption" >Brand</label>
+                            <select class="" id="copper_brand" name="brand" onchange="get_product_amount('copper_fitting_form')">
+                              <option class="enter_email_input">Select brand</option>
+                              <?php
+                                    $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $brands = $CI->Cyprus_model->getbrands(8);
+                                     foreach ($brands as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                          <!-- <input type="hidden" name="length" value="1"> -->
+                          <input type="hidden" name="category_id" value="8">
+                        
+                          <input type="hidden" name="product_id" id="product_id_copper_fitting_form" value="">
+
+
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Size</label>
+                            <select class="" id="size_copper_fitting_form" name="sizeid" onchange="get_product_amount('copper_fitting_form')">
+                              <option class="enter_email_input" value="">Select size</option>
+                             <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategory_sizes(8);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption">Guage</label>
+                            <select class="" onchange="get_product_amount('copper_fitting_form')" name="producttype">
+                            <option class="enter_email_input">Select guage</option>
+                                <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorytype(8);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['typename']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Length</label>
+                            <select class="" id="fitting_length" name="length" id="lenght_copper_fitting_form" onchange="get_product_amount('copper_fitting_form')">
+                              <option class="enter_email_input" value="0">Select length</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategorylength(8);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['lengthname']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                     <!-- <div class="clearfix"></div> -->
+                          <div class="col-md-2  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Qty</label>
+                          <br>
+                            <input type="text" name="qty" id="qty_copper_fitting_form" style="height:40px;" maxlength="3" placeholder="Enter Qty" onkeyup="get_product_amount('copper_fitting_form')">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <!-- <div class="clearfix"></div> -->
+                    <div class="inst">
+                    <p>Copper Fitting Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                   <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  </div>
+                  <div class="total-section">
+                  <div class="col-md-12 col-h">
+                  <h3 style="color:#fff; font-size:16px; margin-top:0px;"  id="msg_copper_fitting_form"></h3>
+                  </div>
+                  <h1 id="amount_copper_fitting_form">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+                  <h5><a href="javascript::void(0)" onclick="validateCartForm('copper_fitting_form')">ADD TO CART</a></h5>
+                  </div>
+                     <div class="taxt-inc">
+                        <ol>
+                        <li> Delivery Charges will vary on Shipping Address. </li>
+                         <li>  Tax Charges will vary on Billing Address.</li>
+                      </ol>
+                          </div>
+                  
+                  </div>
+                </div>
+                <!--<div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="total-section">
+                 <h3 style="color:#fff; font-size:16px;" id="msg_copper_fitting_form"></h3>
+                  <h1 id="amount_copper_fitting_form">TOTAL : 0</h1>
+                  <h5><a href="javascript::void(0)" onclick="validateCartForm('copper_fitting_form')">ADD TO CART</a></h5>
+                  </div>
+                    <div class="taxt-inc">
+                          <p>
+                            1. Delivery Charges will vary on Shipping Address. <br>
+                            2. Tax Charges will vary on Billing Address.
+                        </p>
+                          </div>
+                  
+                  </div>
+                </div>-->
+              </div>
+            </div>
+      
+          <!--==================COPPER FITTING END======================--> 
+          <!--==================CAPILLARY STARTING======================-->
+          <div class="tab-pane fade" id="capility"> 
+          
+          <div class="vrf-section">
+                  <div class="col-lg-8">
+                    <div class="vrf-section">
+                      <div class="cpr-h">
+                        <h2>CAPILLARY TUBINGS</h2>
+                        <p></p>
+                      </div>
+                      <div class="select-frm-s">
+                        <h3>SELECT YOUR REQUIREMENT</h3>
+                      </div>
+                      <div class="form-section">
+                        <div class="search_offer_two">
+                        <form id="capillary_tube_form">
+                         
+
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" value=''>Brand</label>
+                            <select class="" id="brand_capillary_tube_form" name="brand" onchange="get_product_amount('capillary_tube_form');">
+                              <option class="enter_email_input" value=''>Select brand</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $brands = $CI->Cyprus_model->getbrands(9);
+
+                                     foreach ($brands as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+                         
+                          <div class="col-md-4  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Size</label>
+                            <select class="" id="size_capillary_tube_form" name="sizeid" onchange="get_product_amount('capillary_tube_form');">
+                              <option class="enter_email_input" value=''>Select size</option>
+                              <?php
+                                     $CI = & get_instance();
+                                     $CI->load->model('Cyprus_model');
+                                     $length = $CI->Cyprus_model->getCategory_sizes(9);
+                                     foreach ($length as $val) {?>
+                                      <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                      <?php   }
+
+                                     ?>
+                            </select>
+                          </div>
+                          
+
+                     <input type="hidden" name="length" value="48">
+                     <input type="hidden" name="category_id" value="9">
+                     <input type="hidden" name="producttype" value="6">
+                     <input type="hidden" name="product_id" id="product_id_capillary_tube_form" value="">
+                     
+
+
+                          <div class="col-md-2  col-sm-3 col-xs-12">
+                          <label  class="labeloption" >Qty</label>
+                          <br>
+                            <input type="text" name="qty" id="qty_capillary_tube_form" style="height:40px;" maxlength="3" placeholder="Enter Qty" onkeyup="get_product_amount('capillary_tube_form');">
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <!-- <div class="clearfix"></div> -->
+                    <div class="inst"> 
+                    <p>Cappilary Tubing Rate changes daily as per current dates copper rate.</p>
+                    </div>
+                  </div>
+                </div>
+                
+                
+                   <div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  </div>
+                  <div class="total-section">
+                  <div class="col-md-12 col-h">
+                  <h3 style="color:#fff; font-size:16px; margin-top:0px;" id="msg_capillary_tube_form"></h3>
+                  </div>
+                  <h1 id="amount_capillary_tube_form">TOTAL : 0</h1>
+                  <!-- <h5>ADD TO CART</h5> -->
+                 <h5><a href="javascript::void(0)" onclick="validateCartForm('capillary_tube_form')">ADD TO CART</a></h5>
+                  </div>
+                     <div class="taxt-inc">
+                       <ol>
+                        <li> Delivery Charges will vary on Shipping Address.</li>
+                         <li>Tax Charges will vary on Billing Address.</li>
+                    </ol>
+                          </div>
+                  
+                  </div>
+                </div>
+                <!--<div class="col-lg-4">
+                  <div class="sidebar-section"> 
+                  <div class="amount">
+                  <h2>AMOUNT PAYABLE</h2>
+                  <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                  </div>
+                  <div class="total-section">
+                  <h3 style="color:#fff; font-size:16px;" id="msg_capillary_tube_form"></h3>
+                  <h1 id="amount_capillary_tube_form">TOTAL : 0</h1>
+                  <h5><a href="javascript::void(0)" onclick="validateCartForm('capillary_tube_form')">ADD TO CART</a></h5>
+                  </div>
+                 <div class="taxt-inc">
+                          <p>
+                            1. Delivery Charges will vary on Shipping Address. <br>
+                            2. Tax Charges will vary on Billing Address.
+                        </p>
+                          </div>
+                  
+                  </div>
+                </div>-->
+              </div>
+          </div>
+        </div>
+        <!--==================CAPILLARY END======================--> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+</div>
+<!--<div id="mobile-menu">
+  <ul>
+    <li> </li>
+    <li>
+      <div class="home"><a href="#"><i class="icon-home"></i>Home</a> </div>
+    </li>
+    <li><a href="#">ABOUT US</a> </li>
+    <li ><a href="#" >PRODUCTS</a> </li>
+    <li><a href="#">FAQS</a></li>
+    <li><a href="#">SIGN UP/ LOGIN</a> </li>
+    <li><a href="#">FAQS</a></li>
+    <li><a href="#">CART</a> </li>
+  </ul>
+</div>-->

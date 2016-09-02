@@ -1,0 +1,292 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/adapters/jquery.js"></script>
+<!--<script type="text/javascript" src="<?php echo base_url();?>/ckfinder/ckfinder.js"></script>-->
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="<?php echo site_url('admin/admin/stock_master'); ?>">Manage Stock</a><span class="divider">&nbsp;</span></li>
+                    <li><a href="#">Edit Stock</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div id="page" class="dashboard">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><i class="icon-reorder"></i>Edit Stock</h4>
+                        </div>
+                        <div class="widget-body">
+                            <!-- BEGIN FORM-->
+                            <form action="<?php echo site_url(); ?>/admin/admin/update_stock" class="form-horizontal" name="add_article" id="add_article" method="post" enctype="multipart/form-data">
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <?php if (isset($msg) && $msg != '') { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (isset($err) && $err != '') { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                <?php } ?>
+                        
+
+                        <?php foreach ($result as $row):?>
+                                 <input type="hidden" name="id" value="<?php echo $row['id'];?>">    
+                                
+                                <div class="row-fluid">
+                                    <div class="span6 ">
+                                    <div class="control-group">
+                                        <label class="control-label">Stock<font color="red"> *</font></label>                                      
+                                        <div class="controls">
+                                        <input type="text" placeholder="stock" value="<?php echo $row['stockvalue'];?>" class="input-xlarge" name="stock" id="stock" required/>
+                                        </div>
+                                       
+                                    </div>   
+                                    </div>
+                                     </div>
+
+
+                                <?php endforeach; ?>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary"> SUBMIT </button>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE FORM PORTLET-->
+            </div>
+        </div>			
+    </div>
+</div>
+</div>
+
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+
+<script type="text/javascript">
+
+$("#thickness1").change(function(){
+    //alert("The text has been changed.");
+  var od=$("#od").val();
+  var thickness=$("#thickness").val();
+  var od1=$("#od1").val();
+  var thickness1=$("#thickness1").val();
+
+  var cal=(od-thickness)*thickness*0.00859+(od1-thickness1)*thickness1*0.00859;
+  //alert(weight);
+  var  weight= cal.toFixed(3)
+  $("#weight").val(weight);
+
+});
+
+$("#fab_pkg").change(function(){
+    //alert("The text has been changed.");
+  var weight=$("#weight").val();
+  var cu_pkg=$("#cu_pkg").val();
+  var fab_pkg=$("#fab_pkg").val();
+  //var thickness1=$("#thickness1").val();
+//alert(fab_pkg);
+ // var cal=(od-thickness)*thickness*0.00859+(od1-thickness1)*thickness1*0.00859;
+  //alert(weight);
+  var cal=weight*(parseInt(cu_pkg) + parseInt(fab_pkg));
+  var  fg_pft= cal.toFixed(3);
+  $("#fg_pft").val(fg_pft);
+
+});
+
+
+
+
+// $("#category").change(function() {
+  
+//           var cat_id = $("#category").val();
+//           var  url="<?php echo site_url()?>/admin/admin/getcat"
+//           //alert(cat_id);
+//             var top = $("#cattype").find('option:first');
+//         // alert();
+//             $.ajax({
+//                 type: "POST",
+//                 url: url,
+//                 dataType: 'json',
+//                 data: {'cat':cat_id},
+
+//                 success: function (data) {
+//               //alert(data);
+//                     if (data) {
+//                        //alert(data);
+//                        $("#cattype").empty().append(top);
+//                        $.each(data, function (index, value) {
+//                       $("#cattype").append('<option value="'+ value.id +'">'+ value.type +'</option>');
+//                   });
+             
+//                     }
+//                      $("#cattype").prop('disabled', false);
+//                 },
+//                 error: function () {
+//                     alert('error handing here');
+//                 }
+//             });
+//             return false;
+//     });
+
+</script> 
+
+<script>
+    jQuery(document).ready(function() {
+        FormValidation.init();
+
+
+</script>
+
+                                           <script type="text/javascript">
+                            
+                            
+                            //                            CKEDITOR.replace( 'editor1', {
+                            //                                filebrowserBrowseUrl: '/browser/browse.php',
+                            //                                filebrowserUploadUrl: '/uploader/upload.php'
+                            //                            });
+                            
+                            var editor = CKEDITOR.replace( 'editor1', {
+                                filebrowserBrowseUrl : '<?php echo base_url();?>/ckfinder/ckfinder.html',
+                                filebrowserImageBrowseUrl : '<?php echo base_url();?>/ckfinder/ckfinder.html?type=Images',
+                                filebrowserFlashBrowseUrl : '<?php echo base_url();?>/ckfinder/ckfinder.html?type=Flash',
+                                filebrowserUploadUrl : '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                                filebrowserImageUploadUrl : '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                                filebrowserFlashUploadUrl : '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+                            });
+                            
+                            CKFinder.setupCKEditor( editor, '../' );
+                            
+                            
+                           $(document).ready(function() {
+                                var ckeditor = CKEDITOR.replace('addArticle', {
+                                    filebrowserImageUploadUrl: '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=/test/'
+                                });
+                                CKFinder.setupCKEditor(
+                                ckeditor,
+                                {
+                                    basePath: '<?php echo base_url();?>/ckfinder/',
+                                    startupPath: 'Images:/test/'
+                                }
+                            );
+                            });
+
+
+
+
+
+
+
+                            var i=0;     
+                            $('#add_new').click(function() {
+                                // document.getElementById('ans').style.display="block";
+
+                                var table = $("#maintable");    
+                                console.log(table.find('tr').length);
+                                i++;
+
+
+                                if (table.find('.rows').length < 8) {
+                                    var x = $(this).closest('tr').nextAll('tr');
+
+                                    $.each(x, function(i, val) {
+                                        val.remove();
+                                    });
+
+
+                                    //var newtable='<tr class="rows"><td style="padding:5px;"><input type="text" style="width:200px;margin-left:100px;"   name="time[]" /></td><td style="padding:5px;"><input type="text" style="width:200px;margin-left:100px;"  name="url[]" /></td></tr>';
+
+                                    var newtable='<tr class="rows"><td><span style="width:200px;margin-left:40px;">Answer '+i+'</span></td><td><input  type="file" name="answerone_file[]"  id="answerone_file"  /> <input type="radio" name="correct_answer" value="'+i+'"></td></tr>';
+
+                                    table.append(newtable);
+
+
+                                    $.each(x, function(i, val) {
+
+                                        table.append(val);
+                                    });
+
+                                }
+                            });
+
+
+                        </script>
+                        
+        <script type="text/javascript">
+                            $(document).ready(function (){ 
+                            $("#language").change(function() {
+
+                                if ($("#language").val() == "") {
+                                    //$("#state").val("");
+                                    $("#category").val("");
+                                }
+                                var id = jQuery('#language option:selected').val();
+                                 //alert(state_id);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo site_url() ?>/admin/admin/get_category",
+                                    data: {'id': id,'noheader':1},
+                                    success: function(data) {
+                                        $('#category').html(data);
+                                    }
+                                });
+                            });
+                            });
+
+
+
+
+
+// $(document).bind("keyup", null, function(event) {
+//      alert('holhgo');
+//         if (event.keyCode == 27) { 
+
+//             alert('holhgo');
+//                       }
+//     });
+
+  // window.onbeforeunload = confirmExit;
+  // function confirmExit()
+  // {
+  //   return "You have attempted to leave this page.  If you have made any changes to the fields without clicking the Save button, your changes will be lost.  Are you sure you want to exit this page?";
+  // }
+  //                           </script>              
+
+ 

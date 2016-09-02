@@ -1,0 +1,208 @@
+
+
+<div id="main-container" >
+    <div class="main-inner md-h" >
+        <div class="container" >
+            <div class="row">
+
+                <!-- /span6 -->
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4><i class="icon-reorder" style="font-size:14px !important; "></i>List Order</h4>
+                    </div>
+                    <div class="widget-content" style="padding:30px;">
+                        
+                        <form action="<?php echo site_url(); ?>/cyprus/comission" method="get" id="misscall" class="printdata" style="margin-top: 0px;" >
+
+                            <div class="col-md-12">
+
+                                <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                <label >Date To:</label>
+                                <input name="filter_fdate" type="text" style="height:30px;"  id="datepicker3"value="<?php
+                                if (isset($filter_fdate)) {
+                                    echo $filter_fdate;
+                                }
+                                ?>"/>
+                            </div>
+                              <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                <label >Date From:</label>
+                                <input name="filter_ldate" type="text" style="height:30px;" id="datepicker4" value="<?php
+                                if (isset($filter_ldate)) {
+                                    echo $filter_ldate;
+                                }
+                                ?>"/>
+                            </div>
+                             <div class="col-md-3 col-sm-3 col-xs-12 ">
+
+                                <input name="filter_search" type="text"
+                                     placeholder=" Search" style="height:30px; width:250px;" value="<?php
+                                       if (isset($filter_search)) {
+                                           echo $filter_search;
+                                       }
+                                       ?>"/>
+                            </div>
+
+                             <div class="col-md-3 col-sm-3 col-xs-12 ">
+                                
+                                <button class="btn btn-success"  type="submit"  >Search</button>
+                            </div>
+                            </div>
+                            <!-- <div id="export_excel" style="margin-left:1053px;">
+                            <a href="javascript:void(0);" class="btn" onclick="$('.printdata').attr('action', '<?php echo site_url() ?>/admin/exportIncome'); $('.printdata').submit();" style=""><b>Export to Excel</b></a>
+                           </div> -->
+
+                        </form>
+                        <!-- <h4 style="font-size: 17px;margin-top:-10px;">Total Expenses :<?php echo $total['SUM(amount)']; ?></h4> -->
+                        <div style="clear:both;"></div>
+                        <form action="<?php echo site_url(); ?>/admin/insert_item" class="form-horizontal" name="add_design_category" id="add_design_category" method="post">
+
+                            <div class="space15"></div>
+                            <?php if ($this->session->flashdata('msg')) { ?>
+                                <div class="alert alert-success" style="margin:10px 10px 0 10px;">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $this->session->flashdata('msg'); ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($this->session->flashdata('error')) { ?>
+                                <div class="alert alert-error" style="margin:10px 10px 0 10px;">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $this->session->flashdata('error'); ?>
+                                </div>
+                            <?php } ?>
+
+                            <?php if ($this->session->flashdata('delete')) { ?>
+                                <div class="alert alert-success" style="margin:10px 10px 0 10px;">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $this->session->flashdata('delete'); ?>
+                                </div>
+                            <?php } ?>
+                            <?php if ($this->session->flashdata('update')) { ?>
+                                <div class="alert alert-success" style="margin:10px 10px 10px 10px;">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    <?php echo $this->session->flashdata('update'); ?>
+                                </div>
+                            <?php } ?>
+                            <div class="space15"></div>
+
+                        </form>
+                        <?php
+                                    $CI = & get_instance();
+                                    $CI->load->model('Cyprus_model');
+                                    $userid=$_SESSION['id'];
+                                    $refcode=$this->cyprus->getrefcode($userid);
+                                    
+                                    $comission=$this->cyprus->getcomission($refcode['promo_code']);
+                                    $reamcomission=$this->cyprus->getcomissionremeaing($refcode['promo_code']);
+                                    $paidcomission=$this->cyprus->getcomissionpaid($refcode['promo_code']);
+                                   // print_r($paidcomission);
+                                    $gradeval=$this->cyprus->getgrade($userid);
+                                   // $comision_amt=$comission['total']*$gradeval['commission_rate']/100;
+                                     ?>
+                        <div style="float:right;padding:20px;margin-right:50px;"><span class="badge" style="color:white;padding:7px;font-size:15px;">Total Comission : Rs <?php if(!empty($comission['total'])) echo $comission['total']; else echo "0"; ?></span></div>
+                        <div style="float:right;padding:20px;margin-right:50px;"><span class="badge" style="color:white;padding:7px;font-size:15px;">Reamaning Comission : Rs <?php if(!empty($reamcomission['total'])) echo $reamcomission['total']; else echo "0"; ?></span></div>
+                        <div style="float:right;padding:20px;margin-right:50px;"><span class="badge" style="color:white;padding:7px;font-size:15px;">Paid Comission : Rs <?php  if(!empty($paidcomission['total'])) echo $paidcomission['total']; else echo "0"; ?></span></div>
+                        <div id="normal" style="margin-top:20px;">
+<div class="col-md-12">
+                            <form name="admin_user_form" id="form" action="" method="post" >
+                                <table class="table table-striped table-hover table-bordered" id="sample_editable_1">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%;">Sr No.</th>
+                                           <!--  <th><input type="checkbox" name="articleid[]" class="group-checkable" data-set="#sample_2 .checkboxes" onchange="checkAll(this)" /></th> -->
+                                            <th style="width:15%;">Date</th>
+                                            <th style="width:15%;">Invoice No</th>
+                                            <th style="width:15%;">Order By</th>
+                                            <th style="width:15%;">Amount</th>
+                                            <th style="width:15%;">Status</th>
+                                            <th style="width:15%;">Comission %</th>
+                                            <th style="width:15%;">Comission Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $count = 0;
+                                     
+                                        if ($result) {
+                                            foreach ($result as $value) {
+                                             $count++;   ?>
+                                                
+                                                    <tr>
+                                                <td><?php echo $count; ?></td>
+                                                <td><?php echo $value['date_added']; ?></td>
+                                                <td><?php echo $value['invoice_no']; ?></td>
+                                                <td><?php echo $value['firstname']; ?></td>
+                                                <td><?php echo $value['total']; ?></td>
+                                                <td><?php if($value['refferal_commion_status']==0)
+                                                {
+                                                    echo "Not Paid";
+                                                }
+                                                else{
+                                                    echo "Paid";
+                                                    } ?></td>
+                                                <td><?php echo $gradeval['commission_rate']; ?></td>
+                                                <td><?php echo $value['refferal_commision']; ?></td>
+                                                <!-- <td><?php echo $value['total']*$gradeval['discount_rate']/100; ?></td> -->
+                                            </tr>
+
+                                                <?php
+                                            }
+                                        } else {
+                                            echo '<tr><td colspan="6"> No results found</td></tr>';
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </form>
+                            </div>
+                            <?php if (!empty($result)) { ?>    
+                                <div class="row-fluid">
+                                    <div class="span6">
+                                        <div style="margin-top: 5px;">
+                                            <?php /*echo "Showing $result_start to $result_end of " . $this->pagination->total_rows . " entries";*/ ?>
+                                        </div>
+                                    </div>
+                                    <div class="span6">
+                                        <?php echo $pagination; ?>
+                                    </div>
+                                </div>
+                            <?php } ?> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+    <script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
+    <script>
+
+
+        function download_excel() {
+            $('#addstatus').attr('action', '<?php echo site_url('admin/exportIncome'); ?>');
+            //$('#download_excel').val('1');
+            $('#addstatus').submit();
+            // $('#download_excel').val('');
+        }
+
+        $(function () {
+            $("#datepicker3").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd', // iso format
+            });
+
+        });
+
+        $(function () {
+            $("#datepicker4").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy-mm-dd', // iso format
+            });
+
+
+        });
+
+    </script>
+
+</div>

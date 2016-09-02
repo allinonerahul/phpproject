@@ -1,0 +1,471 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/adapters/jquery.js"></script>
+<!--<script type="text/javascript" src="<?php echo base_url();?>/ckfinder/ckfinder.js"></script>-->
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="<?php echo site_url('admin/admin/manage_product'); ?>">Manage Product price</a><span class="divider">&nbsp;</span></li>
+                    <li><a href="#">Update Product Price</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div id="page" class="dashboard">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><i class="icon-reorder"></i>Update Product price</h4>
+                        </div>
+                        <div class="widget-body">
+                            <!-- BEGIN FORM-->
+                            <form action="<?php echo site_url(); ?>/admin/admin/updateproductprice" class="form-horizontal" name="add_article" id="add_article" method="post" enctype="multipart/form-data">
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <?php if (isset($msg) && $msg != '') { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (isset($err) && $err != '') { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                <?php } ?>
+                        
+                              
+
+                                <div class="row-fluid">            
+                                  <div class="span6 ">
+                                    <div class="control-group">
+                                      <label class="control-label" >Category<font color="red"> *</font></label>
+                                          <div class="controls">
+                                               <!-- <textarea class="ckeditor" id="editor1" name="title"></textarea> -->
+                                             <select  style="float:left;margin-left:-4px;" name="categoryid" id="category" required onchange="getbrands()">
+                                             <option value="">Select Category</option>
+                                             <?php foreach ($category as $val) { ?>
+                                                 <option value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
+                                             <?php } ?>                                    
+                                             </select>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="row-fluid">            
+                                    <div class="span6 ">
+                                         <div class="control-group">
+                                            <label class="control-label">Brand<font color="red"> *</font></label>
+                                            <div class="controls">
+                                               
+                                                 <select  style="float:left;margin-left:-4px;" name="brandid" id="brand_name" required>
+                                                <option value="">Select Brand</option>
+                                               <?php foreach ($brand_name as $val) { ?>
+                                                 <option value="<?php echo $val['id']; ?>"><?php echo $val['brand_name']; ?></option>
+                                              <?php } ?>                        
+                                            </select> 
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               <div class="row-fluid">            
+		                                    <div class="span6 ">
+		                                         <div class="control-group">
+		                                            <label class="control-label">Product Type<font color="red"> *</font></label>
+		                                            <div class="controls">
+		                                                 
+		                                                 <select  style="float:left;margin-left:-4px;" name="producttypeid" id="producttype" required>
+		                                                <option value="" >Select Type</option>
+		                                                             
+		                                            </select> 
+
+		                                            </div>
+		                                        </div>
+		                                   </div>
+                               </div>
+                                
+                               
+
+                                <div class="row-fluid">
+                                  <div class="span6 " style=" width:48%">
+                                    <div class="control-group">
+                                      <label class="control-label">CU RM Packaging(Rs)<font color="red"> *</font></label>                                      
+                                      <div class="controls">
+                                        <input type="text" placeholder="Enter CU Packaging"  class="input-xlarge" name="cu_rm" id="cu_pkg" required />
+                                      </div>
+                                    </div>   
+                                  </div>
+                               
+                                  <div class="span6 " style=" width:48%">
+                                    <div class="control-group">
+                                      <label class="control-label">FAB Packaging(Rs)<font color="red"> *</font></label>                                      
+                                      <div class="controls">
+                                        <input type="text" placeholder="Enter FAB Packaging" class="input-xlarge" name="fab_pkg" id="fab_pkg" required />
+                                      </div>
+                                    </div>   
+                                  </div>
+                                </div>
+
+                                 <!-- <div class="row-fluid">
+                                  <div class="span6 ">
+                                    <div class="control-group">
+                                      <label class="control-label">FG PFT(Rs)<font color="red"> *</font></label>                                      
+                                      <div class="controls">
+                                        <input type="text" placeholder="Enter FG PFT" onkeyup="calculateprice()" class="input-xlarge" name="fg_pft" id="fg_pft"  />
+                                      </div>
+                                    </div>   
+                                  </div>
+                                </div>
+ -->
+                               <!--  <div class="row-fluid">
+                                 <div class="span6 " style=" width:48%">
+                                    <div class="control-group">
+                                      <label class="control-label">Min Quantity<font color="red"> *</font></label>                                      
+                                      <div class="controls">
+                                        <input type="text" placeholder="Enter minimum quantity" class="input-xlarge" name="min_qty" id="min_qty" />
+                                      </div>
+                                    </div>   
+                                  </div>
+                               
+                                  <div class="span6 " style=" width:48%">
+                                    <div class="control-group">
+                                      <label class="control-label">Max Quantity<font color="red"> *</font></label>                                      
+                                      <div class="controls">
+                                        <input type="text" placeholder="Enter maximum quantity"  class="input-xlarge" name="max_qty" id="max_qty" />
+                                      </div>
+                                    </div>   
+                                  </div>
+                                </div> -->
+
+                                <div class="row-fluid">
+                                  <div class="span6 " style=" width:48%">
+                                    <div class="control-group">
+                                      <label class="control-label">Insulation PFT<font color="red"> *</font></label>                                      
+                                      <div class="controls">
+                                        <input type="text" placeholder="Insulation PFT"  class="input-xlarge" name="insulation_pft" id="insulation_pft" required />
+                                      </div>
+                                    </div>   
+                                  </div>
+                                
+                                  <div class="span6 " style=" width:48%">
+                                    <div class="control-group">
+                                      <label class="control-label">Packaging PFT<font color="red"> *</font></label>                                      
+                                      <div class="controls">
+                                        <input type="text" placeholder="Enter packaging PFT"  class="input-xlarge" name="packaging_pft" id="packaging_pft" required />
+                                      </div>
+                                      
+                                    </div>   
+                                  </div>
+                                </div>
+                              </div>  
+                              
+                               <!--  <div class="row-fluid">
+                                    <div class="span6 ">
+                                        <div class="control-group">
+                                          <label class="control-label">Price<font color="red"> *</font></label>
+                                          <div class="controls">
+                                            
+                                            <input type="text" placeholder="Price" class="input-xlarge" name="price" id="price"    />
+                                           
+                                        </div>
+                                        <p style="margin-left:179px;color:red;" id="msgerror"><span></span></p>
+                                        </div>
+                                    </div>
+                                </div> -->
+                               
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary"> SUBMIT </button>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE FORM PORTLET-->
+            </div>
+        </div>			
+    </div>
+</div>
+</div>
+
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+
+   
+
+       
+ <script type="text/javascript">
+
+function getbrands()
+{
+	//alert($('#category').val());
+	var cat_id=$('#category').val();
+
+	 var top = $("#brand_name").find('option:first');
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<?php echo site_url(); ?>/admin/admin/getbrands",
+                data: {"cat_id":cat_id,'noheader':1},
+                
+                success: function (data) {
+                    if (data) {
+                       //alert(data);
+                       $("#brand_name").empty().append(top);
+                       $.each(data, function (index, value) 
+                      {
+               
+                      $("#brand_name").append('<option value="'+ value.id +'">'+ value.type +'</option>');
+                  	});
+             
+                    }
+                     $("#brand_name").prop('disabled', false);
+                  
+                },
+                error: function () {
+                    alert('error handing here');
+                }
+            });
+            return false;
+}
+
+function calculateprice()
+{
+  //alert();
+
+  var insupft=$('#insulation_pft').val();
+  var pkgpft=$('#packaging_pft').val();
+  var fgpft=$('#fg_pft').val();
+  
+  //alert(l);
+  var price=0;
+
+  if(insupft!='' && pkgpft!='' && fgpft!='')
+  {
+    var price=(parseInt(insupft) + parseInt(pkgpft)+ parseInt(fgpft));
+    price.toFixed(3)
+    $('#price').val(price);
+    return false;
+  }
+  else
+  {
+    $('#price').val(price);
+    
+
+  }
+  
+  
+
+}
+
+
+$("#thickness").change(function(){
+    //alert("The text has been changed.");
+  var od=$("#od").val();
+  var thickness=$("#thickness").val();
+
+
+
+  var cal=(od-thickness)*thickness*0.00859;
+  //alert(weight);
+  var  weight= cal.toFixed(3)
+  $("#weight").val(weight);
+
+});
+
+$("#thickness1").change(function(){
+    //alert("The text has been changed.");
+  var od=$("#od").val();
+  var thickness=$("#thickness").val();
+  var od1=$("#od1").val();
+  var thickness1=$("#thickness1").val();
+
+
+  var cal=(od-thickness)*thickness*0.00859+(od1-thickness1)*thickness1*0.00859;
+  //alert(weight);
+  var  weight= cal.toFixed(3)
+  $("#weight").val(weight);
+
+});
+
+$("#fab_pkg").change(function(){
+    //alert("The text has been changed.");
+  var weight=$("#weight").val();
+  var cu_pkg=$("#cu_pkg").val();
+  var fab_pkg=$("#fab_pkg").val();
+  //var thickness1=$("#thickness1").val();
+//alert(fab_pkg);
+ // var cal=(od-thickness)*thickness*0.00859+(od1-thickness1)*thickness1*0.00859;
+  //alert(weight);
+  var cal=weight*(parseFloat(cu_pkg) + parseFloat(fab_pkg));
+  var  fg_pft= cal.toFixed(2);
+  $("#fg_pft").val(fg_pft);
+
+});
+
+
+ 
+  
+  $("#category").change(function() {
+  //alert("In Add to Cart");
+            var cat_id = $("#category").val();
+            
+           var top = $("#producttype").find('option:first');
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<?php echo site_url(); ?>/admin/admin/getcat_type",
+                data: {"cat_id":cat_id,'noheader':1},
+                
+                success: function (data) {
+                    if (data) {
+                       //alert(data);
+                       $("#producttype").empty().append(top);
+                       $.each(data, function (index, value) {
+               
+                      $("#producttype").append('<option value="'+ value.id +'">'+ value.type +'</option>');
+                  });
+             
+                    }
+                     $("#producttype").prop('disabled', false);
+                  
+                },
+                error: function () {
+                    alert('error handing here');
+                }
+            });
+            return false;
+        //}
+
+    });
+
+ $("#category").change(function() {
+  //alert("In Add to Cart");
+            var cat_id = $("#category").val();
+            //alert(cat_id); 
+           
+           var top = $("#name").find('option:first');
+
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<?php echo site_url(); ?>/admin/admin/getsize",
+                data: {"cat_id":cat_id,'noheader':1},
+                success: function (data) {
+                    if (data) {
+                       //alert(data);
+                       $("#name").empty().append(top);
+                       
+
+                       $.each(data, function (index, value) {
+               
+                      $("#name").append("<option value='"+ value.type +"'>"+ value.type +"</option>");
+                  });
+             
+                    }
+                     $("#name").prop('disabled', false);
+                  
+                },
+                error: function () {
+                    alert('error handing here');
+                }
+            });
+            return false;
+       
+
+    });
+
+
+$("#category").change(function() {
+  //alert("In Add to Cart");
+            var cat_id = $("#category").val();
+            
+           if (cat_id==8) 
+           {
+              $("#fulldiv").hide();
+           }
+
+           else if (cat_id==6 || cat_id==7) 
+           {
+              $("#odt").hide();
+           } 
+           else
+           {
+            
+              $("#fulldiv").show();
+              $("#odt").show();
+           }
+
+    });
+
+</script>
+
+<script type="text/javascript">
+  
+  $("#name").change(function() {
+  
+            var size_name = $("#name").val();
+            var category  = $("#category").val();
+           // alert(size_name); 
+           var top = $("#length_name").find('option:first');
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<?php echo site_url(); ?>/admin/admin/getlength",
+                data: {"size_name":size_name,'noheader':1,'category':category},
+                success: function (data) {
+                    if (data) {
+                       //alert(data);
+                       $("#length_name").empty().append(top);
+                       $.each(data, function (index, value) {
+               
+                      $("#length_name").append("<option id='"+value.lengthname+"' value='"+ value.id +"'>"+ value.lengthname +"</option>");
+                  });
+             
+                    }
+                     $("#length_name").prop('disabled', false);
+                  
+                },
+                error: function () {
+                    alert('error handing here');
+                }
+            });
+            return false;
+        //}
+
+    });
+</script>  
+ 

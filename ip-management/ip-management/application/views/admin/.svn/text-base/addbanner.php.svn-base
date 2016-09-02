@@ -1,0 +1,273 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/adapters/jquery.js"></script>
+<!--<script type="text/javascript" src="<?php echo base_url();?>/ckfinder/ckfinder.js"></script>-->
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="<?php echo site_url('admin/admin/manage_banner'); ?>">Manage Banner</a><span class="divider">&nbsp;</span></li>
+                    <li><a href="#">Add Banner</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div id="page" class="dashboard">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><i class="icon-reorder"></i>Add Banner</h4>
+                        </div>
+                        <div class="widget-body">
+                            <!-- BEGIN FORM-->
+                            <form action="<?php echo site_url(); ?>/admin/admin/insertbanner" class="form-horizontal" name="add_article" id="add_article" method="post" enctype="multipart/form-data">
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <?php if (isset($msg) && $msg != '') { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (isset($err) && $err != '') { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                <?php } ?>
+                        
+                               
+                                     <div class="row-fluid">
+                                            <div class="span6 ">
+                                            <div class="control-group">
+                                             <label class="control-label">Name<font color="red"> *</font></label>                                      
+                                            <div class="controls">
+              <input type="text" placeholder="name" class="input-xlarge" name="name" id="name" required/>
+            <!-- <input type="text" placeholder="Short Description" class="input-xlarge" name="shortdes" id="shortdes" required/> -->
+                                            </div>                                       
+                                        </div>   
+                                     </div>
+                                    </div>
+                                
+                                <div class="row-fluid">
+                                            <div class="span6 ">
+                                                <div class="control-group">
+                                                    <label class="control-label">Image</label>
+                                                    <div class="controls">
+                                                        <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                            <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+                                                                <img src="<?php echo base_url(); ?>img/no_image.gif" alt="" />
+                                                            </div>
+                                                            <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                                            <div>
+                                                                <span class="btn btn-file"><span class="fileupload-new">Select file</span>
+                                                                    <span class="fileupload-exists">Change</span>
+                                                                    <input type="file" class="default" name="thumb_image" multiple="multiple" accept="image/png"/></span>
+                                                                <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row-fluid">
+                                            <div class="span6 ">
+                                            <div class="control-group">
+                                             <label class="control-label">URL<font color="red"> *</font></label>                                      
+                                            <div class="controls">
+                                             <input type="text" placeholder="url" class="input-xlarge" name="url" id="url" required/>
+            <!-- <input type="text" placeholder="Short Description" class="input-xlarge" name="shortdes" id="shortdes" required/> -->
+                                            </div>                                       
+                                        </div>   
+                                     </div>
+                                    </div>
+                                      <div class="row-fluid">
+                                    
+                                    <!--/span-->
+                                    <div class="span6 ">
+                                         <div class="control-group">
+                                            <label class="control-label">Status<font color="red"> *</font></label>
+                                            <div class="controls">
+                                                 <!-- <textarea class="ckeditor" id="editor1" name="title"></textarea> -->
+                                                  <select  style="float:left;margin-left:-4px;" name="status" id="status" required>
+                                                <option value="">Select Status</option>
+                                              
+                                                    <option value="1">Approve</option>
+                                                    <option value="0">Disapprove</option>                                               
+                                            </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                 
+                                </div>
+      
+      
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary"> SUBMIT </button>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE FORM PORTLET-->
+            </div>
+        </div>			
+    </div>
+</div>
+</div>
+
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+<script>
+    jQuery(document).ready(function() {
+        FormValidation.init();
+
+
+</script>
+
+                                           <script type="text/javascript">
+                            
+                            
+                            //                            CKEDITOR.replace( 'editor1', {
+                            //                                filebrowserBrowseUrl: '/browser/browse.php',
+                            //                                filebrowserUploadUrl: '/uploader/upload.php'
+                            //                            });
+                            
+                            var editor = CKEDITOR.replace( 'editor1', {
+                                filebrowserBrowseUrl : '<?php echo base_url();?>/ckfinder/ckfinder.html',
+                                filebrowserImageBrowseUrl : '<?php echo base_url();?>/ckfinder/ckfinder.html?type=Images',
+                                filebrowserFlashBrowseUrl : '<?php echo base_url();?>/ckfinder/ckfinder.html?type=Flash',
+                                filebrowserUploadUrl : '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Files',
+                                filebrowserImageUploadUrl : '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                                filebrowserFlashUploadUrl : '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+                            });
+                            
+                            CKFinder.setupCKEditor( editor, '../' );
+                            
+                            
+                           $(document).ready(function() {
+                                var ckeditor = CKEDITOR.replace('addArticle', {
+                                    filebrowserImageUploadUrl: '<?php echo base_url();?>/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&currentFolder=/test/'
+                                });
+                                CKFinder.setupCKEditor(
+                                ckeditor,
+                                {
+                                    basePath: '<?php echo base_url();?>/ckfinder/',
+                                    startupPath: 'Images:/test/'
+                                }
+                            );
+                            });
+
+
+
+
+
+
+
+                            var i=0;     
+                            $('#add_new').click(function() {
+                                // document.getElementById('ans').style.display="block";
+
+                                var table = $("#maintable");    
+                                console.log(table.find('tr').length);
+                                i++;
+
+
+                                if (table.find('.rows').length < 8) {
+                                    var x = $(this).closest('tr').nextAll('tr');
+
+                                    $.each(x, function(i, val) {
+                                        val.remove();
+                                    });
+
+
+                                    //var newtable='<tr class="rows"><td style="padding:5px;"><input type="text" style="width:200px;margin-left:100px;"   name="time[]" /></td><td style="padding:5px;"><input type="text" style="width:200px;margin-left:100px;"  name="url[]" /></td></tr>';
+
+                                    var newtable='<tr class="rows"><td><span style="width:200px;margin-left:40px;">Answer '+i+'</span></td><td><input  type="file" name="answerone_file[]"  id="answerone_file"  /> <input type="radio" name="correct_answer" value="'+i+'"></td></tr>';
+
+                                    table.append(newtable);
+
+
+                                    $.each(x, function(i, val) {
+
+                                        table.append(val);
+                                    });
+
+                                }
+                            });
+
+
+                        </script>
+                        
+        <script type="text/javascript">
+                            $(document).ready(function (){ 
+                            $("#language").change(function() {
+
+                                if ($("#language").val() == "") {
+                                    //$("#state").val("");
+                                    $("#category").val("");
+                                }
+                                var id = jQuery('#language option:selected').val();
+                                 //alert(state_id);
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo site_url() ?>/admin/admin/get_category",
+                                    data: {'id': id,'noheader':1},
+                                    success: function(data) {
+                                        $('#category').html(data);
+                                    }
+                                });
+                            });
+                            });
+
+
+
+
+
+// $(document).bind("keyup", null, function(event) {
+//      alert('holhgo');
+//         if (event.keyCode == 27) { 
+
+//             alert('holhgo');
+//                       }
+//     });
+
+  // window.onbeforeunload = confirmExit;
+  // function confirmExit()
+  // {
+  //   return "You have attempted to leave this page.  If you have made any changes to the fields without clicking the Save button, your changes will be lost.  Are you sure you want to exit this page?";
+  // }
+  //                           </script>              
+
+ 

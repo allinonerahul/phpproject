@@ -1,0 +1,643 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Cyprus_model extends CI_Model {
+
+    function __construct() {
+        // Call the Model constructor
+        parent::__construct();
+        $this->load->database();
+    }
+
+    public function getCategory_sizes($categoryid=0) {
+
+        $query = $this->db->query("select size.id as id,size.size from size_relation right join size on size_relation.size_id=size.id where size_relation.category_id=" . $categoryid);
+        return $query->result_array();
+    }
+
+    public function getCategorylength($categoryid=0) {
+
+        $query = $this->db->query("select * from product_length where categoryid=" . $categoryid);
+        return $query->result_array();
+    }
+     public function getCategorylengthinsulation($categoryid=0) {
+
+        $query = $this->db->query("select * from product_length where categoryid='$categoryid' order by lengthname ASC");
+        return $query->result_array();
+    }
+
+    public function getCategorytype($categoryid=0) {
+
+        $query = $this->db->query("select * from product_type where categoryid=" . $categoryid);
+        return $query->result_array();
+    }
+
+    public function getProductDetailbyId($productId) {
+        $query = $this->db->query("select * from product where id=" . $productId);
+        return $query->result_array();
+    }
+
+    public function getProduct($product_type) {
+
+        $query = $this->db->query("select * from size_relation left join size on size_relation.size_id=size.id where size_relation.category_id=4");
+        return $query->result_array();
+    }
+
+    public function getProduct_tube($product_type) {
+
+        //$query=$this->db->query("select * from product where producttype='$product_type' and categoryid=5");
+        $query = $this->db->query("select * from size_relation left join size on size_relation.size_id=size.id where size_relation.category_id=5");
+        return $query->result_array();
+    }
+
+    public function getProduct_services() {
+
+        $query = $this->db->query("select size_relation.id,size.size from size_relation left join size on size_relation.size_id=size.id where size_relation.category_id=12");
+        return $query->result_array();
+    }
+
+    public function getProduct_amc($product_type) {
+
+        $query = $this->db->query("select size_relation.id,size.size from size_relation left join size on size_relation.size_id=size.id where size_relation.category_id=13");
+        return $query->result_array();
+    }
+
+    public function getcatogary($id) {
+
+        $query = $this->db->query("select name from category where id='$id'");
+        return $query->row_array();
+    }
+
+    public function getproductamount($type, $sizeid, $length, $cat_id, $brandid) {
+   
+     $sqlQuery = "SELECT * FROM `product` WHERE  producttype='".$type."' and sizeid='".$sizeid."' and length='".$length."' and categoryid='".$cat_id."' and brandid='".$brandid."'";
+//die;
+        $query = $this->db->query($sqlQuery);
+
+        return $query->row_array();
+    }
+
+    public function getval_ref($ref_code) {
+
+        $query = $this->db->query("select  u.id as uid, g.* from users u, grade g
+                                  where u.promo_code='$ref_code'
+                                  AND u.grade_id= g.id");
+        //echo $this->db->last_query();die;
+        return $query->row_array();
+    }
+
+    public function getbrands($categoryid=0) {
+
+        $query = $this->db->query("select brand.* from brand_category_relation right join brand on (brand.id=brand_category_relation.brandid)  where brand_category_relation.categoryid=" . $categoryid);
+        //echo $this->db->last_query();
+        return $query->result_array();
+    }
+
+    public function getserviceman($filter='', $limit = NULL,$area=NULL, $location_id=NULL, $usertype=NULL) {
+
+        
+		$sql = "select u.*,l.name as city from users u left join location l on u.location_id=l.id where 1";
+		if($location_id)
+		{
+			$sql .= "u.location_id=".$location_id;
+			
+		}
+		if($area)
+		{
+			$sql .= " and u.area like '%".$area."%' ";
+			
+		}
+		$sql .= " and u.usertype='".$usertype."' ";
+
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND p.name LIKE '%" . $filter['filter_search'] . "%'";
+            }
+            else{
+                
+            }
+        }
+        //$sql.="ORDER BY id desc";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
+     public function getserviceman1($filter='', $area=NULL, $location_id=NULL, $usertype=NULL) {
+
+       $sql = "select u.*,l.name as city from users u left join location l on u.location_id=l.id where 1";
+		if($location_id)
+		{
+			$sql .= "u.location_id=".$location_id;
+			
+		}
+		if($area)
+		{
+			$sql .= " and u.area like '%".$area."%' ";
+			
+		}
+		$sql .= " and u.usertype='".$usertype."' ";
+
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND p.name LIKE '%" . $filter['filter_search'] . "%'";
+            }
+        }
+        else{
+
+        }
+        //$sql.="ORDER BY id desc";
+       /* if ($limit) {
+            $sql.= $limit;
+        }
+*/
+        $query = $this->db->query($sql);
+        //echo $this->db->last_query();exit();
+
+        return $query->result_array();
+    }
+
+    public function getadminmailid() {
+        $query = $this->db->query("select email from users where usertype='admin'");
+        return $query->row_array();
+    }
+
+    public function getusername($id) {
+        $query = $this->db->query("select email,fname,lname,area,promo_code from users where id='$id'");
+        return $query->row_array();
+    }
+
+    public function getAllPrice() {
+        $this->db->query("select * from category where parentid=''");
+    }
+
+    public function getCategoryIdByProductName($name) {
+        $query = $this->db->query("select id from category where id = (select categoryid from product where name = '$name')");
+        return $query->row_array();
+    }
+
+    public function getCategoryIdByName($name) {
+        $query = $this->db->query("select id from category where name='$name'");
+        return $query->row_array();
+    }
+
+    public function getcity() {
+        $query = $this->db->query("select * from location");
+        return $query->result_array();
+    }
+
+    public function gettaxtype() {
+        $query = $this->db->query("select * from tax_master where status='1'");
+        return $query->result_array();
+    }
+
+    public function getpromotype() {
+        $query = $this->db->query("select * from coupon");
+        return $query->result_array();
+    }
+
+    public function getcomission($refferal_code) {
+        $query = $this->db->query("select sum(refferal_commision) as total from orders where refferal_code='$refferal_code'");
+        //echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+     public function getcomissionremeaing($refferal_code) {
+        $query = $this->db->query("select sum(refferal_commision) as total from orders where refferal_code='$refferal_code' and refferal_commion_status='0'");
+        //echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+     public function getcomissionpaid($refferal_code) {
+        $query = $this->db->query("select sum(refferal_commision) as total from orders where refferal_code='$refferal_code' and refferal_commion_status='1'");
+        //echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+     public function getrefcode($userid) {
+        $query = $this->db->query("select promo_code from users where id='$userid'");
+        //echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+
+
+    public function getgrade($userid) {
+        $query = $this->db->query("SELECT  grade.discount_rate,grade.commission_rate,grade.grade FROM users LEFT JOIN grade ON users.grade_id = grade.id where users.id='$userid'");
+        //echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+
+   public function getsales_order($filter='', $limit = NULL) {
+        //print_r($filter);exit();
+        $uid = $filter['userid'];
+        $sql = "SELECT orders. * , coupon.code FROM orders LEFT JOIN coupon ON orders.promocode = coupon.code where userid='$uid' ";
+        //echo $sql;exit;
+        if (!empty($filter)) {
+
+            if (!empty($filter['filter_fdate']) && !empty($filter['filter_ldate'])) {
+
+                //$sql.= " AND  (CAST(date_added AS DATE) between '" . $filter['filter_fdate'] . "' AND '" . $filter['filter_ldate'] . "')";
+                $sql.= " AND  (CAST(date_added AS DATE) between '" . $filter['filter_fdate'] . "' AND '" . $filter['filter_ldate'] . "')";
+            }
+
+            if (!empty($filter['filter_search'])) {
+
+                $sql .=" AND invoice_no LIKE '" . $filter['filter_search'] . "%' OR firstname LIKE '%" . $filter['filter_search'] . "%'";
+            }
+            if (!empty($filter['month'])) {
+                $month = $filter['month'];
+                $sql .=" AND Month(date) = '$month'";
+            }
+            if (!empty($filter['year'])) {
+                $year = $filter['year'];
+                $sql .=" AND Year(date) = '$year'";
+            }
+        }
+        $sql.=" ORDER BY id desc ";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
+    public function updateAddress($data, $id) {
+
+        $this->db->where('id', $id);
+        $this->db->update('address', $data);
+        //echo $this->db->last_query();exit();
+
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function update_password($new_pwd, $user_id) {
+        $data = array(
+            'password' => $new_pwd
+        );
+        $this->db->where('id', $user_id);
+        $this->db->update('users', $data);
+        // echo $this->db->last_query();exit();
+
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function deleteAddress($id) {
+
+        $query = $this->db->query("delete from address where id= '$id'");
+        return true;
+    }
+
+    public function get_user_details($id) {
+        $query = $this->db->get_where('users', array('id' => $id));
+        $result = $query->row_array();
+        //$result['decrypted_password'] =  $this->encryptdecrypt->decrypt($result['password']);
+        //echo '<pre>';print_r($result);exit;
+        return $result;
+    }
+
+    public function orderHistory1($data,$limit=NULL) {
+        //$query = $this->db->query("select * from `orders` where userid ='".$data['id']."' ORDER BY date_added DESC");
+        $query = $this->db->query("SELECT orders . * , order_status.status FROM orders INNER JOIN order_status ON orders.order_status_id = order_status.id where userid ='" . $data['id'] . "' ORDER BY date_added DESC");
+        return $query->result_array();
+    }
+
+    public function orderHistory($data, $limit = NULL) 
+    {
+
+        $sql = "SELECT orders . * , order_status.status FROM orders INNER JOIN order_status ON orders.order_status_id = order_status.id where userid ='" . $data['id'] . "' ORDER BY date_added DESC ";
+       
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
+    public function updateProfile($data, $id) {
+        $query = $this->db->where('id', $id);
+        $this->db->update('users', $data);
+       
+        return true;
+    }
+
+    public function getproductcategory($id) {
+        $query = $this->db->query("select categoryid from product where id = '$id'");
+        return $query->row_array();
+    }
+
+    public function myAccount($data) {
+        $query = $this->db->query("select * from users where id = '" . $data['id'] . "'");
+        //   echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+
+    public function getdelivery_chrg($data) {
+        $query = $this->db->query("select * from users where id = '" . $data['id'] . "'");
+        //   echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+
+    public function getOrder($orderId=0) {
+        //echo "select * from `order` where id = '$orderId'";
+        $query = $this->db->query("select orders.*, orders.id as id, users.fname, users.lname, users.usertype,users.promo_code,users.comapny_name,users.taxno,users.pan_no,location.name as payment_city,l.name as shipping_city from orders left join users on (orders.userid=users.id) left join location on (orders.payment_city=location.id) left join location l on (orders.shipping_city=l.id) where orders.id =$orderId");
+       
+        //$query = $this->db->query("SELECT orders. * , tax_master.rate FROM orders INNER JOIN tax_master ON orders.tax_id = tax_master.id WHERE orders.id ='$orderId'");
+        return $query->row_array();
+    }
+
+     public function getOrderservice($orderId=0) {
+        //echo "select * from `order` where id = '$orderId'";
+        $query = $this->db->query("select o.*,u.fname,u.lname,u.phone from `orders` o left join users u on(o.assign_to=u.id) where o.id =$orderId");
+        //$query = $this->db->query("SELECT orders. * , tax_master.rate FROM orders INNER JOIN tax_master ON orders.tax_id = tax_master.id WHERE orders.id ='$orderId'");
+        return $query->row_array();
+    }
+    public function getlocation($pid) {
+        //echo "select * from `order` where id = '$orderId'";
+        //$query = $this->db->query("select * from `order` where id =$pid");
+        //return $query->row_array();
+    }
+
+    public function getcharge($cat_id, $loc_id) {
+        $query = $this->db->query("select * from `delivery_charges` where category_id =$cat_id and location_id='$loc_id'");
+        return $query->row_array();
+    }
+
+    public function getOrderProduct($orderId) {
+        //$query = $this->db->query("select p.name,p.packaging_pft,o.productqty,o.productrate,o.productlength from `order_product` o inner join  product p on o.productid=p.id  where o.orderid =$orderId");
+        $query = $this->db->query("select p.name,p.id,p.categoryid,p.weight,pl.lengthname as length,pt.typename as product_type ,o.productqty,o.productrate,o.productlength,o.deliverycharges,o.taxamount,o.depositeamount,o.discount,o.refferaldiscount,o.deliverymessage, c.name as catname,b.brand_name, sz.size
+                                   from order_product o left join product p on (o.productid=p.id) left join category c on (p.categoryid=c.id )
+                                   left join brand b on (p.brandid=b.id) left join product_length pl on (p.length=pl.id) left join product_type pt on (p.producttype=pt.id)
+                                    left join size sz on (p.sizeid=sz.id)
+                                  WHERE  o.orderid ='$orderId' ");
+        //echo $this->db->last_query();exit();
+         /*print_r($query);exit;*/
+        return $query->result_array();
+    }
+
+    public function getSubCategoryName($id) {
+        $query = $this->db->query("select * from category where id = '$id'");
+
+        //echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+
+    public function placeOrder($insert_data) {
+        if (!empty($insert_data['userid'])) {
+            $this->db->insert('orders', $insert_data);
+            //return ($this->db->affected_rows()) > 0 ? true : false;
+            return $this->db->insert_id();
+        } else {
+            return false;
+        }
+    }
+
+    public function deductstock() {
+        $this->db->query("UPDATE product_stock.productqty SET productqty = productqty - '$qty' where productid='$pid' and cityid='$loc_id' ");
+        echo $this->db->last_query();
+        exit();
+    }
+
+    public function placeOrderProduct($insert_product_order) {
+        $this->db->insert('order_product', $insert_product_order);
+        return ($this->db->affected_rows()) > 0 ? true : false;
+        //return $this->db->insert_id();
+    }
+
+    public function getAddressold($filter,$id) {
+        $query = $this->db->query("select * from address where userid = '$id' and address_type='bill'");
+        //echo $this->db->last_query();exit();
+        return $query->result_array();
+    }
+     public function getAddressDetail($id){
+        $query=$this->db->query("select * from address where id='$id'");
+        return $query->row_array();
+    }
+    public function getAddress($id, $limit = NULL) 
+    {
+
+        $sql = "select a.*,l.name as location from address a left join location l on a.location_id=l.id where userid = '$id' and address_type='bill' ";
+       
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
+    public function getAddress1($id,$limit=NULL) {
+       $sql = "select a.*,l.name as location from address a left join location l on a.location_id=l.id where userid = '$id' and address_type='ship'";
+       
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
+    public function getAddressById($id) {
+        //$query = $this->db->query("select * from address where id = '$id'");
+        $query = $this->db->query("SELECT a.*, l.name as location from address a, location l where a.location_id= l.id and a.id = '$id'");
+        //echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+
+    public function getUserDetail($id) {
+        $query = $this->db->query("select * from users where id = '$id'");
+        return $query->row_array();
+    }
+
+    public function getCartDetail($sessionid) {
+        $query = $this->db->query("select * from cart where sessionid = '$sessionid'");
+        return $query->result_array();
+    }
+
+    public function getCartId($sessionid) {
+        $query = $this->db->query("select * from cart where sessionid = '$sessionid'");
+        //echo $this->db->last_query();exit();
+        return $query->result_array();
+    }
+
+    public function getProductDetail($productid) {
+        $query = $this->db->query("select p.name as product_name,p.id as product_id,p.price,p.categoryid,p.packaging_pft,m.name as brand_name,c.name as cat_name from product p
+                         left join category c ON p.categoryid=c.id
+                         left join manufacturer m ON p.brandid=m.id
+                         where p.id = '$productid'");
+        return $query->row_array();
+    }
+
+    public function getdiscount($code, $cat_id, $minqty, $usertype) {
+        if ($code && $cat_id && $minqty && $usertype) {
+            $cur_date = date('Y-m-d');
+            $query = $this->db->query("select * from coupon where '$cur_date' between start_date and end_date and code = '$code' and category_id='$cat_id' and status='1' and (`min_qty`)<=$minqty and usertype='$usertype'");
+
+            return $query->row_array();
+        }
+    }
+
+    public function isvalidpromocode($promocode) {
+        $query = $this->db->query("select * from coupon where code = '$promocode'");
+        if ($query->num_rows() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function addAddress($data) {
+        $query1 = $this->db->insert('address', $data);
+        //echo $this->db->last_query();exit();
+        return true;
+    }
+
+    public function register_user($data) {
+        //  print_r($data);exit();
+        $query1 = $this->db->insert('users', $data);
+        $id = $this->db->insert_id();
+
+        $user_data = array(
+            'id' => $id,
+            'fname' => $data['fname'],
+            'email' => $data['email'],
+            'validated' => true
+        );
+        $set_session = $this->session->set_userdata($user_data);
+        // print_r($this->session->all_userdata());exit();
+        return True;
+        // }
+        //   }
+        // return False;
+    }
+
+    public function checkemail($email) {
+
+        $this->db->where('email', $email);
+        $query = $this->db->get('users');
+        ///echo $this->db->last_query();exit();
+        if ($query->num_rows() != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function register($data) {
+
+        $query = $this->db->insert('users', $data);
+
+        $this->login($data['email'], $data['password']);
+
+        return True;
+    }
+
+    public function getAllCategory() {
+        $query = $this->db->query("select * from category where parentid = '0'");
+        return $query->result_array();
+    }
+
+    public function add_to_cart_exist($sessionid, $productid) {
+
+        $query = $this->db->query("SELECT * FROM `cart` WHERE `sessionid` = '" . $sessionid . "' AND `productid` ='" . $productid . "'");
+        // echo $this->db->last_query();exit();
+        return $query->row_array();
+    }
+
+    public function getin_touch($data) {
+        $query = $this->db->insert('enquiry', $data);
+        //echo $this->db->last_query();
+        return True;
+    }
+
+    public function add_to_cart($data) {
+        $query = $this->db->insert('cart', $data);
+        return True;
+    }
+
+    public function update_cart($productid, $sessionid, $qty) {
+        if ($sessionid && $productid) {
+            $query = $this->db->query("UPDATE `cart` SET `quantity`=" . $qty . " WHERE  `sessionid` ='" . $sessionid . "' AND productid=" . $productid);
+            return True;
+        }
+    }
+
+    public function login($email, $password) {
+        //$where = array('email' => $email, 'password' => $password, 'status' => '1');
+        $where = array('email' => $email, 'password' => $password);
+        $query = $this->db->get_where('users', $where);
+        //echo $this->db->last_query();
+        if ($query->num_rows() == 1) {
+            $row = $query->row();
+            $data = array(
+                'id' => $row->id,
+                'fname' => $row->fname,
+                'lname' => $row->lname,
+                'email' => $row->email,
+                'usertype' => $row->usertype,
+                'comapny_name' => $row->comapny_name,
+                'taxno' => $row->taxno,
+                'pan_no' => $row->pan_no,
+                'validated' => true
+            );
+            //echo $row->usertype;
+            if ($row->usertype == 'dealer' && $row->status == '0') {
+                return 2;
+                exit;
+            }
+            $set_session = $this->session->set_userdata($data);
+            return 1;
+        }
+        return 3;
+    }
+
+    public function product_details($id) {
+        $query = $this->db->query("select * from product where id= $id");
+        return $query->row_array();
+    }
+
+    public function category_product($id) {
+        $query = $this->db->query("select * from product where categoryid = $id");
+        return $query->result_array();
+    }
+
+    public function mail_exists($key) {
+        $query = $this->db->query("select id,password,fname from users where email = '$key'");
+        return $query->row_array();
+    }
+    /*function  show($tbl,$userid){
+        $query=$this->db->query("select invoice_no,date_added,id from $tbl where userid='$userid'");
+        $result = $query->result_array();
+        return $result;
+    }*/
+    public function addOrderCancellation($data) {
+        $query = $this->db->insert("order_cancellation", $data);
+        return true;
+    }
+
+    public function addContactUs($data) {
+        $query = $this->db->insert("contact_us", $data);
+        return true;
+    }
+
+    public function addCareerDetails($data) {
+        $query = $this->db->insert("careers", $data);
+        return true;
+    }
+    /* public function productqty(){
+        $sql = "select productqty from order_product op, orders o where op.orderid = o.id ";
+        $query = $this->db->query($sql);    
+        return $query->result_array();
+    }*/
+      
+}
+
+?>

@@ -1,0 +1,125 @@
+    <!-- BEGIN PAGE -->
+    <div id="main-content">
+        <!-- BEGIN PAGE CONTAINER-->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                        </li>
+                        <li><a href="<?php echo site_url('admin/admin/show_site_details'); ?>">Site Details</a><span class="divider">&nbsp;</span></li>
+                        <li><a href="#">Edit Profile</a><span class="divider-last">&nbsp;</span></li>
+                    </ul>
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div id="page" class="dashboard">
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- BEGIN SAMPLE FORMPORTLET-->
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h4><i class="icon-reorder"></i>Edit Profile Details</h4>
+                            </div>
+                            <div class="widget-body">
+                                <!-- BEGIN FORM-->
+                                <form action="<?php echo site_url(); ?>/admin/admin/update_site_details" class="form-horizontal" name="edit_site_details" id="edit_site_details" method="post" enctype= "multipart/form-data">
+                                    <input type="hidden" name="old_logo_name" value="<?php echo $result['site_logo']; ?>"/>
+                                    <div class="alert alert-error hide">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        You have some form errors. Please check below.
+                                    </div>
+
+                                    <div class="alert alert-success hide">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        Your form validation is successful!
+                                    </div>
+                                    
+                                   <?php if(isset($msg) && $msg != '') { ?>
+                                      <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                       </div>
+                                     <?php } ?>
+
+                                    <?php if(isset($err) && $err != '') { ?>
+                                      <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                       </div>
+                                     <?php } ?>
+                                    
+                                    <?php if(isset($error) && $error != '') { ?>
+                                      <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php foreach($error as $val) { echo $val; } ?>
+                                       </div>
+                                     <?php } ?>
+                                    
+                                    <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                    <?php } ?>
+                                    <div class="control-group">
+                                        <label class="control-label">Name<font color="red"> *</font></label>
+                                        <div class="controls">
+                                            <input type="text" placeholder="Site Name" class="input-xlarge" name="site_name" value="<?php echo $result['site_name']; ?>"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Email<font color="red"> *</font></label>
+                                        <div class="controls">
+                                            <input type="text" placeholder="Site Email" class="input-large" name="site_email" value="<?php echo $result['site_email']; ?>"/>
+                                            <span class="help-inline"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="control-group">
+                                        <label class="control-label">Logo</label>
+                                        <div class="controls">
+                                            <div class="fileupload fileupload-new" data-provides="fileupload">
+                                                <div class="fileupload-new thumbnail" style="width: 150px; height: 80px;">
+                                                    <?php if (isset($result['site_logo']) && $result['site_logo']) { ?>
+                                                        <img src="<?php echo base_url() ?>/uploads/images/<?php echo $result['site_logo']; ?>" alt="" />
+                                                    <?php } else { ?>
+                                                        <img src="<?php echo base_url(); ?>img/no_image.gif" alt="" />
+                                                    <?php } ?>
+                                                </div>
+                                                <div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 20px;"></div>
+                                                <div>
+                                                    <span class="btn btn-file"><span class="fileupload-new">Select image</span>
+                                                        <span class="fileupload-exists">Change</span>
+                                                        <input type="file" class="default" name="site_logo"/></span>
+                                                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> Save</button>
+                                    </div>
+                                </form>
+                                <!-- END FORM-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SAMPLE FORM PORTLET-->
+                </div>
+            </div>			
+        </div>
+    </div>
+</div>
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+<script>
+    jQuery(document).ready(function() {
+		FormValidation.init();
+    });
+</script>

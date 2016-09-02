@@ -1,0 +1,104 @@
+    
+<?php  $userdata = $this->session->userdata; ?>
+    <div id="main-content">
+        <!-- BEGIN PAGE CONTAINER-->
+        <div class="container-fluid">
+            <!-- BEGIN PAGE HEADER-->
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                    <ul class="breadcrumb">
+                        <li>
+                            <a href="<?php echo site_url('admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                        </li>
+                        <li><a href="<?php echo site_url('admin/viewMyProfile'); ?>">My Profile</a><span class="divider">&nbsp;</span></li>
+                        <li><a href="#">Edit Profile</a><span class="divider-last">&nbsp;</span></li>
+                    </ul>
+                    <!-- END PAGE TITLE & BREADCRUMB-->
+                </div>
+            </div>
+            <!-- END PAGE HEADER-->
+            <!-- BEGIN PAGE CONTENT-->
+            <div id="page" class="dashboard">
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <!-- BEGIN SAMPLE FORMPORTLET-->
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h4><i class="icon-reorder"></i>Edit Profile Details</h4>
+                            </div>
+                            <div class="widget-body">
+                                <!-- BEGIN FORM-->
+                                <form action="<?php echo site_url(); ?>/admin/updateMyProfile" class="form-horizontal" name="add_user" id="add_user" method="post">
+                                    <div class="alert alert-error hide">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        You have some form errors. Please check below.
+                                    </div>
+
+                                    <div class="alert alert-success hide">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        Your form validation is successful!
+                                    </div>
+                                    
+                                   <?php if(isset($msg) && $msg != '') { ?>
+                                      <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                       </div>
+                                     <?php } ?>
+
+                                    <?php if(isset($err) && $err != '') { ?>
+                                      <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                       </div>
+                                     <?php } ?>
+                                    
+                                    <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                    <?php } ?>
+                                    <div class="control-group">
+                                        <label class="control-label">Name<font color="red"> *</font></label>
+                                        <div class="controls">
+                                            <input type="text" placeholder="First name Last name" class="input-xlarge" name="name" value="<?php echo $result['name']; ?>"/>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Email<font color="red"> *</font></label>
+                                        <div class="controls">
+                                            <input type="text" placeholder="" class="input-large" name="email" value="<?php echo $result['email']; ?>"/>
+                                            <span class="help-inline"></span>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <label class="control-label">Mobile No<font color="red"> *</font></label>
+                                        <div class="controls">
+                                            <input type="text" placeholder="" class="input-large" name="mobile_no" value="<?php echo $result['mobile_no']; ?>"/>
+                                            <span class="help-inline"></span>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> Save</button>
+                                    </div>
+                                </form>
+                                <!-- END FORM-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SAMPLE FORM PORTLET-->
+                </div>
+            </div>			
+        </div>
+    </div>
+</div>
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+<script>
+    jQuery(document).ready(function() {
+		FormValidation.init();
+    });
+</script>

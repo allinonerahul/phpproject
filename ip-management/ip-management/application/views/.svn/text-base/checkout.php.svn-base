@@ -1,0 +1,195 @@
+<?php 
+
+$user_data=$this->session->userdata();
+
+if(!empty($user_data['id']))
+{
+ 
+  $CI = & get_instance();
+ $CI->load->model('Cyprus_model');
+//$address = $CI->Cyprus_model->getAddress($user_data['id']);
+$billingAddress=$this->cyprus->getAddress($this->session->userdata('id'));
+$shippingAddress=$this->cyprus->getAddress1($this->session->userdata('id'));
+
+?>
+
+<section class="main-container col2-right-layout bounceInUp animated md-h">
+  <div class="main container user-row">
+    <?php $this->load->view('topnavigation'); ?>
+    <form id="co-billing-form" action="<?php echo site_url(); ?>/cyprus/checkout1" name="co-billing-form" method="post">
+      <div class="row"> 
+        <!-- Billing address -->
+        <div class=" col-xs-12 col-sm-4 col-md-4 " style="margin-top:20PX;">
+       
+          <div class="news-user" style="padding:5px;">
+            <div class="user-box-section" style="border:none;">
+              <div class="col-main col-sm-12">
+                <ol class="one-page-checkout" id="checkoutSteps">
+                  <li>
+                    <div id="checkout-step-billing" class="a-item" >
+                     <span class="heading-1">   Billing Address</span>
+                      <fieldset class="group-select">
+                        <ul>
+                          <li>
+                            <label for="billing-address-select">Select a billing address from your address book or enter a new address.</label>
+                            <br>
+                            <select name="billing_address_id" id="billing-address-selec" class="address-select" title="" required>
+                              <?php foreach ($billingAddress as $value) {
+                        ?>
+                              <option value="<?php echo $value['id'];?>"><?php echo $value['address'].','.$value['address2']; ?></option>
+                              <?php } ?>
+                            </select>
+                          </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                        <div class="col-md-12 user-top" style="margin-top:15PX;">
+                          <div class=" col-xs-12 col-sm-9 col-md-9"> <a href="<?php echo site_url() ?>/cyprus/addNewAddress">
+                            <button class="button   btn-newuser-checkout" type="button" style="float:left; margin-left:-30px;" ><span class="user-span" style="text-transform:capitalize !important;">Add new Address </span></button>
+                            <a></div>
+                        </div>
+                      </fieldset>
+                      
+                      <!--/form --> 
+                      
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END OF Billing address --> 
+        
+        <!-- Shipping  address -->
+        <div class=" col-xs-12 col-sm-4 col-md-4 " style=" margin-top:20PX;">
+      
+       <div class="news-user" style="padding:5px;">
+          <div class="user-box-section" style="border:none;">
+            <div class="col-main col-sm-12">
+              <ol class="one-page-checkout" id="checkoutSteps">
+              
+                <li>
+                 <span class="heading-1"> Shipping Address</span>
+                  <div id="checkout-step-billing" class="a-item" > 
+                    <!form id="co-billing-form" action="<?php echo site_url(); ?>/cyprus/checkout1" name="co-billing-form" method="post"-->
+                    <fieldset class="group-select">
+                      <ul>
+                        <li>
+                          <label for="billing-address-select">Select a Shipping address from your address book or enter a new address.</label>
+                          <br>
+                          <select name="shipping_address_id" id="billing-address-selec" class="address-select" title="" required>
+                            <?php foreach ($shippingAddress as $value) {
+                                ?>
+                            <option value="<?php echo $value['id'];?>"><?php echo $value['address'].','.$value['address2']; ?></option>
+                            <?php } ?>
+                          </select>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                      <div class="col-md-12 user-top" style="margin-top:15PX;"> 
+                        
+                        <!--div class=" col-xs-12 col-sm-4 col-md-4"> <button type="submit" class="button continue" ><span>Continue</span></button></div -->
+                        <div class=" col-xs-12 col-sm-9 col-md-9"> <a href="<?php echo site_url() ?>/cyprus/addNewAddress">
+                          <button class="button   btn-newuser-checkout" type="button"  style="float:left; margin-left:-30px;" ><span class="user-span" style="text-transform:capitalize !important;">Add new Address </span></button>
+                          <a></div>
+                      </div>
+                    </fieldset>
+                    
+                    <!--/form --> 
+                    
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+        </div>
+        <!-- Shipping address --> 
+        <!-- Promo code-->
+        
+        <div class=" col-xs-12 col-sm-4 col-md-4 " style=" margin-top:20PX;">
+       
+          <div class="news-user" style="padding:5px;">
+          <div class="user-box-section" style="border:none;">
+            <ol class="one-page-checkout" id="checkoutSteps">
+              <li id="opc-payment" class="section">
+                <div id="checkout-step-payment" class="step a-item">
+                <!--form id="co-billing-form" action="<?php echo site_url(); ?>/cyprus/promocodeinsert" name="co-billing-form" method="post"-->
+                <div class="input-box " style="margin-left:-48px;">
+                  <?php $val= $this->session->flashdata('error'); ?>
+                  <label for="billing:firstname">Promo Code (optional)&nbsp;&nbsp;</label>
+                  <input type="text" id="promocode" style=" width:250px;" name="promocode" title="Promo code" placeholder="Promo code" class="input-text">
+                </div>
+                <span style="color:red; margin-left:95px; margin-top:5px;">
+                <?php if(!empty($val)) echo $val; ?>
+                </span>
+                <div class="input-box " style="margin-left:-48px; margin-top:10px;">
+                  <label for="billing:firstname">Referal Code (optional)&nbsp;&nbsp;</label>
+                  <input type="text" id="ref_code" style="width:250px;" name="refcode" title="Referal code" placeholder="Referal code" class="input-text">
+                </div>
+                </div>
+
+         <div class="clearfix"></div>
+                      <div class="col-md-12 user-top" style="margin-top:15PX;"> 
+                        
+                        <!--div class=" col-xs-12 col-sm-4 col-md-4"> <button type="submit" class="button continue" ><span>Continue</span></button></div -->
+                        <div class=" col-xs-12 col-sm-7 col-md-7"> <a href="<?php echo site_url() ?>/cyprus/addNewAddress">
+                          <button class="button   btn-newuser-checkout" type="button"  style="float:left; margin-left:-20px; margin-top:16px;" ><span class="user-span" style="text-transform:capitalize !important;">Add Apply  </span></button>
+                          <a></div>
+                      </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        <!-- Promo code-->
+        
+    <div class="col-md-6">
+
+          <button type="submit" class="button continue" style="margin-left:47px;" ><span style="text-align:center;">Continue</span></button>
+  </div>
+        </div>
+    </form>
+  </div>
+  </div>
+</section>
+<?php  }else{  ?>
+<section class="main-container col1-layout ">
+  <div class="main container">
+    <div class="col-main">
+      <div class="cart">
+        <div class="row">
+          <div class=" col-xs-12 col-sm-8 col-md-8 news-user">
+            <div class=" col-xs-12 col-sm-6 col-md-6 ">
+              <div class="user-box-section">
+                <h2>New <br>
+                  Customers</h2>
+                <p>&nbsp;</p>
+                <div class="button-wrap"> <a href="#" data-toggle="modal" data-target="#register">
+                  <button type="submit" class="button subscribe" style="background:#f15a23;"><span style="font-size:16px; color:#fff; word-spacing:2px; text-transform:capitalize; font-weight:600;">Register</span></button>
+                  </a> </div>
+              </div>
+            </div>
+            <div class=" col-xs-12 col-sm-6 col-md-6 ">
+              <div class="user-box-section" style="border-right:none;">
+                <h2>Returning <br>
+                  Customers</h2>
+                <p>Already have an account? Log in.</p>
+                <div class="button-wrap"> <a href="#"  data-toggle="modal" data-target="#login">
+                  <button type="submit" class="button subscribe" style="background:#f15a23;"><span style="font-size:16px; color:#fff; word-spacing:2px; text-transform:capitalize; font-weight:600;">Login</span></button>
+                  </a> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<?php } ?>
+</div>
+</div>
+</div>
+</div>

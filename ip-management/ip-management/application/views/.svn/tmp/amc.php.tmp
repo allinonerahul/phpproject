@@ -1,0 +1,228 @@
+<?php $usertype =  $this->input->get('usertype');?>
+
+    <div class="bread_crum_section"> <img src="<?php echo base_url(); ?>assets/images/vrc_img.png"> </div>
+    <div class="tabsection">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12  col-sm-12 col-xs-12 border-1">
+                   <?php $this->load->view('insulationamcmenu'); ?>
+                    <div class="tab-content ">
+
+                       <?php
+                       $this->load->view('locateserviceman');                      
+                       ?>
+
+                      </div>
+                         
+                    <?php 
+                           $this->load->view('locatedealer');
+                         ?>
+
+                   <?php $this->load->view('services'); ?>
+                   <?php $this->load->view('amcservices'); ?>                  
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+<!-- End Footer --> 
+<!-- JavaScript --> 
+
+
+<script type="text/javascript">
+
+    
+    function getintouch(id)
+    {
+  
+        $('#divgetintouch').show();
+        $('#userid').val(id);
+    }
+
+    function getintouchdealer(id)
+    {
+   
+        $('#divgetintouchdealer').show();
+        $('#useriddealer').val(id);
+    }
+ 
+
+
+    function getintouchsubmit()
+    {
+        var mob=$("#mobileserviceman").val();
+     
+        if(isNaN(mob))
+        {
+            $('#msg_touch').html("please enter valid mobile no");
+            setTimeout(function()
+            {
+                $("#msg_touch").text('');
+            }, 4000);
+            return false;
+        }
+ 
+        if($("#name").val()=='' || $("#areaserviceman").val()==''|| $("#mobileserviceman").val()=='' )
+        {
+            $('#msg_touch').html("please fill all fields.");
+            setTimeout(function()
+            {
+                $("#msg_touch").text('');
+            }, 4000);
+            return false;
+        }
+        else
+        {
+            var datastring = $("#getintouchform").serialize();
+          
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/cyprus/getin_touch",
+                data: datastring,
+                
+                success: function (data) {
+                    if (data) {
+                        //alert(data);
+                        $('#msg_touch').html("Thank you we will give feedback soon.");
+                        document.getElementById("getintouchform").reset();
+                     
+             
+                    }
+                  
+                },
+               
+            });
+            return false;
+        }
+
+   
+    }
+
+    function getintouchsubmitdelaer()
+    {
+
+        var mob=$("#mobiledelaer").val();
+     
+        if(isNaN(mob))
+        {
+            $('#msg_touchdealer').html("please enter valid mobile no");
+            setTimeout(function()
+            {
+                $("#msg_touchdealer").text('');
+            }, 4000);
+            return false;
+        }
+  
+        if($("#namedealer").val()=='' || $("#areadealer").val()==''|| $("#mobiledelaer").val()=='' )
+        {
+            $('#msg_touchdealer').html("please fill all fields.");
+            setTimeout(function()
+            {
+                $("#msg_touchdealer").text('');
+            }, 4000);
+            return false;
+        }
+
+
+
+        else
+        {
+            var datastring = $("#getintouchformdealer").serialize();
+            // alert(datastring);
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/cyprus/getin_touch",
+                data: datastring,
+                
+                success: function (data) {
+                    if (data) {
+                        //alert(data);
+                        $('#msg_touchdealer').html("Thank you we will give feedback soon.");
+                        document.getElementById("getintouchformdealer").reset();
+                     
+             
+                    }
+                  
+                },
+               
+            });
+            return false;
+        }
+
+   
+    }
+
+
+
+
+ 
+</script>
+
+
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $('#get_in_touch').click(function(){
+  
+        var name = $("#name").val();
+        var area = $("#area").val();
+        var comment = $("#comment").val();
+        var mobile = $("#mobile").val();
+               
+        if(name=='' || area=='' || comment=='' || mobile=='')
+        {
+            $('#msg_touch').text("All fields are mandatory..");
+
+            setTimeout(function() 
+            {
+                $("#msg_touch").text('');
+            }, 4000);
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            // url: "<?php echo site_url(); ?>/cyprus/add_to_cart",
+            url: "<?php echo site_url(); ?>/cyprus/getin_touch",
+            data: {"name":name,"area":area,"comment":comment,"mobile":mobile},
+                
+            success: function (data) {
+                if (data == 'success') {
+                      
+                    //alert(data);
+                    $('#msg_touch').html("Thank you we will give feedback soon.");
+                    //$('#msg_touch').text("ok");
+                     
+
+                    setTimeout(function()
+                    {
+                        $("#msg_touch").text('');
+                    }, 4000);
+
+                }
+                    
+            },
+                
+        });
+        return false;
+        //}
+
+    });
+
+
+
+
+
+
+</script>
+
+

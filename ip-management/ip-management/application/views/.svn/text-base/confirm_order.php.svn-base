@@ -1,0 +1,263 @@
+<?php 
+
+$userdata = $this->session->userdata;
+//$arrCartdata = cart::getCart($userdata['cartsession']);
+//print_r($userdata);die;
+
+//get service tax of user
+$locationid = isset($userdata['location_id']) ? $userdata['location_id'] : '';
+
+//print_r($userdata);
+$shippingAddress = cart::getUserAddress($userdata['shipping_address']);
+$shippingAddressid = $shippingAddress['location_id'];
+
+$billingAddress = cart::getUserAddress($userdata['billing_address']);
+//print_r($billingAddress);die;
+
+//$locationiddelivery=cart::getlocationiddelivery($shippingAddress);
+//$location_delivery_charge=$locationiddelivery['location_id'];
+cart::getServicecharge($userdata['taxid']);
+//$arrCartwithDetail = cart::setcartProductDeliveryCharges($userdata['cartsession'],$locationid);
+$arrCartwithDetail = cart::setcartProductDeliveryCharges($userdata,$locationid,$shippingAddressid);
+//echo "<pre>";print_r($arrCartwithDetail);die;
+// this is call for get tax name
+//echo cart::$totaldiscount;die;
+//$servicetax = 0; //
+//$depositetax = 0;
+//$rcode = isset($userdata['refcode']) ? $userdata['refcode'] : '';
+//$refferalDiscout = cart::getRefferalDiscount($_SESSION['refcode']);
+//$discount = 0;
+$locationid = isset($userdata['location_id']) ? $userdata['location_id'] : '';
+
+$location = isset($userdata['location_name']) ? $userdata['location_name'] : cart::getUserLocation($locationid);
+$isService = cart::checkCartProductType($userdata['cartsession'],'services');
+$deliveryCharges = 00;
+
+?>
+ 
+
+  <section class="main-container col1-layout wow bounceInUp user-row md-h">
+
+    <div class="main container">
+        <?php $this->load->view('topnavigation'); ?>
+        <?php // $this->load->view('invoiceformate'); ?>
+<form method="post" action="<?php echo site_url(''); ?>/cyprus/paymentMode">
+
+<div class="row">
+    
+     <div class="col-md-12">
+        <table class="table-bordered" cellpadding="0" cellspacing="0" width="100%;" style="margin:10px 0;">
+            <tr>
+
+                <td width="30%" cellpadding="0" cellspacing="0" ><img alt="Cyprus" src="<?php echo base_url();?>assets/images/invoice_logo.png"></td>
+                <td colspan="2" width="70%" cellpadding="0" cellspacing="0" >
+                    <table width="100%">
+                        <tr  class="td-c border-bottom">
+                            <th colspan="2" width="60%" class="td-c">CUSTORES LLP</th>
+                            <th width="40%" class="td-l"><?php echo $userdata['fname'].' '.$userdata['lname']; ?></th>
+                        </tr>
+                        <tr>
+                            <td width="33%" class="td-address">Address </td>
+                            <td width="34%">
+                                <table width="100%">
+                                    <tr>
+                                        <td class="td-dt"><span>VAT TIN:</span> 12345678999V wef 15/05/2016</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>CST TIN :</span> 12345678999C wef 15/05/2016</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>PAN :</span> AAAAA1234A</td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <td width="34%">
+                                <table width="100%">
+                                    <tr>
+                                        <td class="td-dt"><span>BUYER'S VAT TIN: </span><?php echo $userdata['taxno']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>BUYER'S CST TIN :</span> <?php echo $userdata['taxno']; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>BUYER'S PAN :</span> <?php echo $userdata['pan_no']; ?></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!---===============================---->
+    <div class="col-md-12">
+
+        <table class="table-bordered" cellpadding="0" cellspacing="0" width="100%;" style="margin:10px 0;">
+            <tr>
+                <th width="35%" cellpadding="0" cellspacing="0" class="td-c th-h">BILL TO</th>
+                <th colspan="1" width="35%" class="td-c th-h">SHIP TO</th>
+                <th width="30%" class="td-c">PERFORMA INVOICE </th>
+            </tr>
+            <tr>
+                <td  class="th-addc">
+                    <?php echo $userdata['fname'].' '.$userdata['lname']; ?><br>
+                  <?php echo $billingAddress['address'].' '.$billingAddress['address2'].'<br>Location: '.$billingAddress['location'].'<br> Pin:'.$billingAddress['pincode']?>
+                </td>
+                <td class="th-addc">
+                    <?php echo $userdata['fname'].' '.$userdata['lname']; ?> <br>
+                  <?php echo $shippingAddress['address'].' '.$shippingAddress['address2'].'<br>Location: '.$shippingAddress['location'].'<br> Pin:'.$shippingAddress['pincode']?>
+                </td>
+                <td ><table width="100%">
+                        <tr>
+                            <td class="td-dt"><span>ORDER NO:</span> </td>
+                            <td class="td-dt"> <?php echo cart::getOrderNumber();?></td>
+                        </tr>
+                        <tr>
+                            <td class="td-dt"><span>ORDER DATE:</span></td>
+                            <td class="td-dt"><?php echo date('d/m/Y');?></td>
+                        </tr>
+                        <tr>
+                            <td class="td-dt"><span>MODE OF PAYMENT</span> </td>
+                            <td class="td-dt">COD/Online</td>
+                        </tr>
+                    </table></td>
+                <td width="34%"></td>
+            </tr>
+        </table>
+
+    </div>
+    <!---===============================---->
+    <div class="col-md-12">
+        <table class="table-bordered" cellpadding="0" cellspacing="0" width="100%;" style="margin:10px 0;">
+            <tr>
+                <th width="35%" cellpadding="0" cellspacing="0" class="td-c th-h" colspan="3"></th>
+                <th  width="75%" class="td-c th-h" colspan="10">All Amonuts are in INR</th>
+            </tr>
+            <tr>
+                <th colspan="1"  class="td-c-2 th-h" width="18%">Products</th>
+                <th colspan="1" width="5%" class="td-c-2 th-h">Qty (Nos)</th>
+                <?php if(!$isService){ ?>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Net Wgt (KG)</th>
+                <?php } ?>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Unit Price</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Total Price</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Disc</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Ref Disc</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Tax</th>
+                <?php if(!$isService){ ?>
+                <th colspan="1" width="7%" class="td-c-2 th-h">DEL /FRT</th>
+                <?php } ?>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Inv Amt</th>
+                <?php if(!$isService){ ?>
+                <th colspan="1" width="7%" class="td-c-2 th-h">C/H Form Dep</th>
+                <?php } ?>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Total Payable</th>
+                 <?php if(!$isService){ ?>
+                <th colspan="1" width="9%" class="td-c-2 th-h">Est DEL Dt.</th>
+                <?php } ?>
+            </tr>
+            <?php foreach ($arrCartwithDetail as $productDetail) { //echo "<pre>";print_r($productDetail); ?>
+            <tr>
+                <td class=" th-h" width="18%"><table>
+                        <tr>
+                            <td width="100%" class="border-bottom td-c-3"><?php echo $productDetail['brandname']."&nbsp;&nbsp;".$productDetail['categoryname']; ?> </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" class="td-c-3"><?php echo $productDetail['lengthname']."&nbsp;|&nbsp;".$productDetail['sizename']."&nbsp;|&nbsp;".$productDetail['producttype']; ?></td>
+                        </tr>
+                    </table></td>
+                <td  width="5%" class="td-c-4 th-h"><?php echo $productDetail['quantity'];  ?></td>
+                <?php if(!$isService){ ?>
+                <td  width="7%" class="td-c-4 th-h"><?php echo $productDetail['weight']; ?></td>
+                <?php } ?>
+                <td  width="7%" class="td-c-4 th-h"><?php echo $productDetail['price']; ?></td>
+                <td  width="7%" class="td-c-4 th-h"><?php echo round(($productDetail['quantity'] * $productDetail['price']),2);?></td>
+                <td width="7%" class="td-c-4 th-h"><?php echo $productDetail['discount']; ?></td>
+                <td width="7%" class="td-c-4 th-h"><?php echo $productDetail['referaldiscount']; ?></td>
+                <td width="7%" class="td-c-4 th-h"><?php echo $productDetail['taxamount']; ?></td>
+                <?php if(!$isService){ ?>
+                <td  width="7%" class="td-c-4 th-h"><?php
+                        echo $productDetail['deliverycharge'] ? $productDetail['deliverycharge'] : $productDetail['deliverymessage'];
+                         ?></td>
+                <?php } ?>
+                <td  width="7%" class="td-c-4 th-h"><?php echo $productDetail['invoiceamount']; ?></td>
+                <?php if(!$isService){ ?>
+                <td width="7%" class="td-c-4 th-h"><?php echo $productDetail['depositeamount']; ?></td>
+                <?php } ?>
+                <td width="7%" class="td-c-4 th-h"><?php echo $productDetail['payableamount']; ?></td>
+                <?php if(!$isService){ ?>
+                <td  width="9%" class="td-c-4 th-h"><?php echo $productDetail['deliverytimemessage']; ?></td>
+                <?php } ?>
+            </tr>
+            <?php } ?>
+
+            <tr>
+                <td class=" th-h td-c-6" width="18%">Grand Total</td>
+                <td  width="5%" class="td-c-4 td-c-6"><?php echo cart::$totalQty; ?></td>
+                <?php if(!$isService){ ?>
+                <td  width="7%" class="td-c-4 td-c-6"><?php echo cart::$totalWeight; ?></td>
+                <?php } ?>
+                <td  width="7%" class="td-c-4 td-c-6"><?php echo cart::$totalUnitprice; ?></td>
+                <td  width="7%" class="td-c-4 td-c-6"><?php echo cart::$totalPrice; ?></td>
+                <td width="7%" class="td-c-4 td-c-6"><?php echo cart::$totaldiscount; ?></td>
+                <td width="7%" class="td-c-4 td-c-6"><?php echo cart::$totalReferaldiscount; ?></td>
+                <td width="7%" class="td-c-4 td-c-6"><?php echo cart::$serviceCharge; ?></td>
+                <?php if(!$isService){ ?>
+                <td width="7%" class="td-c-4 td-c-6"><?php echo cart::$totalDeliveryCharges; ?></td>
+                <?php } ?>
+                <td  width="7%" class="td-c-4 td-c-6"><?php echo cart::$totalInvoiceamount; ?></td>
+                <?php if(!$isService){ ?>
+                <td width="7%" class="td-c-4 td-c-6"><?php echo cart::$depositeCharge ; ?></td>
+                <?php } ?>
+                <td width="7%" class="td-c-4 td-c-6"><?php echo cart::$totalPyableamout ; ?></td>
+                <?php if(!$isService){ ?>
+                <td  width="9%" class="td-c-4 td-c-6"></td>
+                <?php } ?>
+            </tr>
+            
+            
+            <tr>
+                <td class=" th-h td-c-6" width="18%"> Total Amount -Words (Rs) </td>
+                <td  colspan="12" width="5%" class="td-c-5 td-c-6"><?php echo cart::convert_number_to_words(cart::$totalPyableamout); ?></td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> Tax Invoice and Packing List, if any will be sent to you  at your registered email address upon receiving 100% payment for the performa invoice. </td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> Goods under the performa invoice will be dispatched on receiving 100% payments. The Company will not be responsible for any delay due to to late/non payment. </td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> Delivery time mentioned above is estimated. The Company will not be responsible for any delay in goods delivery due to it's logistic partner. </td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> For any query, please contact on care@custores.com or call on +91 22 111111 </td>
+            </tr>
+            <tr>
+                <td  colspan="10" class="td-c-5 td-c-8" > This is a computer generated Performa Invoice </td>
+                <td  class=" th-h td-c-8" colspan="3">For CU Stores LLP </td>
+            </tr>
+            <tr>
+                <td  colspan="10" class="td-c-5 td-c-8" > Subject to Mumbai (India) Juridisction </td>
+                <td  class=" th-h td-c-8" colspan="3">Authorised Signature </td>
+            </tr>
+        </table>
+
+    </div>
+
+    
+</div>
+
+            <div style="margin-top:15px">
+                <button type="submit" class="button btn-continue right-float" title="Confirm Order" type="button"><span>Continue Order</span></button>
+                </div>
+            </form>
+    </div>
+  </section>
+  
+  </div>
+  </div>
+  </div>
+  </div>

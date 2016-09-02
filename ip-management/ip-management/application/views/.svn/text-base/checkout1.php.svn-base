@@ -1,0 +1,146 @@
+<?php 
+$user_data=$this->session->userdata();
+
+if(!empty($user_data['id']))
+{ 
+  $CI = & get_instance();
+ $CI->load->model('Cyprus_model');
+//$address = $CI->Glitzz_model->getAddress($user_data['id']);
+$address=$this->cyprus->getAddress1($this->session->userdata('id'));
+?>
+ <section class="main-container col2-right-layout bounceInUp animated md-h">
+  <div class="main container user-row">
+   <?php $this->load->view('topnavigation'); ?>
+    <div class="row">
+       <div class=" col-xs-6 col-sm-6 col-md-6 news-user" style="margin-left:20px; margin-top:20PX;">
+           <div class="user-box-section" style="border:none;">
+      <div class="col-main col-sm-12">
+    <!--     <div class="page-title">
+          <h2>Shipping Address</h2>
+        </div> -->
+        <ol class="one-page-checkout" id="checkoutSteps">
+        <li>
+        
+            <div id="checkout-step-billing" class="a-item" >
+      <form id="co-billing-form" action="<?php echo site_url(); ?>/cyprus/paymentMode" name="co-billing-form" method="post">
+                <fieldset class="group-select">
+                  <ul>
+                    <li>
+                      <label for="billing-address-select">Select a Shipping address from your address book or enter a new address.</label>
+                      <br>
+                      <select name="billing_address_id" id="billing-address-selec" class="address-select" title="" style="width:430px;" required>
+                     
+                      <?php foreach ($address as $value) {
+                        ?>
+                        <option value="<?php echo $value['id'];?>"><?php echo $value['address'].','.$value['address2']; ?></option>                    
+                      <?php } ?>
+                      </select>
+                    </li>
+                  
+                  </ul> <div class="clearfix"></div>
+                          <div class="col-md-12 user-top" style="margin-top:15PX;">
+               
+                <div class=" col-xs-12 col-sm-4 col-md-4"> <button type="submit" class="button continue" ><span>Continue</span></button></div>
+              <div class=" col-xs-12 col-sm-6 col-md-6"> <a href="<?php echo site_url() ?>/cyprus/addNewAddress"><button class="button   btn-newuser-checkout" type="button" ><span class="user-span" style="text-transform:capitalize !important;">Add new Address </span></button><a></div>
+               </div>
+                </fieldset>
+                
+              </form>
+
+
+
+            </div>
+          </li>
+    
+        </ol>
+      </div>
+      
+    </div>
+  </div>
+      </div>
+  </div>
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <?php  }else{  ?>
+
+ <!--  <a href="#"  data-toggle="modal" data-target="#login">Existing User</a>
+ <a href="#" data-toggle="modal" data-target="#register">New User</a> -->
+   <section class="main-container col1-layout ">
+    <div class="main container">
+      <div class="col-main">
+        <div class="cart">
+        
+          <div class="row">
+           <div class="col-md-3"> </div>
+          <div class="col-md-3">  <a href="#"  data-toggle="modal" data-target="#login"><button  class="button btn-exituser-checkout" type="submit" ><span class="user-span">Existing User</span></button></a></div>
+              <div class="col-md-3"> <a href="#" data-toggle="modal" data-target="#register"><button class="button   btn-newuser-checkout" type="button" ><span class="user-span">New User</span></button></a></div>
+          </div>
+          
+       
+        </div>
+       
+        
+      </div>
+    </div>
+  </section>
+ 
+
+   <?php } ?>
+
+ <!--<div class="footer full-width">
+    <div class="background-footer"></div>
+    <div class="background">
+      <div class="pattern">
+        <div style="width:100%; margin:0 auto; border-bottom:1px solid #CCC; border-top:1px solid #ccc; margin-bottom:25px;">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="row exclusive-footer-columns">
+                  <div class="col-sm-4 logo"> <img alt="Logo" src="<?php echo base_url(); ?>assets/images/logo.png"> </div>
+                  <div class="col-sm-4 contact"> <img alt="Mail" src="<?php echo base_url(); ?>assets/images/icon-mail.png">
+                    <div class="right">
+                      <div class="title">cs@glitzz.in </div>
+                      <p>We respon up to 24 hours</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-4 contact"> <img alt="Phone" src="<?php echo base_url(); ?>assets/images/icon-phone.png">
+                    <div class="right">
+                      <div class="title">07303-555-444</div>
+                      <p>Mon - Fri: 9:00 - 17:00</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  </div>
+  </div>
+  </div>
+  </div>
+

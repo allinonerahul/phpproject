@@ -1,0 +1,119 @@
+<?php $userdata=$this->session->userdata; 
+//print_r($result);
+?>
+  <!-- end nav --> 
+    <!-- Breadcrumbs -->
+  <div class="breadcrumbs bounceInUp animated">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <ul>
+            <li class="home"> <a title="Go to Home Page" href="index.html">Home</a><span>» </span></li>
+            <li class=""> <a title="Go to Home Page" href="#">My Account Information</a><span>» </span></li>
+         
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Breadcrumbs End --> 
+<!-- Main Container -->
+<section class="main-container col2-right-layout wow bounceInUp animated">
+  <div class="main container">
+    <div class="row">
+      <div class="col-main col-sm-7">
+        <div class="my-account">
+          <div class="page-title">
+            <h2>Your Personal Details
+            </h2>
+          </div>
+        
+       <div class="login-border">
+          <div class="content">
+
+
+          <div class="col-md-12">
+      <div class="col-sm-6">
+            <ul class="form-list">
+              <li>
+                <label for="email">Name </label>
+                <br>
+           </li>
+              <li>
+                <label for="pass">Email </label>
+                <br>
+                    </li>
+            </ul>
+       </div>
+          <div class="col-sm-6">
+            <ul class="form-list">
+              <li>
+                <label><?php echo $result['fname']." ".$result['lname']; ?></label>
+                <br >
+                 </li>
+              <li>                   
+                <label><?php echo $result['email']; ?></label>
+              </li>
+            </ul>
+       </div>
+       </div>
+
+
+        <div class="col-md-12">
+      <div class="col-sm-6">
+            <ul class="form-list">
+              <li>
+                <label>Phome </label>
+                <br>
+           </li>
+      
+            </ul>
+       </div>
+          <div class="col-sm-6">
+            <ul class="form-list">
+              <li>
+                <label><?php echo $result['phone']; ?></label>
+                <br >
+                 </li>
+         
+            </ul>
+       </div>
+       </div>
+   
+
+       <div class="clear"></div>
+        
+          </div>
+        </div>
+  
+        </div>
+      </div>
+      <aside class="col-right sidebar col-sm-3 col-sm-push-2">
+        <div class="block block-account">
+          <div class="block-title">My Account</div>
+          <div class="block-content">
+            <ul>
+              <li><a href="<?php echo site_url(); ?>/glitzz/myAccount">My Account</a></li>
+              <li><a href="<?php echo site_url(); ?>/glitzz/editProfile">Edit Account</a></li>
+                 <li><a href="<?php echo site_url(); ?>/glitzz/change_password">Change Password</a></li>
+              <li><a href="#">Address Book</a></li>
+              <li><a href="<?php echo site_url(); ?>/glitzz/orderHistory">Order History</a></li>
+              <li><a href="#">Billing Agreements</a></li>
+              <li><a href="#">Recurring Profiles</a></li>
+              <li><a href="#">My Product Reviews</a></li>
+              <li><a href="#">My Tags</a></li>
+              <li class="current"><a>My Wishlist</a></li>
+              <li><a href="#">My Downloadable</a></li>
+              <li class="last"><a href="#">Newsletter Subscriptions</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        </aside>
+    </div>
+  </div>
+</section>
+<!-- Main Container End -->
+
+  <!-- Footer -->
+ 

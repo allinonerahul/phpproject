@@ -1,0 +1,284 @@
+
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="#">Manage Commission</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+
+        <!-- BEGIN ADVANCED TABLE widget-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN EXAMPLE TABLE widget-->
+                <div class="widget">
+                    <div class="widget-title">
+                        <h4><i class="icon-reorder"></i>Commission List</h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="portlet-body">
+                            
+                            <?php
+                                    $CI = & get_instance();
+                                    $CI->load->model('Cyprus_model');
+                                    
+
+                                    $refcode=$this->admin->getrefcode($userid);
+                                    
+                                    $comission=$this->admin->getcomission($refcode['promo_code']);
+                                    $reamcomission=$this->admin->getcomissionremeaing($refcode['promo_code']);
+                                    $paidcomission=$this->admin->getcomissionpaid($refcode['promo_code']);
+                                  
+                                   
+                                     ?>
+                            <div ><strong><?php  echo ucfirst($refcode['fname']) ?> </strong></div>
+                               
+
+                         <div style="float:right;padding:20px;margin-right:50px;"><span class="badge" style="color:white;padding:7px;font-size:15px;">Total Amount : Rs <?php if(!empty($comission['total'])) echo $comission['total']; else echo "0"; ?></span></div>
+                        <div style="float:right;padding:20px;margin-right:50px;"><span class="badge" style="color:white;padding:7px;font-size:15px;">Reamaning Amount : Rs <?php if(!empty($reamcomission['total'])) echo $reamcomission['total']; else echo "0"; ?></span></div>
+                        <div style="float:right;padding:20px;margin-right:50px;"><span class="badge" style="color:white;padding:7px;font-size:15px;">Paid Amount : Rs <?php  if(!empty($paidcomission['total'])) echo $paidcomission['total']; else echo "0"; ?></span></div>
+                         <form action="" class="form-horizontal" name="group_delete" id="group_delete" method="post">
+                                <table class="table table-striped table-bordered" id="">
+                                    <thead>
+                                        <tr>
+                                        <th>Sr No.</th>
+                                           <!--  <th><input type="checkbox" name="articleid[]" class="group-checkable" data-set="#sample_2 .checkboxes" onchange="checkAll(this)" /></th> -->
+                                           
+                                            
+                                            <th>Order Date</th>
+                                            <th>Invoice No</th>
+                                            <th>Order Amount</th>
+                                            <th>Referal Code</th>
+                                            <th>commission</th>
+                                            
+                                             <th>Commission paid date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                            
+                                            
+                                              <!-- <th>Actions</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        
+                                        /*echo "<pre>"; print_r($result);*/
+                                        $sn_count = $result_start;
+                                        if ($result) {
+                                            
+                                            
+                                         //echo "<pre>";
+                                            //print_r($result);
+                                           //exit;
+                                            $CI = & get_instance();
+                                        $CI->load->model('admin_model');
+                                            
+                                            foreach ($result as $val) {
+                                                
+                                              
+                                                ?>
+                                                <tr class="">
+                                                 <td style="width:40px;"><?php echo $sn_count++ ?></td>
+                                                   
+                                                    
+                                                    
+                                                     
+                                                    <!--  <td><a href="<?php echo site_url(''); ?>/admin/admin/getOrder?orderId=<?php echo $val['oid']; ?>"><?php echo $val['invoice_no']; ?></a></td> -->
+                                                
+                                                        
+                                                        <td><?php echo $val['date_added']; ?></td>
+                                                        <td><?php echo $val['invoice_no']; ?></td>
+                                                        <td><?php echo $val['total']; ?></td>
+                                                        <td><?php echo $val['refferal_code']; ?></td>
+                                                        <td><?php echo $val['refferal_commision']; ?></td>
+                                                        <td><?php echo $val['commisionpaid_date']; ?></td>
+                                                        <td><?php 
+                                                        if($val['refferal_commion_status']==0)
+                                                        {
+                                                         ?>
+
+                                                             <!-- <a class="" style="text-decoration:none" data-toggle="modal" role="button" href="#myModal<?php echo $val['id']; ?>">Paid</a> -->
+                                                             <span class="label label-danger">Unpaid</span>
+
+                                                        <?php }
+                                                        else
+                                                        { ?>
+                                                            <span class="label label-success">Paid</span>
+                                                        <!--   <a class="" style="text-decoration:none" data-toggle="modal" role="button" href="#myModal<?php echo $val['id']; ?>">Unpaid</a> -->
+                                                        <?php }
+                                                        ?></td>
+                                                         <td><?php 
+                                                        if($val['refferal_commion_status']==0)
+                                                        {
+                                                         ?>
+
+                                                             <a class="" style="text-decoration:none" data-toggle="modal" role="button" href="#myModal<?php echo $val['id']; ?>"><span class="label label-success">PAY</span></a>
+
+                                                        <?php }
+                                                        else
+                                                        {  ?>
+                                                        <!--   <a class="" style="text-decoration:none" data-toggle="modal" role="button" href="#myModal<?php echo $val['id']; ?>">Unpaid</a> -->
+                                                        <?php }
+                                                        ?></td>
+                                                          
+
+
+                                                    
+                                                       
+                                                       
+                                                  <div aria-hidden="true" aria-labelledby="myModalLabel1" role="dialog" tabindex="-1" class="modal hide fade" id="myModal<?php echo $val['id']; ?>">
+                                                            <div class="modal-header">
+                                                                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                                                                <h3 id="myModalLabel1">Paid Commission</h3>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>Are you sure you want to paid?</p>
+
+                                                            </div>  
+                                                            <div class="modal-footer">
+                                                                <button aria-hidden="true" data-dismiss="modal" class="btn">Close</button>
+                                                                 <input type="hidden" name="fchart_id" value="<?php echo $val['id']; ?>" />
+                                                                <a href="<?php echo site_url('admin/admin/paidcomisssion?oid=' . $val['id'].'&userid='.$userid); ?>"><button type="button" class="btn btn-primary">OK</button></a>
+                                                            </div>
+                                                        </div>
+                                                    
+                                                </tr>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
+                                    </tbody>
+                                </table>
+                                
+
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                 <?php if (!empty($result)) { ?>    
+                            <div class="row-fluid" >
+                          
+                                <div class="span6" style="margin-left: -30px;">
+                                    <?php echo $pagination; ?>
+                                </div>
+                            </div>
+                  <?php } ?>
+                
+                <!-- END EXAMPLE TABLE widget-->
+            </div>
+        </div>
+
+        <!-- END ADVANCED TABLE widget-->
+
+        <!-- END PAGE CONTENT-->
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+
+</div>
+</div>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
+
+
+<script type="text/javascript">
+
+
+
+$('.class').click(function() {
+  alert();
+var assignid=$("#assignid").val();
+var contactno=$("#contactno").val();
+ alert($('.test').attr('id'));
+
+//alert(oid);
+
+    $.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/admin/admin/assign",
+                 data: {"assignid":assignid},
+                
+                success: function (data) {
+                    if (data) {
+                       //alert(data);
+                       alert('sucess')
+                       //$("#amount").html("TOTAL:<span>"+data+"</span>");
+             
+                    }
+                  
+                },
+               
+            });
+            return false;
+
+        
+    });
+
+
+    $('#group-checkable').click(function() {
+
+        var checkboxes = $(this).closest('form').find(':checkbox');
+        if ($(this).is(':checked')) {
+            checkboxes.attr('checked', 'checked');
+        } else {
+            checkboxes.removeAttr('checked');
+        }
+    });
+    $("#delete_category").click(function() {
+
+        if ($("input:checkbox:checked.checkboxes").length > 0) {
+//            alert('hi');
+
+            $("#group_delete").attr("action", "<?php echo site_url(); ?>/admin/admin/deletearticle");
+            $("#group_delete").submit();
+        }
+    });
+    $("#delete_check").click(function() {
+
+        if ($("input:checkbox:checked.checkboxes").length > 0) {
+
+            $("#delete_check").attr("href", "#delete_selected_foodchart");
+
+        } else {
+            bootbox.alert("Please select any Record.");
+        }
+    });
+    
+    function checkAll() {
+       // alert('hi');
+          var checkboxes = document.getElementsByTagName('input'), val = null;    
+     for (var i = 0; i < checkboxes.length; i++)
+     {
+          if (checkboxes[i].type == 'checkbox')
+         {
+             if (val === null) val = checkboxes[i].checked;
+             checkboxes[i].checked = val;
+         }
+     }
+        }
+    
+    
+    
+    /******************** food category list *****************************/
+    
+    $("#food_category").on("change",function(){
+//        var selected_id = $(this).val();
+        $("#food_category_search").attr('action',"<?php echo site_url('admin/admin/foodChart')?>");
+        $("#food_category_search").submit();
+    });
+
+
+
+</script>

@@ -1,0 +1,101 @@
+﻿	
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/bootstrap.min.css">
+    <!-- Breadcrumbs -->
+  
+<!-- Main Container -->
+<section class="main-container col2-right-layout wow bounceInUp animated md-h">
+  <div class="main container">
+<div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        
+        <!-- END PAGE HEADER-->
+
+        <div class="row-fluid circle-state-overview">
+        
+            <div class="col-md-3">
+            <a href="<?php echo site_url(); ?>/cyprus/myAccount">
+                <div data-desktop="span2" data-tablet="span3" class="span3 responsive">
+                    <div class="circle-wrap">
+                        <div class="stats-circle red-color">
+                            <i class=""><img style="width: 96px; max-width: 70% ! important; margin-top: -11px; margin-left: 9px;" src="http://demo1.geniesoftsystem.com/cyprus/img/user_profile-icon.png"></i>
+                        </div>
+                        <p>
+                            <strong>View </strong>
+                            <strong>Profile </strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            </div>
+
+   <div class="col-md-3">
+            
+                <div data-desktop="span2" data-tablet="span3" class="span3 responsive">
+                    <div class="circle-wrap">
+                        <div class="stats-circle red-color">
+                            <i class=""><img style="width: 96px; max-width: 70% ! important; margin-top: -11px; margin-left: 9px;" src="http://demo1.geniesoftsystem.com/cyprus/img/comm_icon.png"></i>
+                        </div>
+                        <p>
+                            <strong>Total comission </strong>
+                            <?php
+                                    $CI = & get_instance();
+                                    $CI->load->model('Cyprus_model');
+                                    $userid=$_SESSION['id'];
+                                    $refcode=$this->cyprus->getrefcode($userid);
+                                    
+                                    $comission=$this->cyprus->getcomission($refcode['promo_code']);
+                                   // print_r($comission);
+                                    $gradeval=$this->cyprus->getgrade($userid);
+                                   // $comision_amt=$comission['total']*$gradeval['discount_rate']/100;
+                                     ?>
+                            <strong>Rs:<?php echo $comission['total']; ?> </strong>
+                        </p>
+                    </div>
+                </div>
+            
+            </div>
+               
+             
+               <!-- <div class="col-md-3">
+            
+                <div data-desktop="span2" data-tablet="span3" class="span3 responsive">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img style="width: 96px; max-width: 60% ! important; margin-top: -11px; margin-left: 9px;" src="http://demo1.geniesoftsystem.com/cyprus//img/order_icon.png"></i>
+                        </div>
+                        <p>
+                            <strong>Grade</strong>
+                            <strong><?php echo  $gradeval['grade']; ?> </strong>
+                        </p>
+                    </div>
+                </div>
+            
+            </div> -->
+               <div class="col-md-3">
+            <a href="<?php echo site_url(); ?>/cyprus/comissiondealer">
+                <div data-desktop="span2" data-tablet="span3" class="span3 responsive">
+                    <div class="circle-wrap">
+                        <div class="stats-circle blue-color">
+                            <i class=""><img style="width: 96px; max-width: 70% ! important; margin-top: -11px; margin-left: 9px;" src="http://demo1.geniesoftsystem.com/cyprus//img/view_icon.png"></i>
+                        </div>
+                        <p>
+                            <strong>View</strong>
+                            <strong>Order</strong>
+                        </p>
+                    </div>
+                </div>
+            </a>
+
+</div>
+       
+
+
+ 
+        </div>
+    
+    </div>
+          </div>
+      
+</section>
+
+ 

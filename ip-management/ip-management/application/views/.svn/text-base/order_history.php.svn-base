@@ -1,0 +1,143 @@
+	<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $(".main-search").toggle();
+    });
+});
+</script>
+<!-- Main Container -->
+
+  <!-- Breadcrumbs End --> 
+<!-- Main Container -->
+  <section class="main-container col2-right-layout bounceInUp animated md-h" style="margin-top:20px;">
+  <div class="main container">
+    <div class="row">
+      <div class="col-main col-sm-9">
+        <div class="my-account">
+          <div class="page-title">
+              <h4 style="color:#f15a23;">Order History</h4>
+          </div>
+        
+       <div class="login-border">
+          <div class="content">
+          
+       <div class="addresses">
+            <div class="table-responsive"> 
+              
+                <table id="multiship-addresses-table" class="data-table" style=" border: 2px dotted rgb(149, 149, 149); background:#fff !important;">
+               
+                
+                  <thead>
+                     <tr >
+                      <th colspan="6" style="border-bottom:none;"><div class="para-in"><p> <span>MY ORDERS</span>  </p></div></th>
+                     
+                      
+                    </tr>
+                     
+                    <tr >
+                      <th><div class="para-in"><p> <span>Order Id</span>  </p></div></th>
+                      <th >
+                      <div class="para-in">
+                      <p>
+                    <span> Order Date</span></p></div>
+                      </th>
+                      <th>
+                    
+                <!-- <div class="para-in">
+                      <p>
+                    <span>  Payment<br />Method</span></p></div> -->
+                      </th>
+                      <th><div class="para-in"><p><span>Order Status </span>
+
+                    </p></div></th>
+                      
+                      
+                         <th><div class="para-in"><p><span>Amount</span></p></div></th>
+                           <th><div class="para-in"><p><span>Details</span></p></div></th>
+                    </tr>
+                  </thead>
+                  <!--<tfoot>
+                    <tr class="first last">
+                      <td class="a-right last" colspan="4"><button class="button btn-update" type="submit"><span>Update Qty &amp; Addresses</span></button></td>
+                    </tr>
+                  </tfoot>-->
+                  <?php if (empty($result)) { ?>
+                     <p style="color:#F15A23"><b>No Orders Placed</b></p>
+                    <?php } else {
+                foreach ($result as $value) {
+                  # code...
+                ?>  
+                  <tbody>
+                    <tr class="first td_b">
+                      <td><div class="para-in">
+                      <p>
+                    <span><?php echo $value['invoice_no']; ?> </span> 
+                      
+                      </p>
+                     
+                       </div>
+                      </td>
+                      <td>
+                   <div class="para-in">
+                  
+                        <p><span>  <?php echo $value['date_added']; ?></span></p>
+                       </div>
+                      </td>
+                            <td>
+                   <!-- <div class="para-in">
+                  
+                        <p><span>pm</span></p>
+                       </div> -->
+                      </td>
+                            <td>
+                   <div class="para-in">
+                  
+                        <p><span><?php echo ucfirst($value['status']);?></span></p>
+                       </div>
+                      </td>
+                                 <td>
+                   <div class="para-in">
+                  
+                        <p><span><?php echo "Rs.".$value['total'];?></span></p>
+                       </div>
+                      </td>
+                     
+                      <td ><a href="<?php echo site_url(''); ?>/cyprus/getOrderwiseProduct?orderId=<?php echo $value['id']; ?>" title="View Detail" class="btn-search btn-remove2"><span class="label label-success" style="color:white; height:25px; line-height:21px; text-align:center; width:50px;">View</span></a></td>
+                    </tr>
+                  
+                    
+                  </tbody>
+
+
+                  <?php  }} ?>  
+                </table>
+
+                
+                 <div class="row-fluid">
+                                    <div class="span6">
+                                        <div style="margin-top: 5px;">
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="span6">
+                                        <?php echo $pagination; ?>
+                                    </div>
+                                </div>
+                
+         
+          </div>
+
+        <!--addresses--> 
+        
+      </div>
+      </div>
+      </div>
+        </div>
+      </div>
+      
+      <!--=============right section======================-->
+          <?php $this->load->view('rightpanel'); ?>
+    </div>
+  </div>
+</section>
+<!-- Main Container End -->

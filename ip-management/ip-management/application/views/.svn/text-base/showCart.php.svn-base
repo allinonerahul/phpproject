@@ -1,0 +1,47 @@
+
+<?php 
+$userdata=$this->session->userdata;
+
+$CI = & get_instance();
+$CI->load->model('Cyprus_model');
+$billing_address = $CI->Glitzz_model->getAddressById($userdata['billing_address']);
+$shipping_address = $CI->Glitzz_model->getAddressById($userdata['shipping_address']);
+$user_detail = $CI->Glitzz_model->getUserDetail($userdata['id']);
+$cart_detail = $CI->Glitzz_model->getCartDetail($userdata['__ci_last_regenerate']);
+
+foreach ($cart_detail as $key=>$value) {
+$product_details[$key]['product_id']=$value['productid'];
+$product_details[$key]['quantity']=$value['quantity'];
+$product_details[$key]['addeddate']=$value['addeddate'];
+$product_details[$key]['product_detailss']=$CI->Glitzz_model->getProductDetail($value['productid']);
+}
+
+$arrCartdata = cart::getCart($userdata['__ci_last_regenerate']);
+/*echo "<pre>";
+print_r($arrCartdata);
+print_r($billing_address);
+print_r($shipping_address);
+print_r($user_detail);
+print_r($product_details);
+echo "</pre>";*/
+$grandTotal=0.0;
+foreach ($arrCartdata as $key=>$value) {
+$cart_data[$key]['user_detail']= $CI->Glitzz_model->getUserDetail($value->userid);
+$cart_data[$key]['category_name']= $CI->Glitzz_model->getCategoryName($value->categoryid);
+$cart_data[$key]['brand_name']= $CI->Glitzz_model->getManufacturNameR($value->brandid);
+ $cart_data[$key]['product_name']=$value->name;
+ $cart_data[$key]['quantity']=$value->quantity;
+ $cart_data[$key]['price']=$value->price;
+ $grandTotal=$grandTotal+$value->price;
+}
+echo "<pre>";
+print_r($arrCartdata);
+print_r($cart_data);
+echo $grandTotal; 
+echo "</pre>";
+
+foreach($cart_data as $value){
+
+}
+?>
+ 

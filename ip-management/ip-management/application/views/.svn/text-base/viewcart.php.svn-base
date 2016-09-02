@@ -1,0 +1,218 @@
+<?php $userdata = $this->session->userdata;
+  $locationid=$userdata['location_id'];
+  $isService = cart::checkCartProductType($userdata['cartsession'],'services');
+ ?>
+
+  <!-- Main Container -->
+  <section class="main-container col1-layout wow bounceInUp animated md-h">
+    <div class="main container">
+      <div class="col-main">
+        <div class="cart">
+          <div class="page-title">
+            <h2>Shopping Cart</h2>
+          </div>
+          <div class="table-responsive">
+            <form method="post" action="#">
+              <input type="hidden" value="Vwww7itR3zQFe86m" name="form_key">
+              <fieldset>
+                <table class="data-table cart-table" id="shopping-cart-table">
+                  <thead>
+                    <tr class="first last">
+                      
+                      <th rowspan="1"><span class="nobr">Product Name</span></th>
+                      <th rowspan="1" class="hidden-phone"></th>
+                      <?php if(!$isService){ ?>
+                      <th rowspan="1"><span class="nobr">Delivery Time</span></th>
+                         <?php }?>
+                      
+                      <th colspan="1" class="a-center"><span class="nobr">Unit Price</span></th>
+                      <th class="a-center " rowspan="1">Qty</th>
+                                            <th colspan="1" class="a-center">Subtotal</th>
+                      <th class="a-center" rowspan="1">&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr class="first last">
+                      <td class="a-right last" colspan="8">
+                        
+                       </td>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                  <?php /*echo "<pre>"; print_r($arrCartdata);die;*/ 
+                     $CI = & get_instance();
+                      $CI->load->model('Cyprus_model');
+                     /*echo "<pre>";  print_r($arrCartdata);die;*/
+                  ?>
+                  <?php foreach($arrCartdata as $viewCart) {
+                    //echo"<pre>"; print_r($viewCart);
+                    $deliverymsg=cart::getdeliverymsg($locationid, $viewCart->quantity,$viewCart->productid,$viewCart->categoryid);
+                   // echo $deliverymsg['deliverytimemessage'];
+                   ?>
+                      <tr class="first odd" id="<?php echo $viewCart->cartid; ?>">
+                     
+                       <td><h3 class="product-name"> <a><?php echo $viewCart->brandname."&nbsp;&nbsp;".$viewCart->categoryname."&nbsp;&nbsp;".$viewCart->lengthname."&nbsp;(".$viewCart->sizename.")&nbsp;".$viewCart->typename; ?></a> </h3></td>
+                      <td class="a-center hidden-table"></a></td>
+
+                       <?php if(!$isService){ ?>
+                      <td><?php echo $deliverymsg['deliverytimemessage']; ?></td>
+                      <?php }?>
+                      
+                      <td class="a-center hidden-table"><span class="cart-price"> <span class="price" id="proprice_<?php echo $viewCart->productid; ?>"><?php echo ($viewCart->price); ?></span> </span></td>
+                      <td class="a-center movewishlist">
+                          <input maxlength="12" class="input-text qty" title="Qty" size="4" value="<?php echo $viewCart->quantity; ?>" name="quantity_<?php echo $viewCart->id; ?>" id="proquantity_<?php echo $viewCart->productid; ?>"> 
+                          <button class="button btn-update" title="Update Quantity" value="update_qty" name="update_cart_action" type="button" onclick="updateproductquantity('<?php echo $viewCart->productid; ?>','<?php echo $viewCart->length; ?>','<?php echo $viewCart->brandid; ?>',1);"></button>
+                          <br><span id="msg_<?php echo $viewCart->productid; ?>" class="success"></span>
+                      </td>
+                          
+      
+                      <td class="a-center movewishlist"><span class="cart-price"> <span class="price" id="subtotal_<?php echo $viewCart->productid; ?>"><?php echo ($viewCart->price * $viewCart->quantity ); ?></span> </span></td>
+                      <td class="a-center last"><a class="button remove-item" title="Remove item" href="javascript:void(0);" onclick="removecartitem('<?php echo $viewCart->cartid; ?>');"><span><span>Remove item</span></span></a></td>
+                    </tr>
+                    
+                  <?php } ?>
+                   
+                  </tbody>
+                </table>
+              </fieldset>
+            </form>
+          </div>
+          <!-- BEGIN CART COLLATERALS -->
+          <div class="cart-collaterals row">
+            <div class="col-sm-3">
+             
+            </div>
+            <div class="col-sm-3">
+            
+            </div>
+            <div class="totals col-sm-6">              
+              <div class="inner">
+                <table class="table shopping-cart-table-total" id="shopping-cart-totals-table">                  
+                  <tfoot>
+                    <tr>
+                      <td colspan="1" class="a-left"><strong ><span style="margin:left:50px;">Grand Total</span></strong></td>
+                      <td   class=""><strong><span class="price" id="cartpagetotal" style="text-align:center;"><?php echo cart::$totalPrice ?></span></strong></td>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    
+                  </tbody>
+                </table>
+                <ul class="checkout">
+                  <li>
+                  <!--=============new rwo section button 1-07-015===================-->
+                  <div class="col-md-12">
+                    <div class="col-md-4"><button onclick="window.history.go(-1)" class="button btn-continue" title="Continue Shopping" type="button"><span>Continue Shopping</span></button></div>
+                     <div class="col-md-7">
+                    <a href="<?php echo site_url(); ?>/cyprus/checkout"><button class="button btn-continue" title="Proceed to Checkout" type="button"><span>Proceed to Checkout</span></button></a>
+                    </div>
+                    </div>
+                  </li>
+                  
+                 
+                
+                </ul>
+              </div>
+              <!--inner--> 
+              
+            </div>
+          </div>
+          
+          <!--cart-collaterals--> 
+          
+        </div>
+ 
+        
+      </div>
+    </div>
+  </section>
+  
+
+
+  <script>
+
+  function removecartitem(cartId)
+      {
+        var datastring;
+        if(!confirm("Are you sure?"))
+        {
+           return false;
+        }
+        $.ajax({
+          type: "POST",
+          url: "<?php echo site_url(''); ?>/cyprus/removecart?cartid="+cartId,
+          data: datastring,
+          //dataType: "json",
+           beforeSend: function() {
+          // $("#newserr_message").fadeOut(1000);
+          // $("#newssucc_message").fadeOut(1000);
+           },
+          success: function (data) {
+                       
+            if(data){ 
+              $("#"+cartId).html(''); 
+              updatecart(); 
+
+              //totalcarvalue = $("#totalcarvalue").html();  
+              
+              };             
+            
+          },
+          error: function () {
+            
+          }
+        });
+                    
+             
+             
+      return false;
+      }
+
+
+function updateproductquantity(protid,length,brandid,viewcarthidden)
+{
+            
+             qty =$("#proquantity_"+protid).val();
+
+       if(isNaN(qty))
+      {
+          $("#msg_"+protid).html("Please enter number only.");
+          return false;
+       }
+           
+       
+            var datastring1 = $("#proquantity_"+protid).val();
+            //alert(datastring1+" "+protid);
+            $.ajax({
+                type: "POST",
+                url: "<?php echo site_url(); ?>/cyprus/add_to_cart",
+                data: {"product_id":protid,"qty":datastring1,"length":length,"brand":brandid,"viewcarthidden":viewcarthidden},
+                
+                success: function (data) {
+                    if (data) {
+                    
+            //alert(data);
+                    var objJson = JSON.parse(data);
+                    //alert(objJson.txtsuccess);
+                    if (objJson.txtsuccess == false) { 
+                      $("#msg_"+protid).html(objJson.txtmessage);
+                    } else if (objJson.txtsuccess == true) {
+                      $("#msg_"+protid).html(objJson.txtmessage);
+                      var subtotal = $("#proprice_"+protid).html() * datastring1;
+                       subtotal = subtotal.toFixed(2);
+                       $("#subtotal_"+protid).html(subtotal);
+                    // updatecart();
+                    }
+                    setTimeout(function() { $("#msg_"+protid).text(''); }, 4000);
+          
+                    }
+                },
+                error: function () {
+                    alert('error handing here');
+                }
+            });
+            return false;
+
+}
+
+  </script>

@@ -1,0 +1,128 @@
+﻿<div class="bread_crum_section" style="margin-top:-17px;"> <img src="<?php echo base_url();?>assets/images/vrc_img.png" style="height:"> </div>
+  <!-- end header -->
+  <div class="mm-toggle-wrap">
+    <div class="mm-toggle"><i class="icon-align-justify"></i><span class="mm-label">Menu</span> </div>
+  </div>
+  <!-- end nav --> 
+<!-- Breadcrumbs -->
+<!-- <div class="breadcrumbs">
+  <div class="container">
+    <div class="row">
+      <ul>
+        <li class="home"> <a title="Go to Home Page" href="<?php echo site_url(); ?>">Home</a><span>&mdash;›</span></li>
+        <li class="category13"><strong>Contact Us</strong></li>
+      </ul>
+    </div>
+  </div>
+</div> -->
+<!-- Breadcrumbs End -->
+<!-- Main Container -->
+<div class="main-container col2-right-layout wow bounceInUp animated">
+  <div class="main container">
+  <div class="contact-title">
+    <h4>General inquiries ? Business/Partnership proposals ? Wants to Advertise with us ? We look forward to hearing from you </h4>
+        </div>
+  <div class="cont-page">
+ 
+    <div class="row">
+      <section class="col-main">
+      
+        <div class="static-contain">
+          <fieldset class="group-select">
+            <ul>
+              <li id="billing-new-address-form">
+                <fieldset>
+                  <legend>New Address</legend>
+                  <form action="<?php echo site_url();?>/cyprus/addContactUsDetail" method="post"> 
+                  <input type="hidden" name="billing[address_id]" id="billing:address_id">
+                  <ul>
+                    <li>
+                      <div class="customer-name">
+                      <div class="row" style="padding-bottom:20px;">
+                      <div class="col-md-6">
+                        <div class="input-box name-firstname">
+                        <div class="col-md-5">  <label for="first_name"> First Name <span class="required">*</span></label></div>
+                     
+                               <div class="col-md-7"> <input type="text" id="first_name" name="first_name" title="First Name" class="input-text " required></div>
+                                                       <br />
+                        </div>
+                        </div>
+                           <div class="col-md-6">
+                        <div class="input-box name-lastname">
+                             <div class="col-md-5"><label for="lastname"> Last Name <span class="required">*</span> </label></div>
+                         
+                                <div class="col-md-7"> <input type="text" id="last_name" name="last_name" title="Last Name" class="input-text" required></div>
+                                <br />
+                        </div>
+                        </div>
+                        </div>
+                               <div class="row" style="padding-bottom:20px;">
+                                              <div class="col-md-6">
+                        <div class="input-box">
+                             <div class="col-md-5">  <label for="email"> Email <span class="required">*</span> </label></div>
+                        
+                         <div class="col-md-7">   <input type="text" id="email" name="email" title="Email" class="input-text" required></div>
+                          </div>
+                        </div>
+                         <div class="col-md-6">  
+                        <div class="input-box">
+                        <div class="col-md-5">    <label for="company">Company</label></div>
+                    
+                         <div class="col-md-7">   <input type="text" id="company" name="company" title="Company" class="input-text" ></div>
+                      </div>
+                        </div>
+                      </div>
+                      
+                         <div class="row" style="padding-bottom:20px;">
+                              <div class="col-md-6">  
+                         <div class="input-box">
+                           <div class="col-md-5">  <label for="telephone">Telephone <span class="required">*</span></label></div>
+                 
+                         <div class="col-md-7">    <input type="text" name="telephone" id="telephone" title="Email Address" class="input-text" required></div>
+                      </div>
+                      </div>
+                         <div class="col-md-6"> 
+                             <div class="input-box">
+                           <div class="col-md-5">    <label>Address <span class="required">*</span></label></div>
+                
+                       <div class="col-md-7"> <input type="textarea" title="Street Address" name="address" class="input-text"></div>
+                      </div>
+                         </div>
+                         </div>
+                         
+                         
+                         
+                           <div class="row" style="padding-bottom:20px;">
+                               <div class="col-md-12"> 
+                               
+                              <div class="col-md-1">     <label for="comment">Comment<em class="required">*</em></label></div>
+                         <div class="col-md-11"> 
+                      <div style="float:none; width:90%; margin-left:5%;" class="">
+                        <textarea name="comment" id="comment" title="Comment" class="input-text" cols="5" rows="3" required></textarea>
+                      </div>
+                      </div>
+                               
+                                </div>
+                           
+                           </div>
+                    </li>
+                 
+              
+                  </ul>
+                  <div class="buttons-set" style="margin:0 auto; width:20%;">
+                    <button type="submit" title="Submit" class="button submit" id="submit" style="width:100%; padding:10px 0;"> <span style="font-size:20px;">  Submit </span> </button>
+                  </div>
+                </form>
+                </fieldset>
+              </li>
+              <!-- <li><span class="require"><em class="required">* </em>Required Fields</span> -->
+              </li>
+            </ul>
+          </fieldset>
+        </div>
+      </section>
+     </div>
+    </div>
+  </div>
+</div>
+<!-- Main Container End -->

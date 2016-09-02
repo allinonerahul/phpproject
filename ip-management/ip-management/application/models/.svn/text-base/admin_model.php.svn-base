@@ -1,0 +1,890 @@
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
+
+class Admin_Model extends CI_Model {
+
+    function __construct() {
+        // Call the Model constructor
+        parent::__construct();
+        $this->load->database();
+        //$this->load->library('Encryptdecrypt');
+    }
+    public function getParentCategory($parent_id){
+        $query = $this->db->query("select name from category where id='$parent_id'");
+    //echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+    public function deleteCategory($articleid) {
+            $this->db->where('id', $articleid);
+            $query = $this->db->delete('category');
+            return true;
+         
+    }
+    public function updateCategory($data, $articleid) {
+//    echo 'hi'; exit;
+
+        $this->db->where('id', $articleid);
+        $query = $this->db->update('category', $data);
+        // echo $this->db->last_query(); exit;   
+        return ($this->db->affected_rows() > 0) ? true : false;
+        //echo $this->db->last_query(); exit;   
+    }
+    public function saveCategory($data) {
+            $res = $this->db->insert('category', $data);
+            $insert_id = $this->db->insert_id();
+            return $insert_id;
+        }
+          public function getCategory($article_id = null) {
+        $query = $this->db->query("SELECT * FROM category where id=" . $article_id);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+    
+     public function manage_category($filter='',$limit = NULL, $sort = NULL) {
+       // $query = $this->db->query("select * from category where parentid!='0' $sort $limit");
+    // echo $this->db->last_query();exit;
+
+
+          $sql = "SELECT * FROM category where 1";
+        //echo $sql;exit;
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND name LIKE '%" . $filter['filter_search'] . "%'";
+            }
+        }
+        $sql.=" ORDER BY id desc ";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+        return $query->result_array();
+    }
+    public function getAllMainCategory(){
+        $query=$this->db->query("select * from category where parentid='0'");
+        return $query->result_array();
+    }
+    
+     public function getAllCategory(){
+        $query=$this->db->query("select * from category where parentid !='0'");
+        return $query->result_array();
+    }
+    
+
+     public function getAllManufacturer(){
+        $query=$this->db->query("select * from manufacturer");
+        return $query->result_array();
+    }
+///////////////////////////////////////////////////////////////////////////////////////////
+     public function manage_product($filter='',$limit = NULL, $sort = NULL) {
+        /*$query = $this->db->query("select * from manufacturer $sort $limit");
+    // echo $this->db->last_query();exit;
+        return $query->result_array();*/
+
+          $sql = "SELECT * FROM product where 1";
+        //echo $sql;exit;
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND name LIKE '%" . $filter['filter_search'] . "%'";
+            }
+        }
+        $sql.=" ORDER BY id desc ";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+     public function saveProduct($data) {
+            $res = $this->db->insert('product', $data);
+            $insert_id = $this->db->insert_id();
+            return $insert_id;
+        }
+        public function deleteProduct($articleid) {
+            $this->db->where('id', $articleid);
+            $query = $this->db->delete('product');
+            return true;
+         
+    }
+
+      public function getProduct($article_id = null) {
+        $query = $this->db->query("SELECT * FROM product where id=" . $article_id);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+    public function updateProduct($data, $articleid) {
+//    echo 'hi'; exit;
+
+        $this->db->where('id', $articleid);
+        $query = $this->db->update('product', $data);
+        // echo $this->db->last_query(); exit;   
+        return ($this->db->affected_rows() > 0) ? true : false;
+        //echo $this->db->last_query(); exit;   
+    }
+    ///////////////////////////////////////////////////////////////////////////////
+
+
+        public function manage_manufacturer($filter='',$limit = NULL, $sort = NULL) {
+        /*$query = $this->db->query("select * from manufacturer $sort $limit");
+    // echo $this->db->last_query();exit;
+        return $query->result_array();*/
+
+          $sql = "SELECT * FROM manufacturer where 1";
+        //echo $sql;exit;
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND name LIKE '%" . $filter['filter_search'] . "%'";
+            }
+        }
+        $sql.=" ORDER BY id desc ";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+      public function getManufacturer($article_id = null) {
+        $query = $this->db->query("SELECT * FROM manufacturer where id=" . $article_id);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+     public function deleteManufacturer($articleid) {
+            $this->db->where('id', $articleid);
+            $query = $this->db->delete('manufacturer');
+            return true;
+         
+    }
+
+    public function saveManufacturer($data) {
+            $res = $this->db->insert('manufacturer', $data);
+            $insert_id = $this->db->insert_id();
+            return $insert_id;
+        }
+           
+
+    public function updateManufacturer($data, $articleid) {
+//    echo 'hi'; exit;
+
+        $query = $this->db->where('id', $articleid);
+        $query = $this->db->update('manufacturer', $data);
+        // echo $this->db->last_query(); exit;   
+        return ($this->db->affected_rows() > 0) ? true : false;
+        //echo $this->db->last_query(); exit;   
+    }
+
+    public function get_user_details($user_id){
+        $query = $this->db->query("SELECT * FROM admin WHERE email='$user_id'");
+        return $query->row_array(); 
+    }
+
+    public function checkEmail($email) {
+        $query = $this->db->query("SELECT * FROM admin WHERE email='$email'");
+        if ($query->num_rows() >= 1) {
+            echo 'false';
+        } else {
+            echo 'true';
+        }
+        exit;
+    }
+
+    public function checkUsername($username) {
+        $query = $this->db->query("SELECT * FROM admin WHERE username='$username'");
+        if ($query->num_rows() >= 1) {
+            echo 'false';
+        } else {
+            echo 'true';
+        }
+        exit;
+    }
+
+    public function checkPatientCode($patient_code) {
+        $$patient_code = strtoupper($patient_code);
+        $query = $this->db->query("SELECT * FROM patient WHERE code='$patient_code'");
+        if ($query->num_rows() >= 1) {
+            echo 'false';
+        } else {
+            echo 'true';
+        }
+        exit;
+    }
+
+    /* Default functions -start */
+
+    public function viewMyProfile($id) {
+        $query = $this->db->get_where('admin', array('id' => $id));
+        $row = $query->row();
+        $password = $this->encryptdecrypt->decrypt($row->password);
+        $data = array(
+            'user_id' => $row->id,
+            'username' => $row->username,
+            'password' => $password,
+            'name' => $row->name,
+            'email' => $row->email,
+            'mobile_no' => $row->mobile_no,
+            'user_type' => $row->user_type
+        );
+        return $data;
+    }
+
+    public function updateMyProfile($data, $id) {
+        $query = $this->db->where('id', $id);
+        $query = $this->db->update('admin', $data);
+        //$this->db->last_query();
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function updatePassword($new_pwd, $user_id) {
+        $data = array(
+            'password' => $new_pwd
+        );
+        $this->db->where('id', $user_id);
+        $this->db->update('admin', $data);
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function manageStaffUser() {
+        $query = $this->db->query("SELECT * FROM admin WHERE user_type = 'staff' AND status='1'");
+        return $query->result_array();
+    }
+
+    public function insertStaffUser($data) {
+        $query = $this->db->insert('admin', $data);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+    public function getStaffDetails($id) {
+        $query = $this->db->get_where('admin', array('id' => $id));
+        $row = $query->row();
+        $password = $this->encryptdecrypt->decrypt($row->password);
+        $data = array(
+            'user_id' => $row->id,
+            'username' => $row->username,
+            'password' => $password,
+            'name' => $row->name,
+            'city' => $row->city,
+            'state' => $row->state,
+            'age' => $row->age,
+            'gender' => $row->gender,
+            'dob' => $row->dob,
+            'email' => $row->email,
+            'mobile_no' => $row->mobile_no,
+            'user_type' => $row->user_type
+        );
+        return $data;
+    }
+
+    public function updateStaffUser($data, $id) {
+        $query = $this->db->where('id', $id);
+        $query = $this->db->update('admin', $data);
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function deleteStaffUser($id) {
+        //$query = $this->db->query("update admin set status='0' where id='$id'");
+        $this->db->delete('admin', array('id' => $id));
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function getSiteDetails() {
+        $query = $this->db->get('site_details');
+        return $query->row_array();
+    }
+
+    public function updateSiteDetails($data) {
+        $query = $this->db->update('site_details', $data);
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    /* Default functions -end */
+
+
+
+
+
+   
+
+    /*     * *********** Manage Category ***************** */
+
+    public function get_count($count_user) {
+        $query = $this->db->query("SELECT COUNT(*) FROM feedback where articleid=$count_user ");
+        //echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function get_language_name() {
+        $query = $this->db->query("SELECT * FROM languages ORDER BY name");
+        //echo $this->db->last_query(); exit;
+        return $query->result_array();
+    }
+
+    public function get_title($articleid) {
+
+        $query = $this->db->query("SELECT b.`articleid`,b.`title`,c.`category_name` FROM `article` as b inner join `managecategory`  as c 
+     on b.`category_id`=c.`manageid`  or b.`articleid`= '$articleid'");
+        //echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function get_username($id) {
+
+        $query = $this->db->query("SELECT * FROM admin where id = '$id'");
+
+        //echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function getManageCategory($cat_id = NULL, $limit = NULL) {
+        $where = '';
+        if ($cat_id) {
+            $where .= "manageid =$cat_id";
+        } else {
+            $where .= "1";
+        }
+        $query = $this->db->query("SELECT * FROM managecategory where $where $limit");
+        // echo $this->db->last_query(); exit;
+
+        return $query->result_array();
+    }
+
+    public function deleteManageCategory($manageid) {
+
+        $this->db->delete('managecategory', array('manageid' => $manageid));
+        // return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+
+        $this->db->where('manageid', $manageid);
+        $query = $this->db->delete('managecategory');
+        // echo $this->db->last_query(); exit;   
+    }
+
+    public function saveManageCategory($data, $manageid = NULL) {
+
+        if (!empty($manageid)) {
+            //  print_r($data); exit;
+
+            $query = $this->db->update('managecategory', $data, array('manageid' => $manageid));
+            return true;
+        } else {
+            $res = $this->db->insert('managecategory', $data);
+            return ($this->db->affected_rows() > 0) ? true : false;
+        }
+        //echo $this->db->last_query(); exit; 
+    }
+
+   /* public function updatecategory($data, $cat_id) {
+        $query = $this->db->where('manageid', $cat_id);
+        $query = $this->db->update('managecategory', $data);
+
+        return ($this->db->affected_rows() > 0) ? true : false;
+        echo $this->db->last_query();
+        exit;
+    }*/
+
+    /*     * *********** Manage Article ***************** */
+
+    public function getarticle($article_id = null) {
+        $query = $this->db->query("SELECT * FROM article where articleid=" . $article_id);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+
+    public function getvideo($articleid) {
+        $query = $this->db->query("SELECT * FROM video where articleid=" . $articleid);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+
+    public function getimage($articleid) {
+        $query = $this->db->query("SELECT * FROM gallery where articleid=" . $articleid);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+
+    // public function getarticle1() {
+    //     $query = $this->db->query("SELECT * FROM article ORDER BY articleid desc");
+    //    // echo $this->db->last_query();exit;
+    //     return $query->result_array();
+    // }
+
+
+
+    public function getarticle1($filter = '', $limit = NULL) {
+
+        $sql = "SELECT * FROM article where 1";
+        //echo $sql;exit;
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND title LIKE '" . $filter['filter_search'] . "%'";
+            }
+        }
+        $sql.=" ORDER BY articleid desc ";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
+    //  public function deletearticle($articleid) {
+    //     // echo 'hi'; exit;
+    //     $this->db->delete('article', array('articleid' => $articleid));
+    //    // return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    //      $this->db->where('articleid', $articleid);
+    //    $query = $this->db->delete('article');
+    //   //  echo $this->db->last_query(); exit;  
+    // }
+   
+    public function updatevideo($data, $articleid) {
+        $query = $this->db->query("SELECT * FROM video where articleid=" . $articleid);
+        $chk = $query->row_array();
+        //print_r($chk);exit;
+        if (!empty($chk)) {
+            $query = $this->db->where('articleid', $articleid);
+            $query = $this->db->update('video', $data);
+            //echo $this->db->last_query(); exit;   
+            return ($this->db->affected_rows() > 0) ? true : false;
+        } else {
+            $query = $this->db->insert('video', $data);
+        }
+    }
+
+    //}
+
+    /*     * *********** Manage Feedback ***************** */
+
+
+
+    public function savefeedback($data, $fchart_id = NULL) {
+
+        if (!empty($fchart_id)) {
+            $query = $this->db->update('feedback', $data, array('id' => $fchart_id));
+            return true;
+        } else {
+            $res = $this->db->insert('feedback', $data);
+            return ($this->db->affected_rows() > 0) ? true : false;
+        }
+    }
+
+    /* public function getManageFeedback($cat_id = NULL, $limit = NULL) {
+      $where = '';
+      if ($cat_id) {
+      $where .= "id =$cat_id";
+      } else {
+      $where .= "1";
+      }
+      $query = $this->db->query("SELECT * FROM feedback where $where $limit");
+      //echo $this->db->last_query();
+
+      return $query->result_array();
+      } */
+
+    public function getManageFeedback($userid) {
+        $query = $this->db->query("SELECT * FROM feedback where id=$userid");
+        // echo $this->db->last_query();exit;
+        return $query->result_array();
+    }
+
+    public function deleteFeedback($id) {
+        $this->db->delete('feedback', array('id' => $id));
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+    public function sendtvideos() {
+
+
+        $sqlQuery = "SELECT distinct gcmno from gcm ";
+
+        //echo $sqlQuery;exit;
+
+        $result = mysql_query($sqlQuery);
+        $resultcount = mysql_num_rows($result);
+        $arrGSM = array();
+        $count = 1;
+
+
+
+        while ($row = mysql_fetch_assoc($result)) {
+            $arrGSM[] = $row['gcmno'];
+            if ($resultcount >= 950 && $count >= 950) {
+
+                $this->send_notification($arrGSM, array());
+                $count = 0;
+                $arrGSM = array();
+            }
+            $count++;
+        }
+        //print_r($arrGSM);
+        //exit;
+
+        $this->send_notification($arrGSM, array('price' => $video_title, 'user_id' => $success, 'video_title' => $video_desc));
+    }
+
+    public function savevideo($data, $articleid = NULL) {
+
+        if (!empty($articleid)) {
+            $query = $this->db->update('video', $data, array('articleid' => $articleid));
+            return true;
+        } else {
+
+            $res = $this->db->insert('video', $data);
+            $articleid = $this->input->post('articleid');
+            // $articleid = $this->db->articleid();
+            return $this->db->insert_id();
+            // echo $this->db->last_query();exit;
+        }
+    }
+
+    public function getGallery($articleid) {
+        $query = $this->db->query("SELECT * FROM gallery where articleid=$articleid  ORDER BY sort_order ");
+ // echo $this->db->last_query();exit;
+        return $query->result_array();
+    }
+
+    public function saveGalleryDetail($data) {
+        $query = $this->db->insert('gallery', $data);
+    }
+
+    public function updateimage($data, $id) {
+        $query = $this->db->where('id', $id);
+        $query = $this->db->update('gallery', $data);
+        // echo $this->db->last_query(); exit;
+        //return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function get_image($articleid) {
+
+        $query = $this->db->query("SELECT * FROM video where articleid = '$articleid'");
+
+        // echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function get_gallery($articleid) {
+
+        $query = $this->db->query("SELECT * FROM gallery where articleid = '$articleid'");
+
+        // echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function insertlanguageold($data) {
+
+        $query = $this->db->insert('language', $data);
+        //echo $this->db->last_query();
+        //exit();
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+    public function gethomepage() {
+        $query = $this->db->query("SELECT * FROM homepage_banner ORDER BY id  ");
+        return $query->result_array();
+    }
+
+    public function get_homepage_details($product_id) {
+        $query = $this->db->query("SELECT * FROM homepage_banner where id=$product_id ");
+        return $query->row_array();
+    }
+
+    //     public function forward_list() {
+    //     $query = $this->db->query("SELECT * FROM forward_list ");
+    //     return $query->result_array();
+    // }
+
+
+    public function forward_list($filter = '', $limit = NULL) {
+
+        $sql = "SELECT * FROM forward_list where 1";
+        //echo $sql;exit;
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND email LIKE '" . $filter['filter_search'] . "%'";
+            }
+        }
+        $sql.=" ORDER BY id desc ";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+
+        return $query->result_array();
+    }
+
+    public function inserthomepage_banner($data) {
+        $query = $this->db->insert('homepage_banner', $data);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+    public function deletehomepage($id) {
+        $this->db->delete('homepage_banner', array('id' => $id));
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function delete_email($id) {
+        $this->db->delete('forward_list', array('id' => $id));
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function update_item($data, $id) {
+        $query = $this->db->where('id', $id);
+        $query = $this->db->update('homepage_banner', $data);
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function languageList() {
+        $query = $this->db->query("SELECT * FROM language ORDER BY  language_name ");
+        return $query->result_array();
+    }
+
+    public function get_languagedetails($id) {
+        $query = $this->db->get_where('language', array('id' => $id));
+        $row = $query->row();
+
+        $data = array(
+            'user_id' => $row->id,
+            'language_name' => $row->language_name,
+        );
+        return $data;
+    }
+
+    public function deleteimage($id) {
+        //$query = $this->db->query("update admin set status='0' where id='$id'");
+        $this->db->delete('gallery', array('id' => $id));
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function avgrate($articleid) {
+        $query = $this->db->query("SELECT AVG(rating) FROM rating where articleid=$articleid");
+        //echo $this->db->last_query();
+        return $query->row_array();
+    }
+
+    public function get_category_name($category_id) {
+        $query = $this->db->query("SELECT category_name FROM managecategory where manageid=" . $category_id);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+
+    public function get_languagename($language_name) {
+        $query = $this->db->query("SELECT name FROM languages where id=" . $language_name);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+
+    public function deleteimagess($id) {
+        //$query = $this->db->query("update admin set status='0' where id='$id'");
+        $this->db->delete('gallery', array('id' => $id));
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function get_category($state_id) {
+        $this->db->where('language', $state_id);
+        //echo $this->db->last_query();
+        //exit;
+        $query = $this->db->get('managecategory');
+
+        return $query->result_array();
+    }
+
+    public function getcount($category_id) {
+        $query = $this->db->query("SELECT * FROM article where category_id=$category_id ");
+        return $query->result_array();
+    }
+
+    public function savearticlequestion($data) {
+        $query = $this->db->insert('article_ques', $data);
+
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+    public function getarticle_question($article_id = null) {
+        $query = $this->db->query("SELECT * FROM article_ques where articleid=" . $article_id);
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+
+    public function updatquestion($data, $articleid) {
+
+        $query = $this->db->where('articleid', $articleid);
+        $query = $this->db->update('article_ques', $data);
+        echo $this->db->last_query();
+        exit;
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function get_readcount($count_user) {
+        $query = $this->db->query("SELECT COUNT(*) FROM read_nd_watch_history where article_id=$count_user AND type='Read'");
+        //echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function get_watchcount($count_user) {
+        $query = $this->db->query("SELECT COUNT(*) FROM read_nd_watch_history where article_id=$count_user AND type='Watched'");
+        //echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function get_commentcount($id) {
+        $query = $this->db->query("SELECT COUNT(*) FROM comments where articleid=$id");
+        return $query->row_array();
+    }
+
+    public function article_history($id, $articleid) {
+
+        $query = $this->db->query("SELECT * FROM read_nd_watch_history where userid = '$id' AND article_id=$articleid");
+
+        //echo $this->db->last_query(); exit;
+        return $query->row_array();
+    }
+
+    public function getManageFeedback_comment($articleid) {
+        $query = $this->db->query("SELECT * FROM `comments`  WHERE `type` ='Read' AND articleid=$articleid");
+        //echo $this->db->last_query();exit;
+        return $query->result_array();
+    }
+
+    public function getManageFeedback_comment_watch($articleid) {
+        $query = $this->db->query("SELECT * FROM `comments`  WHERE `type` ='Watch' AND articleid=$articleid");
+        //echo $this->db->last_query();exit;
+        return $query->result_array();
+    }
+
+    public function userhistory($id, $catid, $year, $month, $date) {
+        $query = $this->db->query("SELECT COUNT(*) as count, start_date FROM read_nd_watch_history where userid=$id AND category_id=$catid  AND YEAR(start_date) = $year AND  MONTH(start_date) = $month AND DAY(start_date)=$date");
+        // echo $this->db->last_query();exit;
+        return $query->row_array();
+    }
+
+    public function get_date($month, $year) {
+
+        $query = $this->db->query("SELECT * FROM read_nd_watch_history WHERE YEAR(start_date) = $year AND MONTH(start_date) = $month");
+
+        return $query->result_array();
+    }
+
+    /* =================user History section=================== */
+
+    public function totalcomment($id) {
+        $query = $this->db->query("SELECT COUNT(*) FROM feedback where id=$id");
+        return $query->row_array();
+    }
+
+    public function total_read_article($id) {
+        $query = $this->db->query("SELECT COUNT(*) FROM read_nd_watch_history where type='Read' AND id=$id");
+        return $query->row_array();
+    }
+
+    public function total_watch_article($id) {
+        $query = $this->db->query("SELECT COUNT(*) FROM read_nd_watch_history where type='watched' AND id=$id");
+        return $query->row_array();
+    }
+
+    public function lastwatch_article($id) {
+        $query = $this->db->query("SELECT * FROM read_nd_watch_history where type='watched' AND id=$id ORDER BY id DESC LIMIT 1");
+        return $query->row_array();
+    }
+
+    public function lastread_article($id) {
+        $query = $this->db->query("SELECT * FROM read_nd_watch_history where type='Read' AND id=$id ORDER BY id DESC LIMIT 1");
+        return $query->row_array();
+    }
+
+    public function lastcomment($id) {
+        $query = $this->db->query("SELECT * FROM feedback WHERE id =$id ORDER BY id DESC LIMIT 1 ");
+        return $query->row_array();
+    }
+
+    public function getarticle_name($id) {
+        //print_r($id);exit();
+        $query = $this->db->query("SELECT * FROM article where articleid=$id ");
+        return $query->row_array();
+    }
+
+    /*     * ******** language section ***************** */
+
+    public function getLanguages() {
+        $query = $this->db->query("SELECT * FROM languages");
+        return $query->result_array();
+    }
+
+    public function insertLanguage($data) {
+        $query = $this->db->insert('languages', $data);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+    public function getLanguageDetail($id) {
+        $query = $this->db->get_where('languages', array('id' => $id));
+
+        return $query->row_array();
+    }
+
+    public function updateLanguage($data, $id) {
+        $query = $this->db->where('id', $id);
+        $query = $this->db->update('languages', $data);
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    public function deleteLanguage($id) {
+        $this->db->delete('languages', array('id' => $id));
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+
+    //==========lanaguage tag section=============//
+    public function getlanguagetag($filter = '', $limit = NULL) {
+        //print_r($filter);exit();
+        $sql = "SELECT * FROM language_tag where 1";
+        //echo $sql;exit;
+        if (is_array($filter)) {
+            if (!empty($filter['filter_search'])) {
+                $sql .=" AND language_id LIKE '" . $filter['filter_search'] . "%'";
+            }
+        }
+        $sql.=" ORDER BY id desc ";
+        if ($limit) {
+            $sql.= $limit;
+        }
+
+        $query = $this->db->query($sql);
+       //$this->db->last_query();exit();
+        return $query->result_array();
+    }
+
+    //    public function getlanguagetag($limit=null) {
+    //     $query = $this->db->query("SELECT * FROM language_tag $limit");
+    //     return $query->result_array();
+    // }
+
+     public function languagetag($data) {
+        $query = $this->db->insert('language_tag', $data);
+        return ($this->db->affected_rows() > 0) ? TRUE : FALSE;
+    }
+
+     public function getLanguageTagDetail($id) {
+        $query = $this->db->get_where('language_tag', array('id' => $id));
+
+        return $query->row_array();
+    }
+
+        public function updateLanguageTag($data, $id) {
+        $query = $this->db->where('id', $id);
+        $query = $this->db->update('language_tag', $data);
+        return ($this->db->affected_rows() > 0) ? true : false;
+    }
+         public function fatchlanguage() {
+       $query = $this->db->query("SELECT * FROM language_tag where language_id=1");
+       //$this->db->last_query();exit();
+        return $query->result_array();
+    }
+
+}
+
+?>

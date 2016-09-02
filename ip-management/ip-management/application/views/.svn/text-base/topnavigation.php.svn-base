@@ -1,0 +1,46 @@
+<div class="clearfix"></div>
+<div class="row">
+  <!-- <div class="col-md-12"><div class="back-to-shopping-bag"> <a href="#">Back TO Shopping Bag</a> </div></div> -->
+  <div class="col-md-12" >
+      <div class="shopping-process">
+          <nav id="shopping-process">
+            
+           <h1 class="page-title floatl">
+               <?php
+               $srcount =1;
+               $usertype = strtolower(trim($this->session->userdata['usertype']));
+               $method = $this->router->fetch_method();
+                    if($method=='checkout')
+                    {
+                        echo "Account Details";
+                    }
+                    else if($method=='skip')
+                    {
+                        echo "Order Details";
+                    }
+                    else if($method=='paymentMode')
+                    {
+                        echo "Payment Options";
+                    }
+                    else if($method =='taxmode' && $usertype=='dealer')
+                    {
+                        echo "Tax Option";
+                    }
+               ?>
+           </h1>
+            <ul>
+                <?php  $txtCssActive = $this->router->fetch_method()=='checkout' ? 'active' : '' ; ?>
+                <li class="first <?php echo $txtCssActive; ?>"> <div class="stp-count"><?php echo $srcount++; ?></div> <span>Account Details</span> </li>
+                <?php if($method =='taxmode' && $usertype=='dealer'){ ?>
+                <?php  $txtCssActive = $this->router->fetch_method()=='taxmode' ? 'active' : '' ; ?>
+                <li class="last <?php echo $txtCssActive; ?>"> <div class="stp-count"><?php echo $srcount++; ?></div> <span>Tax Option</span> </li>
+                <?php } ?>
+                <?php  $txtCssActive = $this->router->fetch_method()=='skip' ? 'active' : '' ; ?>
+                <li class="last <?php echo $txtCssActive; ?>"> <div class="stp-count"><?php echo $srcount++; ?></div> <span>Order Details</span> </li>
+                 <?php  $txtCssActive = $this->router->fetch_method()=='paymentMode' ? 'active' : '' ; ?>
+                <li class="<?php echo $txtCssActive; ?>"> <div class="stp-count"><?php echo $srcount++; ?></div> <span>Payment Options</span> </li> </ul>
+          </nav>
+      </div>
+      </div>
+  </div>
+  <div class="clearfix"></div>

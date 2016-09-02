@@ -1,0 +1,170 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="#">Upload Excel</a><span class="divider-last">&nbsp;</span></li>
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+
+            <div class="row-fluid">
+                    <div class="span12">
+                        <!-- BEGIN SAMPLE FORMPORTLET-->
+                        <div class="widget">
+                            <div class="widget-title">
+                                <h4><i class="icon-reorder"></i>Excel Import</h4>
+                            </div>
+                            <div class="widget-body">
+                                <!-- BEGIN FORM-->
+                                <form action="<?php echo site_url(); ?>/admin/admin/import_excel" class="form-horizontal" method="post" enctype="multipart/form-data">
+                                    <!--set Flash Data For Success -->
+                                    <?php if ($this->session->flashdata('category_success')) { ?>
+                                        <div class="alert alert-success"> <?= $this->session->flashdata('category_success') ?><br>
+                                        
+                                       
+                                            <?php $data1 = $this->session->flashdata('cat');
+                                            //print_r($data1);
+                                              if($data1 != '') {
+                                                foreach($data1 as $d) {
+                                                 // if($d['error'] == 'yes') {
+                                                    echo "Can not added row no ".$d['row'].", size: .".$d['size']."<br>";
+                                                  //}
+                                                }}
+                                                  
+                                             ?>
+                                           
+
+                                        </div>
+                                    <?php } ?>
+                                    
+                                    <!--set Flash Data For Success -->
+
+                                    <?php if ($this->session->flashdata('category_error')) { ?>
+                                        <div class="alert alert-danger"> <?= $this->session->flashdata('category_error') ?> </div>
+                                    <?php } ?>
+
+
+                                    <div class="control-group">
+                                        
+                                            <label class="control-label" for="">Download Excel Format</label>                                                                                         
+                                            
+                                      
+                                       <div class="controls">    
+                                       
+                                              <a class="btn btn-success" href="<?php echo base_url() ?>/uploads/excelformat/cyprus_product.xlsx" download>Download Format</a>                                                                                                                    
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">            
+                                  <div class="span6 ">
+                                    <div class="control-group">
+                                      <label class="control-label" >Category<font color="red"> *</font></label>
+                                          <div class="controls">
+                                               <!-- <textarea class="ckeditor" id="editor1" name="title"></textarea> -->
+                                             <select  style="float:left;margin-left:-4px;" name="category" id="category" required>
+                                             <option value="">Select Category</option>
+                                             <?php foreach ($category as $val) { ?>
+                                                 <option value="<?php echo $val['id']; ?>"><?php echo $val['name']; ?></option>
+                                             <?php } ?>                                    
+                                             </select>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row-fluid">            
+                                            <div class="span6 ">
+                                                 <div class="control-group">
+                                                    <label class="control-label">Product Type<font color="red"> *</font></label>
+                                                    <div class="controls">
+                                                         <!-- <textarea class="ckeditor" id="editor1" name="title"></textarea> -->
+                                                         <select  style="float:left;margin-left:-4px;" name="producttype" id="producttype" >
+                                                        <option value="" required>Select Type</option>
+                                                                     
+                                                    </select> 
+
+                                                    </div>
+                                                </div>
+                                           </div>
+                               </div>
+                               
+                                    <div class="control-group">
+                                         <label class="control-label">Select file <span class="required">*</span></label>
+                                        <div class="controls">
+                                            <input type="file"  class="input-xlarge" id="attach_file" name="userfile" value=" "required/>
+                                            <span style="color:red"><?php echo $this->session->flashdata('formaterr'); ?></span>
+                                              
+                                        </div>
+                                        
+                                    </div>
+
+                                        <!-- <div class="control-group">
+                                           <label class="control-label">Date <span class="required">*</span></label>                                                                                                       
+                                            <div class="controls">                                                                                                                                                    
+                                              <input type="text" id="date" name="date" required/>
+                                                                                                                    
+                                            </div>    
+                                      </div> -->
+
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-success"><i class="icon-ok"></i> Submit</button>
+                                    </div>
+                                </form>
+                                <!-- END FORM-->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END SAMPLE FORM PORTLET-->
+                </div>
+        </div>
+       
+    </div>
+    <!-- END PAGE CONTAINER-->
+</div>
+<!-- END PAGE -->
+</div>
+<script type="text/javascript">
+    $("#category").change(function() {
+  //alert("In Add to Cart");
+            var cat_id = $("#category").val();
+            
+           var top = $("#producttype").find('option:first');
+            $.ajax({
+                type: "POST",
+                dataType: 'json',
+                url: "<?php echo site_url(); ?>/admin/admin/getcat_type",
+                data: {"cat_id":cat_id,'noheader':1},
+                
+                success: function (data) {
+                    if (data) {
+                       //alert(data);
+                       $("#producttype").empty().append(top);
+                       $.each(data, function (index, value) {
+               
+                      $("#producttype").append('<option value="'+ value.id +'">'+ value.type +'</option>');
+                  });
+             
+                    }
+                     $("#producttype").prop('disabled', false);
+                  
+                },
+                error: function () {
+                    alert('error handing here');
+                }
+            });
+            return false;
+        //}
+
+    });
+
+</script>
+

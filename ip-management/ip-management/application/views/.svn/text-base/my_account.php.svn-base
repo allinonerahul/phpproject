@@ -1,0 +1,93 @@
+﻿	<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $(".main-search").toggle();
+    });
+});
+</script>
+    <!-- Breadcrumbs -->
+  
+<!-- Main Container -->
+
+<?php $userdata = $this->session->userdata; ?>
+<section class="main-container col2-right-layout wow bounceInUp animated md-h">
+  <div class="main container">
+    <div class="row">
+      <div class="col-main col-sm-9">
+
+     <div class="page-title">
+            <h4 style="color:#f15a23;">My account</h4>
+          </div>
+          <!--title-buttons-->
+          <div class="addresses">
+            <div class="table-responsive">
+       
+                <table id="multiship-addresses-table" class="data-table" style="border:2px solid #f0f0f0">
+                  
+                  <thead>
+                    <tr class="first last">
+                       <th colspan="3"><div style="width:90%; float:left;" class="para-in"><p style="color:#f15a23;"> <span>Personal Details</span> </p></div><div style="float:right; width:10%;"><a href="<?php echo site_url(); ?>/cyprus/editProfile"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Edit
+        </a></div></th>
+                      
+                    </tr>
+
+                  </thead>
+           
+                  <tbody>
+                    <tr class="first">
+                      <td colspan="3" ><div class="para-in" >
+                      <p style="border-bottom:1px solid #f0f0f0; padding-bottom:7px;"><b>Name &nbsp; :</b>
+           <?php echo "&nbsp;&nbsp;&nbsp;&nbsp;".$result['fname']." ".$result['lname']; ?>
+                      
+                      </p>
+                            <p style="border-bottom:1px solid #f0f0f0; padding-bottom:7px;"><b>Email&nbsp;&nbsp;&nbsp;:</b>
+             <?php echo "&nbsp;&nbsp;&nbsp;&nbsp;   ".$result['email']; ?>
+                      
+                      </p>
+                    <p style="border-bottom:1px solid #f0f0f0; padding-bottom:7px;"><b>Phone &nbsp;:</b>
+             <?php echo "&nbsp;&nbsp;&nbsp;&nbsp;   ".$result['phone']; ?>
+                      
+                      </p>
+
+                      <?php if($userdata['usertype']=='Dealer') { ?>
+                      
+                    <p style="border-bottom:1px solid #f0f0f0; padding-bottom:7px;"><b>VAT/CST No &nbsp;:</b>
+                      <?php echo "&nbsp;   ".$result['taxno']; ?></p>
+                      
+                      <?php } ?>
+                      <?php if($userdata['usertype']=='Dealer') { ?>
+                      
+                    <p style="border-bottom:1px solid #f0f0f0; padding-bottom:7px;"><b>PAN No &nbsp;:</b>
+                    <?php echo "&nbsp;   ".$result['pan_no']; ?>
+                      </p>
+                      
+                      <?php } ?>
+                       </div>
+                      </td>
+                      
+                     
+                     
+                    </tr>
+                    
+           
+                    
+                    
+                  </tbody>
+                </table>
+        
+         
+          </div>
+
+        <!--addresses--> 
+        
+      </div>
+   
+  </div>
+      <?php $this->load->view('rightpanel'); ?>
+      </div>
+          </div>
+      
+    </div>
+</section>
+
+ 

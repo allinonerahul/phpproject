@@ -1,0 +1,60 @@
+
+  <!-- Main Container -->
+
+
+<?php //print_r($this->session->userdata);?>
+
+  <!-- Main Container -->
+  <section class="main-container col2-right-layout bounceInUp animated md-h">
+  <div class="main container">
+  <?php //$this->load->view('topnavigation'); ?>
+    <div class="row">
+    <div class="cart">        
+          <div class="row">
+           <div class=" col-xs-12 col-sm-9 col-md-9" > 
+            <div class=" col-xs-12 col-sm-9 col-md-9 news-user" style="margin-left:20px;">
+              <div class="user-box-section" style="border:none;">
+             <ol class="one-page-checkout" id="checkoutSteps">
+       <li id="opc-payment" class="section">
+            <div id="checkout-step-payment" class="step a-item">
+         
+                <dl id="checkout-payment-method-load">
+                  
+                  <dt>
+                    Your order confirm successfully.     <br><br>
+                  
+                      Your order  number is: <?php echo $order_details['invoice_no']; ?> <br><br>
+                  
+                    Please note above  number for future reference.
+
+                  </dt>
+                </dl>         
+                          
+
+            <div class="buttons-set1" id="payment-buttons-container" style="margin-top:10px;">
+            <div class="col-md-5" style="padding-left:0px;">   <div class="button-wrap">
+         <a href="<?php echo site_url(); ?>"><button type="button" class="button continue"><span style="color:#fff; word-spacing:2px;">Shopping Continue</span></button> </a>
+         </div></div><div class="col-md-3">  <div class="back-wrap">
+         <a href="<?php echo site_url(); ?>/cyprus/orderHistory"><button type="button" class="button continue"><span style=" color:#fff; word-spacing:2px;">View Order History</span></button> </a>
+         </div></div>
+               <!--   <div class="col-md-3">    <a href="#" class="back-link">« Back</a> </div></div>-->
+              <div style="clear: both;"></div>
+            </div>
+          </li>
+          </ol>            
+          
+             </div>
+           </div>
+           </div>
+
+               <?php $this->load->view('rightpanel'); ?>
+          </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+  </section>
+  

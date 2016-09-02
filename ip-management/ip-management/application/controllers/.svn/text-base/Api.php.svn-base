@@ -1,0 +1,203 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Api extends CI_Controller {
+
+    public $topMenuData;
+
+    function __construct() {
+        parent::__construct();
+
+        $this->load->model('Api_model', 'cyprus');
+        $this->load->helper('url');
+        $this->load->library('session');
+        $this->load->library('cart');
+        $this->load->library('stock');
+        $this->load->library('category');
+        $this->load->library('sendmails');
+        $this->load->library('pagination');
+        $this->load->helper('url');
+        $this->load->helper('cookie');
+        //  echo site_url();die;
+        // setcookie('cartsessioncookie', $this->session->userdata['cartsession'], time() + 60 * 60 * 24 * 100, "/");
+        //echo $this->session->userdata['cartsession'].'aaa'.get_cookie('cartsessioncookie');die;
+        if (!isset($this->session->userdata['cartsession']) || empty($this->session->userdata['cartsession']))
+        {
+           $cartSessionCokkie = get_cookie('cartsessioncookie');
+            if($cartSessionCokkie)
+            {
+                $this->session->set_userdata(array('cartsession' => $cartSessionCokkie));
+            }
+            else
+            {
+                $cartsessionid = uniqid();
+                setcookie('cartsessioncookie', $cartsessionid, time() + 60 * 60 * 24 * 100, "/");
+                $this->session->set_userdata(array('cartsession' => $cartsessionid));
+            }
+        }
+
+        $this->topMenuData['user_data'] = $this->session->userdata;
+        //print_r($this->topMenuData['user_data']);die;
+        $this->topMenuData['location'] = $this->cyprus->getcity();
+
+        $config = Array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'satishborkar.genie@gmail.com',
+            'smtp_pass' => 'satish_23',
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1'
+        );
+
+      
+     }
+
+   
+    public function registeruser()
+    {
+     //http://demo1.geniesoftsystem.com/cyprus/index.php/Api/registeruser?data={%22fname%22:%22satish%22,%22lname%22:%22bo%22,%22email%22:%22satish@gmail.com%22,%22password%22:%221234%22,%22mobile%22:%225455222%22,%22location%22:%221%22,%22usertype%22:%22user%22}
+        $arrResponse = array();
+        if (isset($_REQUEST['data'])) 
+        {
+            $data = $_REQUEST['data'];
+            $data = stripslashes($data);
+            $userdata = json_decode($data, true);
+            
+            if (count($userdata)) 
+            {
+                $fname = isset($userdata['fname']) ? $userdata['fname'] : '';
+                $lname = isset($userdata['lname']) ? $userdata['lname'] : '';
+                $email = isset($userdata['email']) ? $userdata['email'] : '';
+                $password = isset($userdata['password']) ? $userdata['password'] : '';
+                $mobile = isset($userdata['mobile']) ? $userdata['mobile'] : '';
+                $location = isset($userdata['location']) ? $userdata['location'] : '';
+                $usertype = isset($userdata['usertype']) ? $userdata['usertype'] : '';
+
+                $area = isset($userdata['area']) ? $userdata['area'] : '';
+                $companyname = isset($userdata['companyname']) ? $userdata['companyname'] : '';
+                $pan_no = isset($userdata['pan_no']) ? $userdata['pan_no'] : '';
+                $taxno = isset($userdata['taxno']) ? $userdata['taxno'] : '';
+                $status='1';
+                $promocode = '';
+                 if ($usertype == 'dealer') {
+                    $status = '0';
+                }
+
+                if ($usertype == 'sales') 
+                {
+                    //generate promocode
+                    $promolength = 7 ;
+                    $fullname = $fname.$lname;
+                    $promocode .= substr($fullname, 0, 3);  // take 3 digits of firstname and last name
+                    $currentCount = strlen($promocode) < 3 ? strlen($promocode) : 3;  // check if name is less than 3 digits
+                    $promolength = 7 - $currentCount;
+                    $promocode .= substr($mobile, strlen($mobile)-4, $promolength);  // taske last 4 digits of phone number
+                    
+                }
+
+                if ($fname != NULL && $lname != NULL && $email != NULL && $password != NULL && $mobile != NULL && $location != NULL && $usertype != NULL) 
+                {
+
+                    $insertData = array(
+                    'fname' => $fname,
+                    'lname' => $lname,
+                    'email' => $email,
+                    'password' => $password,
+                    'phone' => $mobile,
+                    'location_id' => $location,
+                    'usertype' => $usertype,
+                    'area' => $area,
+                    'comapny_name' => $companyname,
+                    'pan_no' => $pan_no,
+                    'taxno' => $taxno,
+                    'promo_code' => $promocode,
+                    'status' => $status
+                  
+                );
+                    $res=$this->cyprus->registeruser($insertData);
+                    if($res)
+                    {
+                        $arrResponse = array('response' => 'failure', 'message' => 'Registration success');
+                    }
+
+
+                } else 
+                {
+                    $arrResponse = array('response' => 'failure', 'message' => 'All field is mandatory.');
+                }
+            }
+            else 
+            {
+                $arrResponse = array('response' => 'failure', 'message' => 'Insufficient information');
+            }
+        }
+         else 
+        {
+            $arrResponse = array('response' => 'failure', 'message' => 'Invalid data.');
+        }
+        echo json_encode($arrResponse);
+    }
+
+   
+ public function processlogin() {
+     
+    //http://demo1.geniesoftsystem.com/cyprus/index.php/Api/processlogin?data={%22email%22:%22satish@gmail.com%22,%22password%22:%221234%22}
+        $arrResponse = array();
+        if (isset($_REQUEST['data'])) {
+            $data = $_REQUEST['data'];
+            $data = stripslashes($data);
+            $userdata = json_decode($data, true);
+            if (count($userdata)) {
+                $email = isset($userdata['email']) ? $userdata['email'] : '';
+                $password = isset($userdata['password']) ? $userdata['password'] : '';
+                //$enc_password = $this->encryptdecrypt->crypt($password);
+                if ($email != NULL && $password != NULL) {
+                    $response = $this->cyprus->loginvalidate($email, $password);
+                    if ($response['validate']) 
+                    {
+                       /* $updateData = array(
+                            'last_login' => date('Y-m-d H:i:s')
+                        );
+                        //$this->api->update_userdata($updateData, $response['userid']);*/
+                        $arrResponse = array('response' => 'success', 'message' => 'Login successfully.', 'userid' => $response['userid'],'usertype' => $response['usertype']);
+                    } else 
+                    {
+                    
+                        $arrResponse = array('response' => 'failure', 'message' => $response['message']);
+                    }
+                } else {
+                    $arrResponse = array('response' => 'failure', 'message' => 'Email and Password are mandatory.');
+                }
+            } else {
+                $arrResponse = array('response' => 'failure', 'message' => 'Insufficiant information');
+            }
+        } else {
+            $arrResponse = array('response' => 'failure', 'message' => 'Invalid data.');
+        }
+        echo json_encode($arrResponse);
+    }
+
+    public function getcity() 
+    {
+        //http://demo1.geniesoftsystem.com/cyprus/index.php/Api/getcity
+        $arrResponse = array();
+
+        $response = $this->cyprus->getcity();
+        if($response)
+        {
+            $arrResponse = array('response' => 'success', 'result' => $response);
+        }
+        else
+        {
+            $arrResponse = array('response' => 'failure', 'message' => 'No city avaliable');   
+        }
+        
+        echo json_encode($arrResponse);
+    }
+
+
+    
+
+}

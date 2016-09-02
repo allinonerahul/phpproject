@@ -1,0 +1,13 @@
+<?php $usertype =  $this->input->get('usertype');?>
+   <div class="copp-tab">
+<ul class="nav nav-tabs">
+    <li  class="bc <?php if($usertype=='sales' || $usertype==''){ ?>active<?php } ?>"><a href="#amc" data-toggle="tab" class="ab" aria-expanded="false"><div class="tabmenu">LOCATE AN AC SERVICE-MAN </div><span>IN YOUR NEARBY LOCALITY</span></a></li>
+    <li class="bc <?php if($usertype=='Dealer'){ ?>active<?php } ?>"><a href="#dealer" data-toggle="tab" class="ab" aria-expanded="false"><div class="tabmenu">LOCATE YOUR DEALER </div><span>IN YOUR NEARBY LOCALITY</span></a></li>
+    <li  class="bc"><a href="#service" data-toggle="tab"  class="ab" aria-expanded="false"><div class="tabmenu">SERVICES</div> <span>FOR AIR CONDITIONERS</span></a></li>
+    <li   class="bc "><a href="#normal" data-toggle="tab"  class="ab" aria-expanded="false"><div class="tabmenu">AMC</div>
+            <span>FOR AIR CONDITIONERS</span>
+        </a>
+    </li>
+
+</ul>
+</div>

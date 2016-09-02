@@ -1,0 +1,158 @@
+﻿
+<?php
+/*echo "<pre>";
+ print_r($result);
+echo "</pre>";*/
+  ?>
+
+	<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $(".main-search").toggle();
+    });
+});
+</script>
+    <!-- Breadcrumbs -->
+  <!-- <div class="breadcrumbs bounceInUp animated">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <ul>
+            <li class="home"> <a title="Go to Home Page" href="<?php echo site_url(); ?>">Home</a><span>» </span></li>
+            <li class=""> <a title="Go to Home Page" href="#">Address  book entries</a><span>» </span></li>
+         
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!-- Main Container -->
+
+  <!-- Breadcrumbs End --> 
+<!-- Main Container -->
+  <section class="main-container col2-right-layout bounceInUp animated md-h">
+  <div class="main container">
+    <div class="row">
+      <div class="col-main col-sm-9">
+        <div class="my-account">
+          <div class="page-title">
+            <h4 style="color:#f15a23;">Address book</h4>
+          </div>
+        
+       <div class="login-border">
+          <div class="content">
+          
+       <div class="addresses">
+            <div class="table-responsive">
+            <div class="table-responsive">
+            <ul class="addpro_rwo">
+            <li >
+             
+             <a href="<?php echo site_url(''); ?>/cyprus/billingaddress?noheader=1" class="select">   Billing Address</a></li>
+             
+        
+              <li>
+               <a href="<?php echo site_url(''); ?>/cyprus/shippingaddress?noheader=1"> Shipping Address</a></li>
+               
+            </ul>
+                  <div class="clearfix"></div>
+            <form method="post" action="#">
+              <input type="hidden" value="Vwww7itR3zQFe86m" name="form_key">
+              <fieldset>
+                            <table id="multiship-addresses-table" class="data-table" style=" border: 2px dotted rgb(149, 149, 149); background:#fff !important;" >
+                  <thead>
+                    <tr class="first last">
+                      <th  colspan="6" width="90%"><div class="para-in"><p> <span>Billing Address</span> </p></div></th>
+                       <th >   <a href="<?php echo site_url(''); ?>/cyprus/addNewAddress?noheader=1"><button class="button btn-continue left-float" type="button"><span>New Address</span></button></a>
+                        </th>
+                   
+                    
+                    </tr>
+                  </thead>
+                  <tfoot>
+           
+                      
+                    <tr >
+
+                     <?php foreach ($resultbilling as $value) {
+                      ?>
+                      <td colspan="6" ><div class="para-in">
+                      <p>
+          <!-- <h4><?php if($value['address_type']=='shipping'){ echo "Shipping Address";} else {echo "Billing Address";} ?></h4> -->
+<?php echo $value['fname']." ".$value['lname']; ?><br>
+<?php echo $value['address']; ?><br>
+<?php echo $value['address2']; ?> <?php echo $value['pincode']; ?><br>
+<?php echo $value['location']; ?> <br>
+
+
+                      
+                      </p>
+              
+                       </div></td>
+                      
+                   
+                   
+                           <td >
+
+                      <!--    <button  class="button btn-edit left-float" type="button"><span>Edit</span></button> -->
+                       <a href="<?php echo site_url(''); ?>/cyprus/editAddress?id=<?php echo $value['id']; ?>"><span class="label label-success" style="color:white; height:25px; line-height:21px; text-align:center; width:50px;">Edit</span></a>
+                          <a href="" onclick="setSelectedTestPlan(<?php echo $value['id']; ?>);"><span class="label label-success" style="color:white; height:25px; line-height:21px; text-align:center; width:50px;">Delete</span></a>
+                        </td>
+                    
+
+                    </tr>
+                     <?php } ?>
+                  </tfoot>
+               
+                </table>
+              </fieldset>
+               <?php if (!empty($resultbilling)) { ?>    
+                           <div class="row-fluid" style="margin-left:300px;">
+                          
+                                <div class="span6" >
+                                    <?php echo $pagination; ?>
+                                </div>
+                            </div>
+                            <?php } ?>
+                         
+            </form>
+
+            
+          </div>
+       
+               
+         
+          </div>
+
+          </div>
+        </div>
+  
+        </div>
+      </div>
+        </div>  
+      <!--=============right section======================-->
+          <?php $this->load->view('rightpanel'); ?>
+    </div>
+  </div>
+</section>
+<!-- Main Container End -->
+<script type="text/javascript">
+  function setSelectedTestPlan(val){
+var r = confirm("Are You Sure Want To Delete Address ?");
+if (r == true) {
+  $.ajax({
+           type: 'POST',
+           data:{ "id" : val},
+          url : "<?php echo site_url(); ?>/cyprus/deleteAddress",
+            success: function(responseText) {
+             // alert('Address Deleted Succeefully');
+              location.reload(); 
+            }
+        });
+} else {
+    
+} 
+  }
+</script>
+  <!-- Footer -->
+ 

@@ -1,0 +1,123 @@
+<div class="tab-pane fade" id="normal">
+    <div class="vrf-section">
+        <div class="col-lg-8">
+            <div class="vrf-section">
+                <div class="cpr-h">
+                    <h2>AMC</h2>
+                    <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. <br>
+                        This is a dummy text, please dont read this. </p>
+                </div>
+                <div class="select-frm-s">
+                    <h3>SELECT YOUR REQUIREMENT</h3>
+                </div>
+                <div class="form-section">
+                    <div class="search_offer_two">
+                        <form id="amc_form">
+                            <div class="col-md-3  col-sm-3 col-xs-12">
+                                <label  class="labeloption" >Type</label>
+                                <select class="" id="type_amc_form" name="producttype" onChange="get_product_amount('amc_form');">
+                                    <option class="enter_email_input" value="">Select type</option>
+                                    <?php
+                                    $CI = & get_instance();
+                                    $CI->load->model('Cyprus_model');
+                                    $length = $CI->Cyprus_model->getCategorytype(13);
+                                    foreach ($length as $val) {
+                                    ?>
+                                        <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['typename']; ?></option>
+
+
+                                    <?php }
+                                    ?>
+
+                                </select>
+                            </div>
+                            <div class="col-md-3  col-sm-3 col-xs-12">
+                                <label  class="labeloption" >Services</label>
+                                <select class="" name="service" onChange="get_product_amount('amc_form');">
+                                    <option class="enter_email_input" value="">Select service</option>
+                                    <option class="enter_email_input" value="">Ac Servicing</option>
+
+                                </select>
+                            </div>
+                            <input type="hidden" name="category_id" value="13" id="category_id_amc_form">
+                            <input type="hidden" name="product_id" value="" id="product_id_amc_form">
+                            <input type="hidden" name="qty" id="qty__amc_form" value="1">
+                            <input type="hidden" name="brand" id="brand_amc_form" value="4">
+
+                            <div class="col-md-3  col-sm-3 col-xs-12">
+                                <label  class="labeloption">Visit</label>
+                                <select class="" id="size_amc_form" name="sizeid" onChange="get_product_amount('amc_form');">
+                                    <option class="enter_email_input" value="1">Select visit</option>
+
+                                    <?php
+                                    $CI = & get_instance();
+                                    $CI->load->model('Cyprus_model');
+
+                                    $length = $CI->Cyprus_model->getCategory_sizes(13);
+                                    foreach ($length as $val) {
+                                    ?>
+                                        <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['size']; ?></option>
+
+
+                                    <?php }
+                                    ?>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4  col-sm-4 col-xs-12">
+                                <label  class="labeloption" >Qty</label>
+                                <select class="" id="length_amc_form"  name="length" onChange="get_product_amount('amc_form');">
+                                    <option class="enter_email_input" value="0">Select qty</option>
+                                    <?php
+                                    $CI = & get_instance();
+                                    $CI->load->model('Cyprus_model');
+                                    $length = $CI->Cyprus_model->getCategorylength(13);
+                                    foreach ($length as $val) {
+                                    ?>
+                                        <option class="enter_email_input" value="<?php echo $val['id']; ?>"><?php echo $val['lengthname']; ?></option>
+
+
+                                    <?php }
+                                    ?>
+
+
+                                </select>
+                            </div>
+                            <!-- <div class="clearfix"></div> -->
+                            &nbsp;<br><br><br>
+                        </form>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="inst">
+                    <p>Installation Kit Rate changes daily as per current dates copper rate.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="sidebar-section">
+                <div class="amount">
+                    <h2>AMOUNT PAYABLE</h2>
+                    <p>This is a dummy text, please dont read this. This is a dummy text, please dont read this. This is a dummy </p>
+                </div>
+                <div class="total-section">
+                <div class="col-md-12 col-h">
+                
+                      <h3 style="color:#fff; font-size:16px; margin-top:0px;"   id="msg_amc_form"></h3>
+                    </div>
+                    <h1 id="amount_amc_form">TOTAL : 0</h1>
+                    <!-- <h5>ADD TO CART</h5> -->
+                    <h5><a href="javascript::void(0)" onClick="validateCartForm('amc_form')">ADD TO CART</a></h5>
+                </div>
+                <div class="taxt-inc">
+                   <p><!-- <span>Taxes Included
+ </span> --><br>
+
+
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

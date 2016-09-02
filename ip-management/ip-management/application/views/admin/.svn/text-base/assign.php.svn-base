@@ -1,0 +1,120 @@
+<link href="<?php echo base_url(); ?>css/admin/pages/dashboard.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/datepicker.css">
+<script type="text/javascript" src="<?php echo base_url();?>/ckeditor/adapters/jquery.js"></script>
+<!--<script type="text/javascript" src="<?php echo base_url();?>/ckfinder/ckfinder.js"></script>-->
+<!-- BEGIN PAGE -->
+<div id="main-content">
+    <!-- BEGIN PAGE CONTAINER-->
+    <div class="container-fluid">
+        <!-- BEGIN PAGE HEADER-->
+        <div class="row-fluid">
+            <div class="span12">
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="<?php echo site_url('admin/admin'); ?>"><i class="icon-home"></i></a><span class="divider">&nbsp;</span>
+                    </li>
+                    <li><a href="<?php echo site_url('admin/admin/manage_product'); ?>">Assign Service</a><span class="divider">&nbsp;</span></li>
+                    <!-- <li><a href="#">Assign Service</a><span class="divider-last">&nbsp;</span></li> -->
+                </ul>
+                <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+        </div>
+        <!-- END PAGE HEADER-->
+        <!-- BEGIN PAGE CONTENT-->
+        <div id="page" class="dashboard">
+
+            <div class="row-fluid">
+                <div class="span12">
+                    <!-- BEGIN SAMPLE FORMPORTLET-->
+                    <div class="widget">
+                        <div class="widget-title">
+                            <h4><i class="icon-reorder"></i>Assign Service</h4>
+                        </div>
+                        <div class="widget-body">
+                            <!-- BEGIN FORM-->
+                            <form action="<?php echo site_url(); ?>/admin/admin/assignservice" class="form-horizontal" name="add_article" id="add_article" method="post" enctype="multipart/form-data">
+                                <div class="alert alert-error hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    You have some form errors. Please check below.
+                                </div>
+
+                                <div class="alert alert-success hide">
+                                    <button class="close" data-dismiss="alert">×</button>
+                                    Your form validation is successful!
+                                </div>
+
+                                <?php if (isset($msg) && $msg != '') { ?>
+                                    <div class="alert alert-success">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $msg; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (isset($err) && $err != '') { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <?php echo $err; ?>
+                                    </div>
+                                <?php } ?>
+
+                                <?php if (validation_errors()) { ?>
+                                    <div class="alert alert-error">
+                                        <button class="close" data-dismiss="alert">×</button>
+                                        <span><?php echo validation_errors(); ?></span>
+                                    </div>
+                                <?php } ?>
+                        
+                               	<div class="row-fluid">
+                               		<div class="span6 ">
+                               			<div class="control-group">
+                                    	<label class="control-label">Enter Referal Code / ID<font color="red"> *</font></label>                                      
+                                    	<div class="controls">
+                                      	<input type="text" placeholder="Enter Referal Code" class="input-xlarge" style="Height:30px;" name="assignid" id="name" required/>
+                                     	</div>
+                                    </div>   
+                                  </div>
+                                </div>
+                                <input type="hidden" name="orderid" value="<?php echo $orderid ?>">
+                                <div class="row-fluid">
+                                            <div class="span6 ">
+                                            <div class="control-group">
+                                             <label class="control-label">Assign Date<font color="red"> *</font></label>                                      
+                                            <div class="controls">
+                                              <input name="assigndate" type="text" style="Height:30px;" readonly id="datepicker3" required/>
+            
+                                            </div>                                       
+                                        </div>   
+                                     </div>
+                                    </div>
+                               
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary"> SUBMIT </button>
+                                </div>
+                            </form>
+                            <!-- END FORM-->
+                        </div>
+                    </div>
+                </div>
+                <!-- END SAMPLE FORM PORTLET-->
+            </div>
+        </div>			
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/bootstrap-datepicker.js"></script>
+<script src="<?php echo base_url(); ?>assets/scripts/form_validation.js"></script>
+
+ <script type="text/javascript">
+     $(function () {
+            $("#datepicker3").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                //dateFormat: 'YY-mm-dd', // iso format
+                format: 'yyyy/mm/dd'
+                //format: 'dd/mm/yyyy'
+            });
+
+        });
+
+</script>

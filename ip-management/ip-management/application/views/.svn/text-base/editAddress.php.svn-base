@@ -1,0 +1,87 @@
+
+
+  <!-- Breadcrumbs End --> 
+<!-- Main Container -->
+  <section class="main-container col2-right-layout bounceInUp animated md-h" >
+  <div class="main container">
+    <div class="row">
+      <div class="col-main col-sm-9" style="margin-top:18px;">
+        <div class="my-account">
+          <div class="page-title">
+            <h4 style="color:#f15a23;">Edit Address</h4>
+          </div>
+        
+       <div class="login-border">
+          <div class="content">
+          
+           <form id="register_address" name="register_address" method="post" action="<?php echo site_url(); ?>/cyprus/updateAddress">
+                <fieldset class="group-select">
+                          <ul class="form-list" style="width:80%;">
+                    
+                    <li id="billing-new-address-form">
+                      <fieldset>
+                        <legend>Edit Address</legend>
+
+                        
+                        <input type="hidden" name="id" value="<?php echo $result['id'];  ?>" id="id">
+                          <input type="hidden" name="userid" value="<?php echo $result['userid'];  ?>" id="userid">
+                        <ul>
+                           
+                          <li>
+                            <label>Street Address <span class="required">*</span></label>
+                            <br>
+                            <input type="text" title="Street Address" name="address" class="input-text" value="<?php echo $result['address']; ?>" required>
+                          </li>
+                            <label>Address <span class="required">*</span></label>
+                          <li>
+                            <input type="text" title="Street Address 2" name="address2" class="input-text" value="<?php echo $result['address2']; ?>" required>
+                          </li>
+                          <li>
+                      <label>Location <span class="required">*</span></label>
+                      <br>
+                      
+                      <select name="location_id"  class="address-select"  style="width:230px;" required>
+                      <option>Select Location</option>
+                      <?php foreach ($location as $value) {
+                        ?>
+                        <option value="<?php echo $value['id'];?>" <?php if($result['location_id']==$value['id']) echo "selected"; ?>><?php echo $value['name']; ?></option>
+                    
+                      <?php } ?>
+                        
+                        
+                      </select>
+                      
+                    </li>
+                                                  
+                          <li>                           
+                            <div class="input-box">
+                              <label for="billing:fax">Pincode</label>
+                              <br>
+                              <input type="text" name="pincode"  title="pincode" class="input-text" id="pincode" value="<?php echo $result['pincode']; ?>" required>
+                                <input type="hidden" name="header" value="<?php if(isset($header)){echo $header;}else{ echo '';} ?>"  class="input-text" id="header">
+                            </div>
+                          </li>
+                         
+                        </ul>
+                      </fieldset>
+                    </li>
+                    
+                  </ul>
+                  <p class="require"><em class="required">* </em>Required Fields</p>
+                  <button type="submit" class="button continue" ><span>Continue</span></button>
+                  <a href="<?php echo site_url(); ?>/cyprus/billingaddress"><button type="submit" class="button back" ><span>BACK</span></button></a>
+                </fieldset>
+              </form>
+          </div>
+        </div>
+  
+        </div>
+      </div>
+   
+    </div>
+  </div>
+</section>
+<!-- Main Container End -->
+
+  <!-- Footer -->
+ 

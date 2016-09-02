@@ -1,0 +1,839 @@
+<?php
+
+
+ini_set('error_reporting', E_ALL);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Glitzz extends CI_Controller {
+
+	/**
+	 * Index Page for this controller.
+	 *
+	 * Maps to the following URL
+	 * 		http://example.com/index.php/welcome
+	 *	- or -
+	 * 		http://example.com/index.php/welcome/index
+	 *	- or -
+	 * Since this controller is set as the default controller in
+	 * config/routes.php, it's displayed at http://example.com/
+	 *
+	 * So any other public methods not prefixed with an underscore will
+	 * map to /index.php/welcome/<method_name>
+	 * @see http://codeigniter.com/user_guide/general/urls.html
+	 */
+	 public $topMenuData;
+
+	 function __construct() {
+        parent::__construct();
+
+        $this->load->model('Glitzz_model','glitzz');
+        $this->load->helper('url');
+        $this->load->library('session');
+		$this->load->library('cart');
+		$this->load->library('category');
+
+		$this->topMenuData['user_data'] = $this->session->userdata;
+
+	/*	$this->topMenuData['results']	 = $this->glitzz->getAllCategory();
+		$this->topMenuData['results1']	 = $this->glitzz->getCategoryChild();
+		$this->topMenuData['results2']	 = $this->glitzz->getCategoryChild2();
+		$this->topMenuData['results3']	 = $this->glitzz->getCategoryChild3();
+		$this->topMenuData['results4']	 = $this->glitzz->getCategoryChild4();
+		$this->topMenuData['results5']	 = $this->glitzz->getCategoryChild5();
+		$this->topMenuData['results6']	 = $this->glitzz->getCategoryChild6();
+		*/
+		$this->topMenuData['product_images'] = $this->glitzz->getProductImages();
+		$this->topMenuData['product_images1'] = $this->glitzz->getProductImages1();
+		
+
+//print_r($this->glitzz->getAllCategory());
+	//	$categories = category::getCategories(1);
+		//echo "<pre>";
+	//	print_r($categories);
+
+    }    
+	public function index()
+	{ 
+		//Loading url helper
+		$this->load->helper('url');
+		
+		//$this->load->view('header/header',$this->topMenuData);
+		//echo $this->session->userdata['__ci_last_regenerate'];exit();
+		$this->load->view('welcome_message');
+		//$this->load->view('footer/footer');
+	}
+	public function deleteFromWishlist(){
+		$wishId=$this->input->post('wishId');
+		//echo $wishId;exit();
+		$this->glitzz->deleteFromWishlist($wishId);
+		redirect('glitzz/myWishlist');
+	}
+	public function about_us(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('about_us');
+    	$this->load->view('footer/footer');
+	}
+	public function insulation_tubes(){	
+		   	
+    	$this->load->view('insulation_tub');
+    	
+	}
+	public function contact_us(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('contact_us');
+    	$this->load->view('footer/footer');
+	}
+		public function terms_cond(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('tnc');
+    	$this->load->view('footer/footer');
+	}
+	public function shipping_returns(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('shipping_return');
+    	$this->load->view('footer/footer');
+	}
+	public function faq(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('faq');
+    	$this->load->view('footer/footer');
+	}
+			public function delivery_info(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('delivery_info');
+    	$this->load->view('footer/footer');
+	}
+			public function privacy_policy(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('privacy_policy');
+    	$this->load->view('footer/footer');
+	}
+		public function returns(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('returns');
+    	$this->load->view('footer/footer');
+	}
+		public function site_map(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('site_map');
+    	$this->load->view('footer/footer');
+	}
+			public function search_terms(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('search_terms');
+    	$this->load->view('footer/footer');
+	}
+				public function advanced_search(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('advanced_search');
+    	$this->load->view('footer/footer');
+	}
+				public function suppliers(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('suppliers');
+    	$this->load->view('footer/footer');
+	}
+				public function our_stores(){		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('our_stores');
+    	$this->load->view('footer/footer');
+	}
+	public function change_password(){
+		
+		   	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('change_password');
+    	$this->load->view('footer/footer');
+	}
+	public function listAddressBook(){
+$data = $this->session->userdata;
+		$data['result']=$this->glitzz->getAddress($this->session->userdata('id'));
+		//print_r($data);exit();
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('address_book',$data);
+    	$this->load->view('footer/footer');	
+}
+ public function editAddress(){
+
+    	$id=$this->input->get('id');
+    	$data['result']=$this->glitzz->getAddressDetail($id);
+    	//print_r($data['result']);exit();
+    	$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+		//print_r($data);exit();
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('editAddress',$data);
+    	$this->load->view('footer/footer');
+
+    }
+    public function updateAddress(){
+		//print_r($_REQUEST);exit();
+			$id = $this->input->post('id');
+		//	$userid = $this->input->post('userid');
+		$fname = $this->input->post('fname');
+		$lname = stripslashes($this->input->post('lname'));
+		$userid = $this->input->post('userid');
+		$address = $this->input->post('address'); 
+		$address2 = $this->input->post('address2'); 
+		$pincode = $this->input->post('pincode'); 
+		//$header = $this->input->post('header'); 
+		
+		$data=array('fname' => $fname,'lname' => $lname,'address' => $address,'address2' => $address2,'pincode' => $pincode);
+		$result = $this->glitzz->updateAddress($data,$id);
+		
+				redirect('glitzz/listAddressBook');
+
+		}
+public function deleteAddress(){
+	$id=$this->input->post('id');
+	$this->glitzz->deleteAddress($id);
+}
+	 public function update_password() {
+       
+            $user_id = $this->session->userdata;
+            
+            $user_data = $this->glitzz->get_user_details($user_id['id']);
+            $old_pwd = $this->input->post('old_password');
+            $new_pwd = $this->input->post('new_password');
+            $chk_pwd = $this->input->post('confirm_password');
+            $err='';
+           /*echo "<pre>";
+            print_r($user_data);
+            print_r($_POST);*/
+          //$aenc_new_pwd = $this->encryptdecrypt->decrypt($user_data['password']);*/
+           // echo "</pre>";
+           // exit();
+          $aenc_new_pwd = md5($old_pwd);
+          echo "enter ".$aenc_new_pwd."<br>";
+          echo "db ".$user_data['password']."<br>";
+         echo "new ".$new_pwd."<br>";
+          echo "confirm ".$chk_pwd."<br>";
+        // exit();
+            if ($user_data['password'] != $aenc_new_pwd) {
+                $err = "Old password does not match.";
+            }else if($new_pwd != $chk_pwd) {
+                $err = "New and confirm password not matching.";
+            }
+            if(!empty($err)){
+                $this->session->set_flashdata('error', $err);
+                redirect("glitzz/change_password");
+            }else{
+               // $enc_new_pwd = $this->encryptdecrypt->crypt($new_pwd);
+                $this->glitzz->update_password($aenc_new_pwd, $user_id['id']);
+                $this->session->set_flashdata('success', 'Password updated successfully.');
+                redirect("glitzz/change_password");
+            }
+     
+    }
+
+	public function orderHistory(){
+		$data = $this->session->userdata;
+		$data['result']=$this->glitzz->orderHistory($data);
+		//print_r($data);exit();
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('order_history',$data);
+    	$this->load->view('footer/footer');
+	}
+	public function getOrderwiseProduct(){
+
+		$orderId=$this->input->get('orderId');
+
+		$data['order_details']=$this->glitzz->getOrder($orderId);
+		$data['product_details']=$this->glitzz->getOrderProduct($orderId);
+		$data['view']="no data";
+			$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	$this->load->view('header/header',$this->topMenuData);
+		$this->load->view('success',$data);
+		$this->load->view('footer/footer');
+	}
+	public function myWishlist(){
+		if($this->session->userdata('validated')){
+		$data = $this->session->userdata;
+		$data['result']=$this->glitzz->myWishlist($data);		
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('wishlist',$data);
+    	$this->load->view('footer/footer');
+    	 }else{
+            redirect(base_url());
+        }
+	}
+	public function myAccount(){
+			if($this->session->userdata('validated')){
+		$data = $this->session->userdata;
+		$data['result']=$this->glitzz->myAccount($data);
+		
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('my_account',$data);
+    	$this->load->view('footer/footer');
+    }else{
+            redirect(base_url());
+        }
+    
+	}
+public function editProfile(){
+		if($this->session->userdata('validated')){
+		$data = $this->session->userdata;
+		$data['result']=$this->glitzz->myAccount($data);
+		
+    	$this->load->view('header/header',$this->topMenuData);
+    	//print_r($data);exit();
+		$this->load->view('edit_profile',$data);
+		$this->load->view('footer/footer');
+		 }else{
+            redirect(base_url());
+        }
+}
+	public function updateProfile(){
+		//print_r($_POST);exit();
+		$id=$this->input->post('id');
+		$fname=$this->input->post('fname');
+		$lname=$this->input->post('lname');
+		//$address=$this->input->post('address');
+		$email=$this->input->post('email1');
+	//	echo $email;exit();
+		$phone=$this->input->post('phone');
+		/*$profile_image=$this->input->post('profile_image');*/
+		$data=array('fname'=>$fname,'lname'=>$lname,'email'=>$email,'phone'=>$phone);
+		$this->glitzz->updateProfile($data,$id);
+		redirect('glitzz/myAccount');
+
+	}
+	/*public function myAccount(){
+		$data = $this->session->userdata;
+		$data['result']=$this->glitzz->myAccount($data);
+		
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('my_account',$data);
+    	$this->load->view('footer/footer');
+	}
+public function editProfile(){
+		$data = $this->session->userdata;
+		$data['result']=$this->glitzz->myAccount($data);
+		
+    	$this->load->view('header/header',$this->topMenuData);
+	$this->load->view('edit_profile',$data);
+		$this->load->view('footer/footer');
+}
+	public function updateProfile(){
+		$id=$this->input->post('id');
+		$fname=$this->input->post('fname');
+		$lname=mysql_real_escape_string($this->input->post('lname'));
+		//$address=$this->input->post('address');
+		$email=$this->input->post('email');
+		$phone=$this->input->post('phone');
+		/*$profile_image=$this->input->post('profile_image');*/
+	/*	$data=array('fname'=>$fname,'lname'=>$lname,'email'=>$email,'phone'=>$phone);
+		$this->glitzz->updateProfile($data,$id);
+		redirect('glitzz/myAccount');
+
+	}*/
+/*	public function getType()
+    {
+    	   		$id = $this->input->post('price1');
+    			$data['productName']=$id;
+                $data['subcategory'] = $this->glitzz->category_sub_details();
+                $this->load->view('getType',$data);                              
+    }*/
+    public function getType()
+    {
+    	   		$id = $this->input->post('price1');
+    	   		$idd = $this->input->post('id');
+    			$data['productName']=$idd;
+    			
+                $data['subcategory'] = $this->glitzz->category_sub_details($idd);
+                $this->load->view('getType',$data);                              
+    }
+	public function addAddress(){
+		//print_r($_REQUEST);exit();
+		$fname = $this->input->post('fname');
+		$lname = $this->input->post('lname');
+		$userid = $this->input->post('userid');
+		$address = $this->input->post('address'); 
+		$address2 = $this->input->post('address2'); 
+		$pincode = $this->input->post('pincode'); 
+		$header = $this->input->post('header'); 
+		
+		$data=array('userid'=>$userid,'fname' => $fname,'lname' => $lname,'address' => $address,'address2' => $address2,'pincode' => $pincode,'status' =>1 );
+		$result = $this->glitzz->addAddress($data);
+		if($result == 0){
+			echo "not successs";
+		}
+		else {
+		/*$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('checkout',$data);
+    	$this->load->view('footer/footer');*/
+
+    	if(!empty($header)){
+				redirect('glitzz/listAddressBook');
+
+			}else{
+				$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('checkout',$data);
+    	$this->load->view('footer/footer');
+		
+			}
+		}
+	}
+	public function registerUser() {
+		$fname = $this->input->post('fname');
+		$lname = $this->input->post('lname');
+		$email = $this->input->post('email');
+		$dec_password = $this->input->post('password'); 
+		$password = md5($dec_password);
+		$data=array('fname' => $fname,'lname' => $lname,'email' => $email,'password' => $password,'status' =>1 );
+		$result = $this->glitzz->register_user($data);
+
+//print_r($result);exit();
+		if($result == 0){
+			echo "not successs";
+		}
+		else {
+		$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	//$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('checkout',$data);
+    	//$this->load->view('footer/footer');
+		}
+		//redirect('glitzz/product_details');
+	}
+	public function checkout() {
+		//$data['viewcartid'] = $this->input->get('viewcartid');
+		//$arrCartdata = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);		
+		//print_r($arrCartdata );
+		$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+		//print_r($data);exit();
+		if(empty($data['arrCartdata'])){
+			$err="Please Add Product In Cart";
+			   $this->session->set_flashdata('error', $err);
+			//redirect('glitzz/index');
+			   redirect(base_url());
+		}else{
+		$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('checkout',$data);
+    	$this->load->view('footer/footer');	
+		}
+    	
+	}
+	public function addNewAddress(){
+
+		if(isset($_GET['noheader'])){
+		$data['header']=$_GET['noheader'];	
+		}
+		$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+		//print_r($data);exit();
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('add_new_address',$data);
+    	$this->load->view('footer/footer');
+	}
+	public function checkout1() {
+		$billing_address = $this->input->post('billing_address_id');
+		$this->session->set_userdata('billing_address',$billing_address);
+
+		$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+			if(empty($data['arrCartdata'])){
+			$err="Please Add Product In Cart";
+			   $this->session->set_flashdata('error', $err);
+			//redirect('glitzz/index');
+			   redirect(base_url());
+		}else{
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('checkout1',$data);
+    	$this->load->view('footer/footer');
+	}}
+	public function paymentMode(){
+		if($this->session->userdata('validated')){
+			$shipping_address = $this->input->post('billing_address_id');
+		
+		$this->session->set_userdata('shipping_address',$shipping_address);
+			$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	if(empty($data['arrCartdata'])){
+			$err="Please Add Product In Cart";
+			   $this->session->set_flashdata('error', $err);
+			//redirect('glitzz/index');
+			   redirect(base_url());
+		}else{
+
+    	$this->load->view('header/header',$this->topMenuData);
+		$this->load->view('payment',$data);
+		    	$this->load->view('footer/footer');
+		    }
+		}else {
+            redirect(base_url());
+        }
+	}
+	public function showCart(){
+			if($this->session->userdata('validated')){
+		$online_payment = $this->input->post('online_payment');
+		$this->session->set_userdata('payment_mode',$online_payment);
+		$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	if(empty($data['arrCartdata'])){
+			$err="Please Add Product In Cart";
+			   $this->session->set_flashdata('error', $err);
+			//redirect('glitzz/index');
+			   redirect(base_url());
+		}else{
+    	$this->load->view('header/header',$this->topMenuData);
+		$this->load->view('confirm_order',$data);
+		$this->load->view('footer/footer');
+	}
+}
+	else {
+            redirect(base_url());
+        }
+	}
+	public function placeOrder(){
+			if($this->session->userdata('validated')){
+		$userid = $this->input->post('userid');
+		$invoice_no=uniqid();
+		$firstname = $this->input->post('firstname');
+		$lastname = $this->input->post('lastname');
+		$email = $this->input->post('email');
+
+		$payment_firstname = $this->input->post('payment_firstname');
+		$payment_lastname = $this->input->post('payment_lastname');
+		$payment_address_1 = $this->input->post('payment_address_1');
+		$payment_address_2 = $this->input->post('payment_address_2');
+		$payment_postcode = $this->input->post('payment_postcode');
+
+		$shipping_firstname = $this->input->post('shipping_firstname');
+		$shipping_lastname = $this->input->post('shipping_lastname');
+		$shipping_address_1 = $this->input->post('shipping_address_1');
+		$shipping_address_2 = $this->input->post('shipping_address_2');
+		$shipping_postcode = $this->input->post('shipping_postcode');
+
+		$total = $this->input->post('total');
+		 $ipaddress = $_SERVER['REMOTE_ADDR'];
+		$insert_data=array(
+			'invoice_no'=>$invoice_no,
+			'userid'=>$userid,
+
+			'firstname'=>$firstname,
+			'lastname'=>$lastname,
+			'email'=>$email,
+
+			'payment_firstname'=>$payment_firstname,
+			'payment_lastname'=>$payment_lastname,
+			'payment_address_1'=>$payment_address_1,
+			'payment_address_2'=>$payment_address_2,
+			'payment_postcode'=>$payment_postcode,
+
+			'shipping_firstname'=>$shipping_firstname,
+			'shipping_lastname'=>$shipping_lastname,
+			'shipping_address_1'=>$shipping_address_1,
+			'shipping_address_2'=>$shipping_address_2,
+			'shipping_postcode'=>$shipping_postcode,
+
+			'total'=>$total,
+			'ip'=>$ipaddress,
+			'date_added'=>date('Y-m-d H:i:s')
+
+			);
+		$orderId=$this->glitzz->placeOrder($insert_data);
+
+		$arrCartdata = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+		//echo $orderId;
+		/*if(empty($data['arrCartdata'])){
+			 redirect(base_url());
+		}else{*/
+				foreach ($arrCartdata as $value) {
+			$insert_product_order=array(
+				'userid'=>$userid,
+				'orderid'=>$orderId,
+				'productid'=>$value->productid,
+				'productqty'=>$value->quantity,
+				'productrate'=>$value->price
+				);
+			$orderProductId=$this->glitzz->placeOrderProduct($insert_product_order);
+			//echo $orderProductId;
+		}
+
+
+		$cart=$this->glitzz->getCartId($this->topMenuData['user_data']['__ci_last_regenerate']);
+		foreach ($cart as $value) {
+			cart::deleteCart($value['id']);
+		}
+	/*	$data['invoice']=$insert_data;
+		$data['invoice_data']=$insert_product_order;*/
+		$data['order_details']=$this->glitzz->getOrder($orderId);
+		$data['product_details']=$this->glitzz->getOrderProduct($orderId);
+		
+		//$this->session->set_userdata('payment_mode',$online_payment);
+		$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	$this->load->view('header/header',$this->topMenuData);
+		$this->load->view('success',$data);
+		$this->load->view('footer/footer');
+
+		}
+	
+	//}
+		else {
+            redirect(base_url());
+        }
+	}
+
+
+	public function register() {
+		$data['fname'] = $this->input->post('fname');
+		$data['lname'] = $this->input->post('lname');
+		$data['email'] = $this->input->post('email');
+		$data['password'] = md5($this->input->post('password')); 
+		$data['phone'] = $this->input->post('phone');
+		$data['status'] = '1';
+		$this->glitzz->register($data);
+		$this->sendmail($data);
+        // echo "success";
+        $data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+		if(empty($data['arrCartdata'])){
+			echo "success";
+		}else{
+			$this->load->view('checkout',$data);
+		}
+	}
+
+	
+	
+	public function login() {
+		$email = $this->input->post('email');
+		$dec_password = $this->input->post('password'); 
+		$password = md5($dec_password);
+		$result = $this->glitzz->login($email,$password);
+
+		if($result == 0){
+			echo "not successs";
+		}
+		else {
+			echo "success";
+		}
+		//redirect('glitzz/product_details');
+	}
+
+	public function logout() {        
+        $this->session->sess_destroy();
+        redirect(site_url());       
+    }
+
+	 public function sendmail($data) {
+	 	$email = $data['email'];
+    	//$email = 'rahulshendge.genie@gmail.com';
+    	$this->load->library('email');
+        $this->email->set_newline("\r\n");
+        $this->email->from('rahulshendge.genie@gmail.com', 'Rahul');
+        $this->email->to($email);
+        $this->email->subject(' Registration Successful On Glitzz');
+        $text_body = "Thank You for registering with Us. Your Email : $email";
+        $this->email->message($text_body);
+
+        if ($this->email->send()) {
+            //redirect('/login/resetLinkSuccess');
+        } else {
+            echo $this->email->print_debugger();
+        }
+    }
+
+    public function product_details() {
+    	//if ($this->session->userdata('validated')) {
+    	$id = $this->input->get('id');
+    	$catid = $this->input->get('categoryid');
+    	$product_data['category_names'] = $this->glitzz->category_details($id);
+    	$product_data['related_images'] = $this->glitzz->getrelatedImages($catid);
+    	$product_data['manufacture_images_r'] = $this->glitzz->getManufacturImageR();
+    	$product_data['zoom_images'] = $this->glitzz->zoomImage();
+    	$product_data['one_zoom_images'] = $this->glitzz->onezoomImage($id);
+    	$product_data['product_data'] = $this->glitzz->product_details($id);
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('product_details',$product_data);
+    	$this->load->view('footer/footer');
+    	//}
+    	// else {
+    	// 	redirect('/');
+    	// }
+    }
+
+  /*  public function search() {
+    	$id = $this->input->get('cat_id');
+    	//$data['category_name'] = $this->glitzz->getCategoryName($id);
+    	$data['category_name'] = $this->glitzz->getSubCategoryName($id);
+    	$data['category_products'] = $this->glitzz->category_product($id);
+    	//$data['subcategory'] = $this->glitzz->category_sub_details();
+    	$data['subcategory'] = $this->glitzz->category_sub_details($id);
+    	//print_r($data['category_products']);exit();
+    	$this->load->view('header/header',$this->topMenuData);
+    	//$this->load->view('category_product',$data);
+    	$this->load->view('search',$data);
+    	$this->load->view('footer/footer');
+    }*/
+
+     public function exhibitors(){
+     	$this->load->view('header/header',$this->topMenuData);
+     	$data['result']=$this->glitzz->exhibitors();
+     	$this->load->view('exhibitors',$data);
+    	$this->load->view('footer/footer');
+     }
+       public function search() {  
+      	$this->load->view('header/header',$this->topMenuData);
+      	
+      	$data['offers']=($this->input->get('offers')) ? $this->input->get('offers') : '';
+      	$data['check_prices']=($this->input->get('check_price')) ? $this->input->get('check_price') : '';
+       	$data['gift_occasions']=($this->input->get('gift_occasions')) ? $this->input->get('gift_occasions') : '';
+      	$data['cat_id'] = ($this->input->get('cat_id')) ? $this->input->get('cat_id') : '';	
+        $data['search'] = ($this->input->get('search')) ? $this->input->get('search') : '';
+       	$data['result']=$this->glitzz->search($data);
+
+
+	 	if(!empty($data['cat_id'])){
+        	foreach($data['cat_id'] as $val){
+        	   	$data['sub_category'][]=$this->glitzz->getCategory($val);
+        	  	break;
+        	}
+        }
+        else{
+        	$data['sub_category'][]=$this->glitzz->getSubcategory(1);
+        }
+     /*   echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        exit();
+ */
+    	$this->load->view('search',$data);
+    	$this->load->view('footer/footer');
+    }
+    public function add_newsletter_email(){
+    	$newsletter_email=$this->input->post('newsletter_email');
+    	$res=$this->glitzz->getNewsletterEmail($newsletter_email);
+    	//print_r($res);exit();
+    	if(!empty($res)){
+    	echo "error";
+    	}
+    	else{
+    		$data=array('email'=>$newsletter_email,'status'=>'1','subscribedate'=>date('Y-m-d H:i:s'));
+    	$this->glitzz->add_newsletter_email($data);	
+    	echo "success";
+
+    	}
+    	
+    }
+
+
+    public function product_retailors() {
+    	$id = $this->input->get('id');
+    	$data['manufacture_name_r'] = $this->glitzz->getManufacturNameR($id);
+    	$data['product_retailors_images'] = $this->glitzz->productRetailorsImages($id); 
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('product_retailors',$data);
+    	$this->load->view('footer/footer');
+    }
+
+    public function product_exibitors() {
+    	$id = $this->input->get('id');
+    	$data['manufacture_name'] = $this->glitzz->getManufacturName($id);
+    	$data['product_exibitors_images'] = $this->glitzz->productExibitorsImages($id); 
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('product_exibitors',$data);
+    	$this->load->view('footer/footer');
+    }
+
+    public function subcategory_jewellery_product() {
+    	$id = $this->input->get('subcatid');
+    	$data['category_name'] = $this->glitzz->getCategoryName($id);
+    	$data['cat_jewellery_products'] = $this->glitzz->subcategory_jewellery_product($id);
+    	$this->load->view('header/header',$this->topMenuData);
+    	//$this->load->view('jewellery_cat_products',$data);
+    	$this->load->view('jewellery_cat_products',$data);
+    	$this->load->view('footer/footer');
+    }
+
+    public function subcategory_exibitor_product() {
+    	$id = $this->input->get('subcatid');
+    	$data['category_name'] = $this->glitzz->getCategoryName($id);
+    	$data['cat_exibitor_products'] = $this->glitzz->subcategory_exibitor_product($id);
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('exibitors_cat_products',$data);
+    	$this->load->view('footer/footer');
+    }
+
+    public function review() {
+		$data['description'] = $this->input->post('review');
+		$data['productid'] = $this->input->post('product-id');
+		$data['userid'] = $this->topMenuData['user_data']['id'];
+		$this->glitzz->review($data);
+		echo "success";
+	}
+
+	public function wishlist() {
+		$data['userid'] = $this->topMenuData['user_data']['id'];
+		$data['productid'] = $this->input->post('productid');
+		$data['quantity'] = $this->input->post('quantity');
+		$chk = $this->glitzz->wishlist_exist($data['userid'], $data['productid']);
+		if(!empty($chk))
+		{
+			echo "exist";
+		}
+		else{
+
+            $this->glitzz->wishlist($data);
+			echo "success";
+		}
+		
+	}
+
+	public function add_to_cart() {
+
+		$data['userid'] = isset($this->topMenuData['user_data']['id']) ? $this->topMenuData['user_data']['id'] : '';
+		$data['sessionid'] = $this->topMenuData['user_data']['__ci_last_regenerate'];
+		$data['productid'] = $this->input->post('productid');
+		$data['quantity'] = $this->input->post('qty');
+		$chk = $this->glitzz->add_to_cart_exist($data['sessionid'], $data['productid']);
+		if(!empty($chk))
+		{	
+			$this->glitzz->update_cart($data['productid'],$data['sessionid'], $data['quantity']);
+			echo "exist";
+		}
+		else {
+		$this->glitzz->add_to_cart($data);
+		echo "success";
+		}
+	}
+
+
+	public function removecart() {
+		$cartid = $this->input->get('cartid');
+
+		if(cart::deleteCart($cartid))
+		{
+			echo true;
+		}
+		else
+		{
+			echo false;
+		}
+
+		die;
+	}
+
+
+	public function updateCart() {		
+		$this->load->view('header/cartbag',$this->topMenuData);		
+	}
+
+	public function updateMenu()
+	{
+		$parentId = $this->input->get('topcatid');
+
+			$data['subMenuData'] = $this->glitzz->getSubcategory($parentId,6);
+
+			$this->load->view('header/menu',$data);
+	}
+
+	public function viewcart() { 
+//		print_r($this->topMenuData['user_data']);die;
+//echo $this->topMenuData['user_data']['__ci_last_regenerate'];
+		$data['arrCartdata'] = cart::getCart($this->topMenuData['user_data']['__ci_last_regenerate']);
+    	$this->load->view('header/header',$this->topMenuData);
+    	$this->load->view('viewcart',$data);
+    	$this->load->view('footer/footer');
+	}
+	
+
+}

@@ -1,0 +1,189 @@
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table-bordered" cellpadding="0" cellspacing="0" width="100%;" style="margin:10px 0;">
+            <tr>
+
+                <td width="30%" cellpadding="0" cellspacing="0" >LOGO</td>
+                <td colspan="2" width="70%" cellpadding="0" cellspacing="0" >
+                    <table width="100%">
+                        <tr  class="td-c border-bottom">
+                            <th colspan="2" width="60%" class="td-c">CUSTORES LLP</th>
+                            <th width="40%" class="td-l">Buyers Name </th>
+                        </tr>
+                        <tr>
+                            <td width="33%" class="td-address">Address </td>
+                            <td width="34%">
+                                <table width="100%">
+                                    <tr>
+                                        <td class="td-dt"><span>VAT TIN:</span> 12345678999V wef 15/05/2016</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>CST TIN :</span> 12345678999C wef 15/05/2016</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>PAN :</span> AAAAA1234A</td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <td width="34%">
+                                <table width="100%">
+                                    <tr>
+                                        <td class="td-dt"><span>BUYER'S VAT TIN: </span>12345678999V</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>BUYER'S CST TIN :</span> 12345678999C</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-dt"><span>BUYER'S PAN :</span> AAAAA1234A</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!---===============================---->
+    <div class="col-md-12">
+
+        <table class="table-bordered" cellpadding="0" cellspacing="0" width="100%;" style="margin:10px 0;">
+            <tr>
+                <th width="35%" cellpadding="0" cellspacing="0" class="td-c th-h">BILL TO</th>
+                <th colspan="1" width="35%" class="td-c th-h">SHIP TO</th>
+                <th width="30%" class="td-c">PERFORMA INVOICE </th>
+            </tr>
+            <tr>
+                <td  class="th-addc">Name &amp; Address</td>
+                <td class="th-addc">Name &amp; Address</td>
+                <td ><table width="100%">
+                        <tr>
+                            <td class="td-dt"><span>ORDER NO:</span> </td>
+                            <td class="td-dt"> 1256956</td>
+                        </tr>
+                        <tr>
+                            <td class="td-dt"><span>ORDER DATE:</span></td>
+                            <td class="td-dt">15/05/2016</td>
+                        </tr>
+                        <tr>
+                            <td class="td-dt"><span>MODE OF PAYMENT</span> </td>
+                            <td class="td-dt">COD/Online</td>
+                        </tr>
+                    </table></td>
+                <td width="34%"></td>
+            </tr>
+        </table>
+
+    </div>
+    <!---===============================---->
+    <div class="col-md-12">
+        <table class="table-bordered" cellpadding="0" cellspacing="0" width="100%;" style="margin:10px 0;">
+            <tr>
+                <th width="35%" cellpadding="0" cellspacing="0" class="td-c th-h" colspan="3"></th>
+                <th  width="75%" class="td-c th-h" colspan="10">All Amonuts are in INR</th>
+            </tr>
+            <tr>
+                <th colspan="1"  class="td-c-2 th-h" width="18%">Products</th>
+                <th colspan="1" width="5%" class="td-c-2 th-h">Qty (Nos)</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Net Wgt (KG)</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Unit Price</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Total Price</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Disc</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Ref Disc</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Tax</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">DEL /FRT</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Inv Amt</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">C/H Form Dep</th>
+                <th colspan="1" width="7%" class="td-c-2 th-h">Total Payable</th>
+                <th colspan="1" width="9%" class="td-c-2 th-h">Est DEL Dt.</th>
+            </tr>
+            <tr>
+                <td class=" th-h" width="18%"><table>
+                        <tr>
+                            <td width="100%" class="border-bottom td-c-3">Indigo - CU Insulated IC CU Tube Kit </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" class="td-c-3">16"|1/4" & 3/8" | 6.34 - 0.80 & 9.52 - 0.80 | Heavy</td>
+                        </tr>
+                    </table></td>
+                <td  width="5%" class="td-c-4 th-h">5</td>
+                <td  width="7%" class="td-c-4 th-h"></td>
+                <td  width="7%" class="td-c-4 th-h">2000</td>
+                <td  width="7%" class="td-c-4 th-h">10000</td>
+                <td width="7%" class="td-c-4 th-h">500</td>
+                <td width="7%" class="td-c-4 th-h">500</td>
+                <td width="7%" class="td-c-4 th-h">450</td>
+                <td  width="7%" class="td-c-4 th-h">250</td>
+                <td  width="7%" class="td-c-4 th-h">9700</td>
+                <td width="7%" class="td-c-4 th-h">0</td>
+                <td width="7%" class="td-c-4 th-h">9700</td>
+                <td  width="9%" class="td-c-4 th-h">7 Days</td>
+            </tr>
+            <tr>
+                <td class=" th-h" width="18%"><table>
+                        <tr>
+                            <td width="100%" class="border-bottom td-c-3">Indigo - CU Insulated IC CU Tube Kit </td>
+                        </tr>
+                        <tr>
+                            <td width="100%" class="td-c-3">18"|1/4" & 3/8" | 6.34 - 0.80 & 9.52 - 0.80 | Heavy</td>
+                        </tr>
+                    </table></td>
+                <td  width="5%" class="td-c-4 th-h">3</td>
+                <td  width="7%" class="td-c-4 th-h"></td>
+                <td  width="7%" class="td-c-4 th-h">2000</td>
+                <td  width="7%" class="td-c-4 th-h">6000</td>
+                <td width="7%" class="td-c-4 th-h">300</td>
+                <td width="7%" class="td-c-4 th-h">300</td>
+                <td width="7%" class="td-c-4 th-h">108</td>
+                <td  width="7%" class="td-c-4 th-h">250</td>
+                <td  width="7%" class="td-c-4 th-h">5758</td>
+                <td width="7%" class="td-c-4 th-h">162</td>
+                <td width="7%" class="td-c-4 th-h">5920</td>
+                <td  width="9%" class="td-c-4 th-h">7 - 15 Days</td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-6" width="18%"> Grand Total </td>
+                <td  width="5%" class="td-c-5 th-h">8</td>
+                <td  width="7%" class="td-c-5 th-h">0</td>
+                <td  width="7%" class="td-c-5 th-h">4000.00</td>
+                <td  width="7%" class="td-c-5 th-h">16000.00</td>
+                <td width="7%" class="td-c-5 th-h">800.00</td>
+                <td width="7%" class="td-c-5 th-h">800.00</td>
+                <td width="7%" class="td-c-5 th-h">580.00</td>
+                <td  width="7%" class="td-c-5 th-h">500.00</td>
+                <td  width="7%" class="td-c-5 th-h">15458.00</td>
+                <td width="7%" class="td-c-5 th-h">162.00</td>
+                <td width="7%" class="td-c-5 th-h">1562.00</td>
+                <td  width="9%" class="td-c-5 th-h"></td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-6" width="18%"> Total Amount -Words (Rs) </td>
+                <td  colspan="12" width="5%" class="td-c-5 td-c-6">Ninty Eight Thousand Three Hundred and Seven Only</td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> Tax Invoice and Packing List, if any will be sent to you  at your registered email address upon receiving 100% payment for the performa invoice. </td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> Goods under the performa invoice will be dispatched on receiving 100% payments. The Company will not be responsible for any delay due to to late/non payment. </td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> Delivery time mentioned above is estimated. The Company will not be responsible for any delay in goods delivery due to it's logistic partner. </td>
+            </tr>
+            <tr>
+                <td class=" th-h td-c-7" width="100" colspan="13"> For any query, please contact on care@custores.com or call on +91 22 111111 </td>
+            </tr>
+            <tr>
+                <td  colspan="10" class="td-c-5 td-c-8" > This is a computer generated Performa Invoice </td>
+                <td  class=" th-h td-c-8" colspan="3">For CU Stores LLP </td>
+            </tr>
+            <tr>
+                <td  colspan="10" class="td-c-5 td-c-8" > Subject to Mumbai (India) Juridisction </td>
+                <td  class=" th-h td-c-8" colspan="3">Authorised Signature </td>
+            </tr>
+        </table>
+
+    </div>
+</div>

@@ -1,0 +1,95 @@
+﻿
+<?php
+/*echo "<pre>";
+ print_r($result);
+echo "</pre>";*/
+  ?>
+
+	<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $(".main-search").toggle();
+    });
+});
+</script>
+    <!-- Breadcrumbs -->
+  <!-- <div class="breadcrumbs bounceInUp animated">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <ul>
+            <li class="home"> <a title="Go to Home Page" href="<?php echo site_url(); ?>">Home</a><span>» </span></li>
+            <li class=""> <a title="Go to Home Page" href="#">Address  book entries</a><span>» </span></li>
+         
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!-- Main Container -->
+
+  <!-- Breadcrumbs End --> 
+<!-- Main Container -->
+  <section class="main-container col2-right-layout bounceInUp animated md-h" style="margin-top:20px;">
+  <div class="main container">
+    <div class="row">
+      <div class="col-main col-sm-7">
+        <div class="my-account">
+          <div class="page-title">
+            <h4 style="color:#f15a23;">Address book</h4>
+          </div>
+        
+       <div class="login-border">
+          <div class="content">
+          
+        <div class="addresses">
+        
+         
+            <ul class="addpro_rwo">
+            <li >
+             
+             <a href="<?php echo site_url(''); ?>/cyprus/billingaddress?noheader=1">   Billing Address</a></li>
+             
+        
+              <li>
+               <a href="<?php echo site_url(''); ?>/cyprus/shippingaddress?noheader=1"> Shipping Address</a></li>
+               
+            </ul>
+          
+            
+         
+        <!--addresses--> 
+        
+      </div>
+          </div>
+        </div>
+  
+        </div>
+      </div>
+      
+      <!--=============right section======================-->
+          <?php $this->load->view('rightpanel'); ?>
+    </div>
+  </div>
+</section>
+<!-- Main Container End -->
+<script type="text/javascript">
+  function setSelectedTestPlan(val){
+var r = confirm("Are You Sure Want To Delete Address ?");
+if (r == true) {
+  $.ajax({
+           type: 'POST',
+           data:{ "id" : val},
+          url : "<?php echo site_url(); ?>/cyprus/deleteAddress",
+            success: function(responseText) {
+             // alert('Address Deleted Succeefully');
+              location.reload(); 
+            }
+        });
+} else {
+    
+} 
+  }
+</script>
+  <!-- Footer -->
+ 

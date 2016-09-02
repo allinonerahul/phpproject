@@ -1,0 +1,34 @@
+<?php //echo "<pre>"; print_r($category_name); ?>
+
+ <!-- main container -->
+<div class="main-col">
+  <div class="container">
+    <div class="row"> 
+      
+      <div class="best-pro container wow bounceInUp animated">
+        <div class="slider-items-products">
+          <div class="new_title center">
+            <h2><?php echo $category_name['name']; ?></h2>
+          </div>
+          <div id="best-seller-slider" class="product-flexslider hidden-buttons">
+            <div class="slider-items slider-width-col4 products-grid">
+            <?php foreach($category_products as $category_product) { ?>
+              <div class="item">
+                <div class="item-inner">
+   
+                  <ul class="previous-collections-list">
+                    <li><a href="<?php echo site_url(''); ?>/glitzz/product_details?id=<?php echo $category_product['id']; ?>&categoryid=<?php echo $category_product['categoryid']; ?>"><img src="<?php echo base_url(); ?>assets/images/products/<?php echo $category_product['mainimage']; ?>" width="267px" height="292px" class="lazy-img"><span class="view-products"><div class="pro_head"><?php echo $category_product['name'];?></div> </span></a></li></ul>
+          
+                </div>
+              </div>
+              <?php } ?>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+       
+    </div>
+  </div>
+</div>
+<!-- end main container -->

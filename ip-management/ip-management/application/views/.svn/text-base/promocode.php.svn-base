@@ -1,0 +1,72 @@
+
+  <!-- Main Container -->
+
+
+
+
+  <!-- Main Container -->
+  <section class="main-container col2-right-layout bounceInUp animated md-h">
+  <div class="main container">
+  <?php $this->load->view('topnavigation'); ?>
+
+    <div class="row">
+    <div class="cart">        
+          <div class="row">
+           <div class=" col-xs-12 col-sm-6 col-md-6" > 
+            <div class=" col-xs-12 col-sm-12 col-md-12 news-user" style="margin-left:20px;">
+           <div class="user-box-section" style="border:none;">          
+   <ol class="one-page-checkout" id="checkoutSteps">
+       <li id="opc-payment" class="section">
+            <div id="checkout-step-payment" class="step a-item">
+              <form id="co-billing-form" action="<?php echo site_url(); ?>/cyprus/promocodeinsert" name="co-billing-form" method="post">
+            <div class="input-box " style="margin-left:-48px;">
+                                <?php $val= $this->session->flashdata('error'); ?>
+                                
+                                <label for="billing:firstname">Promo Code (optional)&nbsp;&nbsp;</label>
+                                
+
+                               
+                                <input type="text" id="promocode" style="margin-left:10px; width:250px;" name="promocode" title="Promo code" placeholder="Promo code" class="input-text">
+                              </div>
+                              <span style="color:red; margin-left:95px; margin-top:5px;"><?php if(!empty($val)) echo $val; ?></span>
+                              <div class="input-box " style="margin-left:-48px; margin-top:10px;">
+                                <label for="billing:firstname">Referal Code (optional)&nbsp;&nbsp;</label>
+                               
+                                <input type="text" id="ref_code" style="margin-left:8px; width:250px;" name="refcode" title="Referal code" placeholder="Referal code" class="input-text">
+                              </div>
+                              
+
+
+            <div class="buttons-set1" id="payment-buttons-container" style="margin-top:10px;margin-left:75px;">
+          <div class="col-md-3">   <div class="button-wrap">
+         <button type="submit" class="button subscribe"><span style="font-size:16px; color:#fff; word-spacing:2px; text-transform:capitalize; font-weight:600;">Save</span></button> 
+         </div></div>
+         <div class="col-md-3">   <div class="back-wrap">
+         <a href="<?php echo site_url(); ?>/cyprus/skip"><button type="button" class="button subscribe"><span style="font-size:16px; color:#fff; word-spacing:2px; text-transform:capitalize; font-weight:600;">Skip</span></button> </a>
+         </div></div>
+               <!--   <div class="col-md-3">    <a href="#" class="back-link">« Back</a> </div></div>-->
+              <div style="clear: both;"></div>
+            </div>
+          </li>
+          </ol>
+               </form>
+          
+           </div>
+           </div>
+           </div>
+          </div>
+        </div>   
+    </div>
+</div>
+  </section>
+  
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <script type="text/javascript">
+
+
+
+  </script>>
